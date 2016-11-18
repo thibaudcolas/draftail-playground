@@ -11,7 +11,7 @@ git clone git@github.com:springload/draftjs_exporter_demo.git
 cd draftjs_exporter_demo
 virtualenv .venv
 source ./.venv/bin/activate
-pip install flask draftjs_exporter
+pip install -r requirements.txt
 nvm install
 # Then, install all project dependencies.
 npm install
