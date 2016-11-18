@@ -1,0 +1,23 @@
+{
+  "name": "draftjs_exporter_demo",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "0.7.0"
+  },
+  "dependencies": {
+    "draft-js": "^0.9.1",
+    "draftail": "^0.2.0",
+    "draftjs-utils": "^0.3.2",
+    "immutable": "^3.8.1",
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
+  },
+  "proxy": "http://localhost:5000",
+  "scripts": {
+    "start": "npm run server -s & react-scripts start",
+    "server": "FLASK_APP=app.py FLASK_DEBUG=1 flask run",
+    "build": "react-scripts build",
+    "test": "npm run build -s"
+  }
+}

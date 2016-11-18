@@ -1,0 +1,21 @@
+body {
+  background-color: #fff;
+  padding:50px;
+  font: 16px/1.5  "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:#666;
+  font-weight:400;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin:0 0 15px;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.App {
+    max-width: 768px;
+    margin: auto;
+}
