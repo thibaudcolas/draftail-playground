@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, request, abort, send_from_directory
 
 from draftjs_exporter.constants import BLOCK_TYPES, ENTITY_TYPES
@@ -66,9 +68,11 @@ app = Flask(__name__, static_folder='./build/static/')
 def home():
     return send_from_directory('build', 'index.html')
 
+
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory('build', 'favicon.ico')
+
 
 @app.route('/api/export', methods=['GET', 'POST'])
 def export():
@@ -87,4 +91,4 @@ def static_file(path):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=os.environ.get('PORT', 5000))

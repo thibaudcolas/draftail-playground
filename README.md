@@ -35,4 +35,6 @@ npm run
 
 ## Deployment
 
-The demo is [on Heroku](https://draftjs-exporter.herokuapp.com/). It uses two buildpacks. Use `heroku buildpacks` to manage those.
+> The demo is [on Heroku](https://draftjs-exporter.herokuapp.com/).
+
+It uses two buildpacks: `heroku/nodejs` and `heroku/python`, and is configured to automatically deploy after each push on `master`.
