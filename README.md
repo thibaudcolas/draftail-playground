@@ -1,4 +1,4 @@
-# draftjs_exporter_demo
+# [draftjs_exporter_demo](https://draftjs-exporter.herokuapp.com/)
 
 > A demo of [draftjs_exporter](https://github.com/springload/draftjs_exporter) and [draftail](https://github.com/springload/draftail) running together
 
@@ -15,7 +15,7 @@ pip install -r requirements.txt
 nvm install
 # Then, install all project dependencies.
 npm install
-npm run start
+python app.py
 ```
 
 ## Working on the project
@@ -32,3 +32,7 @@ npm run build
 # View other available commands with:
 npm run
 ```
+
+## Deployment
+
+The demo is [on Heroku](https://draftjs-exporter.herokuapp.com/). It uses two buildpacks. Use `heroku buildpacks` to manage those.
