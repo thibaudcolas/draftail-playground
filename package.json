@@ -2,8 +2,11 @@
   "name": "draftjs_exporter_demo",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "^6.8.0",
+    "npm": "^3.10.8"
+  },
   "devDependencies": {
-    "react-scripts": "0.7.0"
   },
   "dependencies": {
     "draft-js": "^0.9.1",
@@ -11,7 +14,8 @@
     "draftjs-utils": "^0.3.2",
     "immutable": "^3.8.1",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react-dom": "^15.4.0",
+    "react-scripts": "0.7.0"
   },
   "proxy": "http://localhost:5000",
   "scripts": {
