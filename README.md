@@ -1,4 +1,4 @@
-# [draftjs_exporter_demo](https://draftjs-exporter.herokuapp.com/)
+# [draftjs_exporter_demo](https://draftjs-exporter.herokuapp.com/) [![Build Status](https://travis-ci.org/springload/draftjs_exporter_demo.svg?branch=master)](https://travis-ci.org/springload/draftjs_exporter_demo)
 
 > A demo of [draftjs_exporter](https://github.com/springload/draftjs_exporter) and [draftail](https://github.com/springload/draftail) running together
 
