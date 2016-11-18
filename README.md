@@ -15,7 +15,7 @@ pip install -r requirements.txt
 nvm install
 # Then, install all project dependencies.
 npm install
-python app.py
+npm run start
 ```
 
 ## Working on the project

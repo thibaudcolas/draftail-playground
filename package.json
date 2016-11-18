@@ -19,7 +19,7 @@
   },
   "proxy": "http://localhost:5000",
   "scripts": {
-    "postinstall": "npm run build -s",
+    "heroku-postbuild": "npm run build -s",
     "start": "npm run server -s & react-scripts start",
     "server": "FLASK_APP=app.py FLASK_DEBUG=1 flask run",
     "build": "react-scripts build",
