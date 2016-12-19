@@ -8,9 +8,9 @@ from draftjs_exporter.dom import DOM
 from draftjs_exporter.html import HTML
 
 
-class Null:
+class HR:
     def render(self, props):
-        return DOM.create_element()
+        return DOM.create_element('hr')
 
 
 class Link:
@@ -46,7 +46,7 @@ config = {
     'entity_decorators': {
         ENTITY_TYPES.LINK: Link(),
         ENTITY_TYPES.IMAGE: Image(),
-        ENTITY_TYPES.TOKEN: Null(),
+        ENTITY_TYPES.HORIZONTAL_RULE: HR(),
     },
     # Extend/override the default block map.
     'block_map': dict(BLOCK_MAP, **{
