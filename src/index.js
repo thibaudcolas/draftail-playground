@@ -52,6 +52,8 @@ ReactDOM.render((
         rawContentState={defaultContentState}
         onSave={onSave}
         options={{
+            enableHorizontalRule: true,
+            enableLineBreak: true,
             modelPickerOptions: [],
             imageFormats: [],
             mediaControls: [],
