@@ -12,26 +12,15 @@ const displayResult = (contentState) => {
         type: 'POST',
         url: '/api/export',
         contentType: 'application/json',
-        data: contentState,
+        data: JSON.stringify(contentState),
         success: (html) => {
             document.querySelector('[data-export]').innerHTML = html;
-            document.querySelector('[data-code]').innerHTML = JSON.stringify(JSON.parse(contentState), null, 4);
+            document.querySelector('[data-code]').innerHTML = JSON.stringify(contentState, null, 4);
         },
     });
 };
 
-let prevContentState = null;
-window.setInterval(() => {
-    const contentState = $('[name="demo"]')[0].value;
-
-    if (contentState && contentState !== prevContentState) {
-        displayResult(contentState);
-    }
-
-    prevContentState = contentState;
-}, 1000);
-
-const defaultValue = JSON.stringify({
+const defaultContentState = {
     entityMap: {},
     blocks: [
         {
@@ -50,14 +39,18 @@ const defaultValue = JSON.stringify({
             data: {},
         },
     ],
-});
+};
 
-displayResult(defaultValue);
+displayResult(defaultContentState);
+
+const onSave = (rawContentState) => {
+    displayResult(rawContentState);
+};
 
 ReactDOM.render((
     <DraftailEditor
-        name="demo"
-        value={defaultValue}
+        rawContentState={defaultContentState}
+        onSave={onSave}
         options={{
             modelPickerOptions: [],
             imageFormats: [],
@@ -69,6 +62,7 @@ ReactDOM.render((
                 { label: 'H2', style: 'header-two' },
                 { label: 'H3', style: 'header-three' },
                 { label: 'UL', style: 'unordered-list-item', icon: 'list-ul' },
+
             ],
             INLINE_STYLES: [
                 { label: 'Bold', style: 'BOLD', icon: 'bold' },
