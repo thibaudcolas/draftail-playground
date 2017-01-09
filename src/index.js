@@ -62,7 +62,7 @@ ReactDOM.render((
                 { label: 'H2', style: 'header-two' },
                 { label: 'H3', style: 'header-three' },
                 { label: 'UL', style: 'unordered-list-item', icon: 'list-ul' },
-
+                { label: 'OL', style: 'ordered-list-item', icon: 'list-ol' },
             ],
             INLINE_STYLES: [
                 { label: 'Bold', style: 'BOLD', icon: 'bold' },
