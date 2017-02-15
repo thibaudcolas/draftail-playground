@@ -5,6 +5,7 @@ const SplitPanel = styled.div`
     & > * {
         width: 50%;
         float: left;
+        overflow-x: scroll;
     }
 
     & > *:first-child {

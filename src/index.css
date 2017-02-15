@@ -16,7 +16,7 @@ h1 {
     margin: 0 0 1rem 0;
 }
 
-a {
+h1 a {
     color: inherit;
     text-decoration: none;
 }
