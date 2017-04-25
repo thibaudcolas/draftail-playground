@@ -8,56 +8,54 @@ from draftjs_exporter.dom import DOM
 from draftjs_exporter.html import HTML
 
 
-class HR:
-    def render(self, props):
-        return DOM.create_element('hr')
+def HR(props):
+    return DOM.create_element('hr')
 
 
-class Link:
-    def render(self, props):
-        data = props.get('data', {})
-        attributes = {}
-        for key in data:
-            attr = key if key != 'url' else 'href'
-            attributes[attr] = data[key]
-
-        return DOM.create_element('a', attributes, props['children'])
+def Link(props):
+    return DOM.create_element('a', {
+        'href': props['url']
+    }, props['children'])
 
 
-class Image:
-    def render(self, props):
-        data = props.get('data', {})
-
-        return DOM.create_element('img', {
-            'src': data.get('src'),
-            'width': data.get('width'),
-            'height': data.get('height'),
-            'alt': data.get('alt'),
-        })
+def Image(props):
+    return DOM.create_element('img', {
+        'src': props.get('src'),
+        'width': props.get('width'),
+        'height': props.get('height'),
+        'alt': props.get('alt'),
+    })
 
 
-class Icon:
-    def render(self, props):
-        href = 'icon-%s' % props.get('name', '')
-        return DOM.create_element('svg', {'class': 'icon'}, DOM.create_element('use', {'xlink:href': href}))
+def Icon(props):
+    href = 'icon-%s' % props.get('name', '')
+    return DOM.create_element(
+        'svg',
+        {'class': 'icon'},
+        DOM.create_element('use', {'xlink:href': href})
+    )
 
 
 config = {
     'entity_decorators': {
-        ENTITY_TYPES.LINK: Link(),
-        ENTITY_TYPES.IMAGE: Image(),
-        ENTITY_TYPES.HORIZONTAL_RULE: HR(),
+        ENTITY_TYPES.LINK: Link,
+        ENTITY_TYPES.IMAGE: Image,
+        ENTITY_TYPES.HORIZONTAL_RULE: HR,
     },
     # Extend/override the default block map.
     'block_map': dict(BLOCK_MAP, **{
         BLOCK_TYPES.UNORDERED_LIST_ITEM: {
             'element': 'li',
-            'wrapper': ['ul', {'className': 'bullet-list'}],
+            'wrapper': 'ul',
+            'wrapper_props': {'class': 'bullet-list'},
         },
     }),
     # Extend/override the default style map.
     'style_map': dict(STYLE_MAP, **{
-        'HIGHLIGHT': {'element': 'strong', 'textDecoration': 'underline'},
+        'HIGHLIGHT': {
+            'element': 'strong',
+            'props': {'style': {'textDecoration': 'underline'}}
+        },
     }),
 }
 
