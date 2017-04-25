@@ -4,7 +4,7 @@ export const postRequest = (endpoint, data, successCallback) => {
     request.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     request.onload = () => {
         if (request.status >= 200 && request.status < 400) {
-            successCallback(request.responseText);
+            successCallback(JSON.parse(request.responseText));
         }
     };
     request.send(data);

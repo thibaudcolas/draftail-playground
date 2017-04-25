@@ -14,7 +14,8 @@ class App extends React.Component {
 
         this.state = {
             contentState: initialContentState,
-            generatedHTML: '',
+            html: '',
+            prettified: '',
         };
 
         this.onSave = this.onSave.bind(this);
@@ -23,10 +24,11 @@ class App extends React.Component {
     }
 
     onSave(contentState) {
-        postRequest('/api/export', JSON.stringify(contentState), (html) => {
+        postRequest('/api/export', JSON.stringify(contentState), ({ html, prettified }) => {
             this.setState({
-                contentState: contentState,
-                generatedHTML: html,
+                contentState,
+                html,
+                prettified,
             });
 
             saveContentState(contentState);
@@ -34,7 +36,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { contentState, generatedHTML } = this.state;
+        const { contentState, html, prettified } = this.state;
 
         return (
             <div>
@@ -47,13 +49,13 @@ class App extends React.Component {
                         <div className="editor__toolbar">
                             <button className="RichEditor-styleButton" disabled>Generated HTML</button>
                         </div>
-                        <div dangerouslySetInnerHTML={{__html: generatedHTML}}></div>
+                        <div dangerouslySetInnerHTML={{__html: html}}></div>
                     </div>
                 </SplitPanel>
                 <hr/>
                 <SplitPanel>
                     <Highlight value={JSON.stringify(contentState, null, 2)} language="js" />
-                    <Highlight value={generatedHTML} language="html" />
+                    <Highlight value={prettified} language="html" />
                 </SplitPanel>
             </div>
         );

@@ -1,5 +1,6 @@
 import os
 import re
+import json
 
 from bs4 import BeautifulSoup
 
@@ -86,7 +87,12 @@ def export():
     if request.json is None:
         abort(400)
 
-    return prettify(exporter.render(request.json))
+    html = exporter.render(request.json)
+
+    return json.dumps({
+        'html': html,
+        'prettified': prettify(html),
+    })
 
 
 @app.route('/static/<path:path>')
