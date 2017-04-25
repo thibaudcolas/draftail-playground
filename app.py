@@ -1,4 +1,7 @@
 import os
+import re
+
+from bs4 import BeautifulSoup
 
 from flask import Flask, request, abort, send_from_directory
 
@@ -62,6 +65,10 @@ config = {
 app = Flask(__name__, static_folder='./build/static/')
 
 
+def prettify(markup):
+    return re.sub(r'</?(body|html|head)>', '', BeautifulSoup(markup, 'html5lib').prettify()).strip()
+
+
 @app.route('/')
 def home():
     return send_from_directory('build', 'index.html')
@@ -79,7 +86,7 @@ def export():
     if request.json is None:
         abort(400)
 
-    return exporter.render(request.json)
+    return prettify(exporter.render(request.json))
 
 
 @app.route('/static/<path:path>')
