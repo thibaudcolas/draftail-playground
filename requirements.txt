@@ -1,2 +1,2 @@
-draftjs-exporter==0.9.0
+draftjs_exporter>=1.0.0,<2
 Flask==0.11.1
