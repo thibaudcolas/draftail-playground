@@ -9,7 +9,7 @@ const SplitPanel = styled.div`
     }
 
     & > *:first-child {
-        padding-right: 1rem;
+        padding-right: 10rem;
     }
 
     & {

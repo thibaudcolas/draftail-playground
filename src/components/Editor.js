@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 import DraftailEditor, { ENTITY_TYPE, BLOCK_TYPE, INLINE_STYLE } from 'draftail';
@@ -31,8 +32,8 @@ const Editor = ({ rawContentState, onSave }) => (
 );
 
 Editor.propTypes = {
-    rawContentState: React.PropTypes.object.isRequired,
-    onSave: React.PropTypes.func.isRequired,
+    rawContentState: PropTypes.object.isRequired,
+    onSave: PropTypes.func.isRequired,
 };
 
 export default Editor;
