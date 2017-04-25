@@ -4,6 +4,7 @@ import { getInitialContentState, saveContentState, postRequest } from '../utils'
 
 import SplitPanel from './SplitPanel';
 import Editor from './Editor';
+import Highlight from './Highlight';
 
 const initialContentState = getInitialContentState();
 
@@ -51,8 +52,8 @@ class App extends React.Component {
                 </SplitPanel>
                 <hr/>
                 <SplitPanel>
-                    <pre>{JSON.stringify(contentState, null, 4)}</pre>
-                    <pre><xmp dangerouslySetInnerHTML={{__html: generatedHTML}}></xmp></pre>
+                    <Highlight value={JSON.stringify(contentState, null, 2)} language="js" />
+                    <Highlight value={generatedHTML} language="html" />
                 </SplitPanel>
             </div>
         );
@@ -60,9 +61,3 @@ class App extends React.Component {
 }
 
 export default App;
-// const displayResult = (contentState) => {
-//     postRequest('/api/export', JSON.stringify(contentState), (html) => {
-//         document.querySelector('[data-export]').innerHTML = html;
-//         document.querySelector('[data-code]').innerHTML = JSON.stringify(contentState, null, 4);
-//     });
-// };
