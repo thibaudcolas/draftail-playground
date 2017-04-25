@@ -26,7 +26,7 @@ def Image(props):
         'src': props.get('src'),
         'width': props.get('width'),
         'height': props.get('height'),
-        'alt': props.get('alt'),
+        'alt': props.get('altText'),
     })
 
 
