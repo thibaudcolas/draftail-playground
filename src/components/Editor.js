@@ -6,7 +6,7 @@ import 'draftail/dist/draftail.css';
 
 import LinkSource from '../entities/LinkSource';
 import ImageSource from '../entities/ImageSource';
-import Link, { findLinkEntities } from '../entities/Link';
+import Link from '../entities/Link';
 
 const Editor = ({ rawContentState, onSave }) => (
     <DraftailEditor
@@ -16,8 +16,8 @@ const Editor = ({ rawContentState, onSave }) => (
         enableLineBreak={false}
         stripPastedStyles={false}
         entityTypes={[
-            { label: '', type: ENTITY_TYPE.IMAGE, icon: 'icon-image', control: ImageSource, imageFormats: [] },
-            { label: '', type: ENTITY_TYPE.LINK, icon: 'icon-link', control: LinkSource, strategy: findLinkEntities, component: Link },
+            { label: '', type: ENTITY_TYPE.IMAGE, icon: 'icon-image', source: ImageSource, imageFormats: [] },
+            { label: '', type: ENTITY_TYPE.LINK, icon: 'icon-link', source: LinkSource, decorator: Link },
         ]}
         blockTypes={[
             { label: 'H3', type: BLOCK_TYPE.HEADER_THREE },
