@@ -12,6 +12,7 @@ const Editor = ({ rawContentState, onSave }) => (
     <DraftailEditor
         rawContentState={rawContentState}
         onSave={onSave}
+        placeholder="Write here…"
         enableHorizontalRule={true}
         enableLineBreak={false}
         stripPastedStyles={false}
