@@ -1,0 +1,15 @@
+{
+  "short_name": "Draft.js",
+  "name": "Draft.js exporter demo",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#43b1b0",
+  "background_color": "#ffffff"
+}
