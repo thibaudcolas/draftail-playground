@@ -63,7 +63,7 @@ config = {
     }),
 }
 
-app = Flask(__name__, static_folder='./build/static/')
+app = Flask(__name__, static_folder='./build', static_path='')
 
 
 def prettify(markup):
@@ -75,9 +75,9 @@ def home():
     return send_from_directory('build', 'index.html')
 
 
-@app.route('/favicon.ico')
-def favicon():
-    return send_from_directory('build', 'favicon.ico')
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('./build/static', path)
 
 
 @app.route('/api/export', methods=['GET', 'POST'])
@@ -93,12 +93,6 @@ def export():
         'html': html,
         'prettified': prettify(html),
     })
-
-
-@app.route('/static/<path:path>')
-def static_file(path):
-    print(path)
-    return app.send_static_file(path)
 
 
 if __name__ == '__main__':
