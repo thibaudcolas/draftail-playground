@@ -61,6 +61,7 @@ config = {
             'props': {'style': {'textDecoration': 'underline'}}
         },
     }),
+    'engine': 'string',
 }
 
 app = Flask(__name__, static_folder='./build', static_path='')
