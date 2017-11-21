@@ -6,7 +6,42 @@ import SplitPanel from './SplitPanel';
 import Editor from './Editor';
 import Highlight from './Highlight';
 
+import JSONView from 'react-json-view'
+
 const initialContentState = getInitialContentState();
+
+const initialConfig = {
+    engine: 'string',
+    entity_decorators: {
+        LINK: 'Link',
+        IMAGE: 'Image',
+        HORIZONTAL_RULE: 'HR',
+    },
+    block_map: {
+        'header-three': 'h3',
+        'header-four': 'h4',
+        'ordered-list-item': {
+            element: 'li',
+            wrapper: 'ol',
+        },
+        'unordered-list-item': {
+            element: 'li',
+            wrapper: 'ul',
+            wrapper_props: {
+                class: 'bullet-list'
+            },
+        },
+    },
+    style_map: {
+        BOLD: 'strong',
+        ITALIC: {
+            element: 'em',
+            props: {
+                class: 'u-font-italic',
+            },
+        }
+    },
+};
 
 class App extends React.Component {
     constructor(props) {
@@ -14,17 +49,24 @@ class App extends React.Component {
 
         this.state = {
             contentState: initialContentState,
+            exporterConfig: initialConfig,
             html: '',
             prettified: '',
         };
 
         this.onSave = this.onSave.bind(this);
+        this.onChangeConfig = this.onChangeConfig.bind(this);
 
         this.onSave(initialContentState);
     }
 
     onSave(contentState) {
-        postRequest('/api/export', JSON.stringify(contentState), ({ html, prettified }) => {
+        const { exporterConfig } = this.state;
+
+        postRequest('/api/export', {
+            contentState,
+            exporterConfig,
+        }, ({ html, prettified }) => {
             this.setState({
                 contentState,
                 html,
@@ -35,8 +77,24 @@ class App extends React.Component {
         });
     }
 
+    onChangeConfig(update) {
+        const { contentState } = this.state;
+        const exporterConfig = update.updated_src;
+
+        postRequest('/api/export', {
+            contentState,
+            exporterConfig,
+        }, ({ html, prettified }) => {
+            this.setState({
+                exporterConfig,
+                html,
+                prettified,
+            });
+        });
+    }
+
     render() {
-        const { contentState, html, prettified } = this.state;
+        const { contentState, html, prettified, exporterConfig } = this.state;
 
         return (
             <div>
@@ -57,6 +115,16 @@ class App extends React.Component {
                     <Highlight value={JSON.stringify(contentState, null, 2)} language="js" />
                     <Highlight value={prettified} language="html" />
                 </SplitPanel>
+                <JSONView
+                    src={exporterConfig}
+                    name={false}
+                    enableClipboard={false}
+                    displayObjectSize={false}
+                    displayDataTypes={false}
+                    onEdit={this.onChangeConfig}
+                    onAdd={this.onChangeConfig}
+                    onDelete={this.onChangeConfig}
+                />
             </div>
         );
     }

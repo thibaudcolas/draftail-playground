@@ -7,7 +7,7 @@ export const postRequest = (endpoint, data, successCallback) => {
             successCallback(JSON.parse(request.responseText));
         }
     };
-    request.send(data);
+    request.send(JSON.stringify(data));
 };
 
 

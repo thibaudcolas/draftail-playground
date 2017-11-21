@@ -6,63 +6,11 @@ from bs4 import BeautifulSoup
 
 from flask import Flask, request, abort, send_from_directory
 
-from draftjs_exporter.constants import BLOCK_TYPES, ENTITY_TYPES
+from draftjs_exporter.constants import BLOCK_TYPES, ENTITY_TYPES, INLINE_STYLES
 from draftjs_exporter.defaults import BLOCK_MAP, STYLE_MAP
-from draftjs_exporter.dom import DOM
 from draftjs_exporter.html import HTML
 
-
-def HR(props):
-    return DOM.create_element('hr')
-
-
-def Link(props):
-    return DOM.create_element('a', {
-        'href': props['url']
-    }, props['children'])
-
-
-def Image(props):
-    return DOM.create_element('img', {
-        'src': props.get('src'),
-        'width': props.get('width'),
-        'height': props.get('height'),
-        'alt': props.get('altText'),
-    })
-
-
-def Icon(props):
-    href = 'icon-%s' % props.get('name', '')
-    return DOM.create_element(
-        'svg',
-        {'class': 'icon'},
-        DOM.create_element('use', {'xlink:href': href})
-    )
-
-
-config = {
-    'entity_decorators': {
-        ENTITY_TYPES.LINK: Link,
-        ENTITY_TYPES.IMAGE: Image,
-        ENTITY_TYPES.HORIZONTAL_RULE: HR,
-    },
-    # Extend/override the default block map.
-    'block_map': dict(BLOCK_MAP, **{
-        BLOCK_TYPES.UNORDERED_LIST_ITEM: {
-            'element': 'li',
-            'wrapper': 'ul',
-            'wrapper_props': {'class': 'bullet-list'},
-        },
-    }),
-    # Extend/override the default style map.
-    'style_map': dict(STYLE_MAP, **{
-        'HIGHLIGHT': {
-            'element': 'strong',
-            'props': {'style': {'textDecoration': 'underline'}}
-        },
-    }),
-    'engine': 'string',
-}
+from decorators import import_decorator
 
 app = Flask(__name__, static_folder='./build', static_path='')
 
@@ -83,12 +31,30 @@ def send_static(path):
 
 @app.route('/api/export', methods=['GET', 'POST'])
 def export():
-    exporter = HTML(config)
-
     if request.json is None:
         abort(400)
 
-    html = exporter.render(request.json)
+    exporter_config = request.json['exporterConfig']
+
+    entity_decorators = {}
+    block_map = dict(BLOCK_MAP, **exporter_config.get('block_map', {}))
+    style_map = dict(STYLE_MAP, **exporter_config.get('style_map', {}))
+
+    entity_decorators[ENTITY_TYPES.FALLBACK] = import_decorator('MissingInline')
+    block_map[BLOCK_TYPES.FALLBACK] = import_decorator('MissingBlock')
+    style_map[INLINE_STYLES.FALLBACK] = import_decorator('MissingInline')
+
+    for type_, value in exporter_config.get('entity_decorators', {}).iteritems():
+        entity_decorators[type_] = import_decorator(value)
+
+    exporter = HTML({
+        'entity_decorators': entity_decorators,
+        'block_map': block_map,
+        'style_map': style_map,
+        'engine': 'string',
+    })
+
+    html = exporter.render(request.json['contentState'])
 
     return json.dumps({
         'html': html,
