@@ -8,8 +8,8 @@
   },
   "devDependencies": {},
   "dependencies": {
-    "draft-js": "^0.10.1",
-    "draftail": "^0.8.0",
+    "draft-js": "^0.10.4",
+    "draftail": "^0.9.1",
     "element-closest": "^2.0.2",
     "immutable": "~3.7.4",
     "normalize.css": "^7.0.0",
