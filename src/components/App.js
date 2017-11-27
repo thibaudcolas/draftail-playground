@@ -1,12 +1,16 @@
 import React from 'react';
 
-import { getInitialContentState, saveContentState, postRequest } from '../utils';
+import {
+    getInitialContentState,
+    saveContentState,
+    postRequest,
+} from '../utils';
 
 import SplitPanel from './SplitPanel';
 import Editor from './Editor';
 import Highlight from './Highlight';
 
-import JSONView from 'react-json-view'
+import JSONView from 'react-json-view';
 
 const initialContentState = getInitialContentState();
 
@@ -28,7 +32,7 @@ const initialConfig = {
             element: 'li',
             wrapper: 'ul',
             wrapper_props: {
-                class: 'bullet-list'
+                class: 'bullet-list',
             },
         },
     },
@@ -39,7 +43,7 @@ const initialConfig = {
             props: {
                 class: 'u-font-italic',
             },
-        }
+        },
     },
 };
 
@@ -63,34 +67,42 @@ class App extends React.Component {
     onSave(contentState) {
         const { exporterConfig } = this.state;
 
-        postRequest('/api/export', {
-            contentState,
-            exporterConfig,
-        }, ({ html, prettified }) => {
-            this.setState({
+        postRequest(
+            '/api/export',
+            {
                 contentState,
-                html,
-                prettified,
-            });
+                exporterConfig,
+            },
+            ({ html, prettified }) => {
+                this.setState({
+                    contentState,
+                    html,
+                    prettified,
+                });
 
-            saveContentState(contentState);
-        });
+                saveContentState(contentState);
+            },
+        );
     }
 
     onChangeConfig(update) {
         const { contentState } = this.state;
         const exporterConfig = update.updated_src;
 
-        postRequest('/api/export', {
-            contentState,
-            exporterConfig,
-        }, ({ html, prettified }) => {
-            this.setState({
+        postRequest(
+            '/api/export',
+            {
+                contentState,
                 exporterConfig,
-                html,
-                prettified,
-            });
-        });
+            },
+            ({ html, prettified }) => {
+                this.setState({
+                    exporterConfig,
+                    html,
+                    prettified,
+                });
+            },
+        );
     }
 
     render() {
@@ -105,14 +117,25 @@ class App extends React.Component {
                     />
                     <div>
                         <div className="editor__toolbar">
-                            <button className="RichEditor-styleButton" disabled>Generated HTML</button>
+                            <div className="toolbar-group">
+                                <button
+                                    className="toolbar-button"
+                                    disabled
+                                    style={{ pointerEvents: 'none' }}
+                                >
+                                    Generated HTML
+                                </button>
+                            </div>
                         </div>
-                        <div dangerouslySetInnerHTML={{__html: html}}></div>
+                        <div dangerouslySetInnerHTML={{ __html: html }} />
                     </div>
                 </SplitPanel>
-                <hr/>
+                <hr />
                 <SplitPanel>
-                    <Highlight value={JSON.stringify(contentState, null, 2)} language="js" />
+                    <Highlight
+                        value={JSON.stringify(contentState, null, 2)}
+                        language="js"
+                    />
                     <Highlight value={prettified} language="html" />
                 </SplitPanel>
                 <JSONView
