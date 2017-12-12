@@ -40,9 +40,10 @@ def export():
     block_map = dict(BLOCK_MAP, **exporter_config.get('block_map', {}))
     style_map = dict(STYLE_MAP, **exporter_config.get('style_map', {}))
 
-    entity_decorators[ENTITY_TYPES.FALLBACK] = import_decorator('MissingInline')
-    block_map[BLOCK_TYPES.FALLBACK] = import_decorator('MissingBlock')
-    style_map[INLINE_STYLES.FALLBACK] = import_decorator('MissingInline')
+    entity_decorators[ENTITY_TYPES.FALLBACK] = import_decorator(
+        'missing_inline')
+    block_map[BLOCK_TYPES.FALLBACK] = import_decorator('missing_block')
+    style_map[INLINE_STYLES.FALLBACK] = import_decorator('missing_inline')
 
     for type_, value in exporter_config.get('entity_decorators', {}).iteritems():
         entity_decorators[type_] = import_decorator(value)
@@ -51,7 +52,6 @@ def export():
         'entity_decorators': entity_decorators,
         'block_map': block_map,
         'style_map': style_map,
-        'engine': 'string',
     })
 
     html = exporter.render(request.json['contentState'])

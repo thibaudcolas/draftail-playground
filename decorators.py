@@ -3,17 +3,17 @@ from draftjs_exporter.dom import DOM
 from importlib import import_module
 
 
-def HR(props):
+def hr(props):
     return DOM.create_element('hr')
 
 
-def Link(props):
+def link(props):
     return DOM.create_element('a', {
         'href': props['url']
     }, props['children'])
 
 
-def Image(props):
+def image(props):
     return DOM.create_element('img', {
         'src': props.get('src'),
         'width': props.get('width'),
@@ -22,7 +22,7 @@ def Image(props):
     })
 
 
-def Icon(props):
+def icon(props):
     href = 'icon-%s' % props.get('name', '')
     return DOM.create_element(
         'svg',
@@ -31,11 +31,11 @@ def Icon(props):
     )
 
 
-def MissingBlock(props):
+def missing_block(props):
     return DOM.create_element('div', {'class': 'missing-block'}, props['children'])
 
 
-def MissingInline(props):
+def missing_inline(props):
     return DOM.create_element('span', {'class': 'missing-inline'}, props['children'])
 
 

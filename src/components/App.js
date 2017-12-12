@@ -15,11 +15,10 @@ import JSONView from 'react-json-view';
 const initialContentState = getInitialContentState();
 
 const initialConfig = {
-    engine: 'string',
     entity_decorators: {
-        LINK: 'Link',
-        IMAGE: 'Image',
-        HORIZONTAL_RULE: 'HR',
+        LINK: 'link',
+        IMAGE: 'image',
+        HORIZONTAL_RULE: 'hr',
     },
     block_map: {
         'header-three': 'h3',
