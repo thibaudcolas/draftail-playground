@@ -115,10 +115,10 @@ class App extends React.Component {
                         onSave={this.onSave}
                     />
                     <div>
-                        <div className="editor__toolbar">
-                            <div className="toolbar-group">
+                        <div className="Draftail-Toolbar">
+                            <div className="Draftail-ToolbarGroup">
                                 <button
-                                    className="toolbar-button"
+                                    className="Draftail-ToolbarButton"
                                     disabled
                                     style={{ pointerEvents: 'none' }}
                                 >

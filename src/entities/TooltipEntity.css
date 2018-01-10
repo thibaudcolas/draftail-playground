@@ -1,0 +1,17 @@
+:root {
+    --color-light-blue: #eef8ff;
+    --color-teal: #43b1b0;
+}
+
+.TooltipEntity {
+    background: var(--color-light-blue);
+    border-bottom: 1px dotted var(--color-teal);
+    cursor: pointer;
+}
+
+.TooltipEntity__icon {
+    color: var(--color-teal);
+    margin-right: 0.2em;
+    width: 1em;
+    height: 1em;
+}

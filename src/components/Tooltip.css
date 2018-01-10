@@ -1,0 +1,75 @@
+:root {
+    --tooltip-arrow-height: 15px;
+    --tooltip-arrow-spacing: 25px;
+    --button-spacing: 0.5rem;
+    --controls-spacing: 0.25rem;
+    --color-tooltip-chrome: #333;
+}
+
+.Tooltip {
+    position: absolute;
+    padding: 0.625rem;
+    background-color: var(--color-tooltip-chrome);
+    color: #fff;
+    z-index: 10;
+    border-radius: 5px;
+}
+
+.Tooltip::before {
+    content: '';
+    position: absolute;
+    border: var(--tooltip-arrow-height) solid transparent;
+}
+
+.Tooltip--top {
+    margin-top: var(--tooltip-arrow-spacing);
+    transform: translateX(-50%);
+}
+
+.Tooltip--top::before {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-bottom-color: var(--color-tooltip-chrome);
+}
+
+.Tooltip--left {
+    margin-left: var(--tooltip-arrow-spacing);
+    transform: translateY(-50%);
+}
+
+.Tooltip--left::before {
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    border-right-color: var(--color-tooltip-chrome);
+}
+
+.Tooltip--top-left {
+    margin-top: var(--tooltip-arrow-spacing);
+}
+
+.Tooltip--top-left::before {
+    bottom: 100%;
+    left: var(--tooltip-arrow-spacing);
+    border-bottom-color: var(--color-tooltip-chrome);
+}
+
+.Tooltip__link {
+    margin-right: 1rem;
+    display: inline-block;
+}
+
+.Tooltip__button {
+    appearance: none;
+    background: #808080;
+    color: #fff;
+    padding: var(--button-spacing) var(--controls-spacing);
+    border: 0;
+    border-radius: 1px;
+    cursor: pointer;
+}
+
+.Tooltip__button + .Tooltip__button {
+    margin-left: var(--button-spacing);
+}
