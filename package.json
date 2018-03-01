@@ -1,34 +1,32 @@
 {
-  "name": "draftjs_exporter_demo",
-  "version": "0.1.0",
-  "private": true,
-  "engines": {
-    "node": "^8.2.1",
-    "npm": "^5.3.0"
-  },
-  "devDependencies": {},
-  "dependencies": {
-    "draft-js": "^0.10.4",
-    "draftail": "^0.10.0",
-    "element-closest": "^2.0.2",
-    "immutable": "~3.7.4",
-    "normalize.css": "^7.0.0",
-    "prismjs": "^1.6.0",
-    "prop-types": "^15.5.10",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-json-view": "^1.13.3",
-    "react-scripts": "^1.0.11",
-    "styled-components": "^2.1.2"
-  },
-  "proxy": "http://localhost:5000",
-  "scripts": {
-    "heroku-postbuild": "npm run build -s",
-    "start": "npm run server -s & npm run watch -s",
-    "server": "FLASK_APP=app.py FLASK_DEBUG=1 flask run",
-    "watch": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "npm run build -s",
-    "deploy": "git push heroku master"
-  }
+    "name": "draftjs_exporter_demo",
+    "version": "0.1.0",
+    "private": true,
+    "engines": {
+        "node": "^8.2.1",
+        "npm": "^5.3.0"
+    },
+    "devDependencies": {},
+    "dependencies": {
+        "draft-js": "^0.10.5",
+        "draftail": "^0.17.0",
+        "normalize.css": "^7.0.0",
+        "prismjs": "^1.6.0",
+        "prop-types": "^15.5.10",
+        "react": "^16.2.0",
+        "react-dom": "^16.2.0",
+        "react-json-view": "^1.13.3",
+        "react-scripts": "^1.0.11",
+        "styled-components": "^2.1.2"
+    },
+    "proxy": "http://localhost:5000",
+    "scripts": {
+        "heroku-postbuild": "npm run build -s",
+        "start": "npm run server -s & npm run watch -s",
+        "server": "FLASK_APP=app.py FLASK_DEBUG=1 flask run",
+        "watch": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "npm run build -s",
+        "deploy": "git push heroku master"
+    }
 }

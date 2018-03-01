@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import DraftailEditor, {
+import {
+    DraftailEditor,
     ENTITY_TYPE,
     BLOCK_TYPE,
     INLINE_STYLE,
