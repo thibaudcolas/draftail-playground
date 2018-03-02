@@ -50,7 +50,7 @@
     "linter:format": "prettier --list-different",
     "lint": "npm run linter:format -s -- '**/*.{js,css,json,md}'",
     "formatter": "prettier --write",
-    "format": "npm run formatter -s -- '**/*.{js,css,json,md}",
+    "format": "npm run formatter -s -- '**/*.{js,css,json,md}'",
     "report:build": "open public/source-map-explorer.html",
     "test": "npm run lint -s && npm run flow -s && npm run dist -s"
   }

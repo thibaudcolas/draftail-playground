@@ -1,32 +1,32 @@
 *,
 *::before,
 *::after {
-    box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: #fff;
-    font-family: -apple-system, 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    color: #333;
-    font-weight: 400;
-    max-width: 1280px;
-    margin: auto;
-    padding: 2rem;
+  background-color: #fff;
+  font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  font-weight: 400;
+  max-width: 1280px;
+  margin: auto;
+  padding: 2rem;
 }
 
 h1 {
-    margin: 0 0 1rem 0;
+  margin: 0 0 1rem 0;
 }
 
 a {
-    color: inherit;
-    text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 .clearfix {
-    overflow: auto;
+  overflow: auto;
 }

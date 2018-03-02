@@ -1,87 +1,82 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import PropTypes from "prop-types"
+import React, { Component } from "react"
+import ReactDOM from "react-dom"
 
 class Portal extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props)
 
-        this.onCloseEvent = this.onCloseEvent.bind(this);
+    this.onCloseEvent = this.onCloseEvent.bind(this)
+  }
+
+  onCloseEvent(e) {
+    const { onClose } = this.props
+
+    if (!this.portal.contains(e.target)) {
+      onClose()
     }
+  }
 
-    onCloseEvent(e) {
-        const { onClose } = this.props;
+  componentDidMount() {
+    const { onClose, closeOnClick, closeOnType, closeOnResize } = this.props
 
-        if (!this.portal.contains(e.target)) {
-            onClose();
-        }
-    }
+    if (!this.portal) {
+      this.portal = document.createElement("div")
+      document.body.appendChild(this.portal)
 
-    componentDidMount() {
-        const {
-            onClose,
-            closeOnClick,
-            closeOnType,
-            closeOnResize,
-        } = this.props;
-
-        if (!this.portal) {
-            this.portal = document.createElement('div');
-            document.body.appendChild(this.portal);
-
-            if (onClose) {
-                if (closeOnClick) {
-                    document.addEventListener('mouseup', this.onCloseEvent);
-                }
-
-                if (closeOnType) {
-                    document.addEventListener('keyup', this.onCloseEvent);
-                }
-
-                if (closeOnResize) {
-                    window.addEventListener('resize', onClose);
-                }
-            }
+      if (onClose) {
+        if (closeOnClick) {
+          document.addEventListener("mouseup", this.onCloseEvent)
         }
 
-        this.componentDidUpdate();
+        if (closeOnType) {
+          document.addEventListener("keyup", this.onCloseEvent)
+        }
+
+        if (closeOnResize) {
+          window.addEventListener("resize", onClose)
+        }
+      }
     }
 
-    componentDidUpdate() {
-        const { children } = this.props;
+    this.componentDidUpdate()
+  }
 
-        ReactDOM.render(<div>{children}</div>, this.portal);
-    }
+  componentDidUpdate() {
+    const { children } = this.props
 
-    componentWillUnmount() {
-        const { onClose } = this.props;
+    ReactDOM.render(<div>{children}</div>, this.portal)
+  }
 
-        document.body.removeChild(this.portal);
+  componentWillUnmount() {
+    const { onClose } = this.props
 
-        document.removeEventListener('mouseup', this.onCloseEvent);
-        document.removeEventListener('keyup', this.onCloseEvent);
-        window.removeEventListener('resize', onClose);
-    }
+    document.body.removeChild(this.portal)
 
-    render() {
-        return null;
-    }
+    document.removeEventListener("mouseup", this.onCloseEvent)
+    document.removeEventListener("keyup", this.onCloseEvent)
+    window.removeEventListener("resize", onClose)
+  }
+
+  render() {
+    return null
+  }
 }
 
 Portal.propTypes = {
-    onClose: PropTypes.func,
-    children: PropTypes.node,
-    closeOnClick: PropTypes.bool,
-    closeOnType: PropTypes.bool,
-    closeOnResize: PropTypes.bool,
-};
+  onClose: PropTypes.func,
+  children: PropTypes.node,
+  closeOnClick: PropTypes.bool,
+  closeOnType: PropTypes.bool,
+  closeOnResize: PropTypes.bool,
+}
 
 Portal.defaultProps = {
-    onClose: null,
-    children: null,
-    closeOnClick: false,
-    closeOnType: false,
-    closeOnResize: false,
-};
+  onClose: null,
+  children: null,
+  closeOnClick: false,
+  closeOnType: false,
+  closeOnResize: false,
+}
 
-export default Portal;
+export default Portal
