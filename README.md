@@ -1,14 +1,14 @@
-# [draftjs_exporter_demo](https://draftjs-exporter.herokuapp.com/) [![Build Status](https://travis-ci.org/springload/draftjs_exporter_demo.svg?branch=master)](https://travis-ci.org/springload/draftjs_exporter_demo)
+# [Draftail Playground](https://draftail-playground.herokuapp.com/) [![Build Status](https://travis-ci.org/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.org/thibaudcolas/draftail-playground)
 
-> A [demo](https://draftjs-exporter.herokuapp.com/) of [draftjs_exporter](https://github.com/springload/draftjs_exporter) and [Draftail](https://github.com/springload/draftail) used together.
+> A [demo](https://draftail-playground.herokuapp.com/) of [Draftail](https://github.com/springload/draftail) and the [Draft.js exporter](https://github.com/springload/draftjs_exporter) used together.
 
 ## Install
 
 From the command-line:
 
 ```sh
-git clone git@github.com:springload/draftjs_exporter_demo.git
-cd draftjs_exporter_demo
+git clone git@github.com:thibaudcolas/draftail-playground.git
+cd draftail-playground
 virtualenv .venv
 source ./.venv/bin/activate
 pip install -r requirements.txt
@@ -35,6 +35,6 @@ npm run
 
 ## Deployment
 
-> The demo is [on Heroku](https://draftjs-exporter.herokuapp.com/).
+> The demo is [on Heroku](https://draftail-playground.herokuapp.com/).
 
 It uses two buildpacks: `heroku/nodejs` and `heroku/python`, and is configured to automatically deploy after each push on `master`.
