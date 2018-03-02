@@ -12,6 +12,8 @@ from draftjs_exporter.html import HTML
 
 from decorators import import_decorator
 
+from markdown import render_markdown
+
 app = Flask(__name__, static_folder='./build', static_path='')
 
 
@@ -58,6 +60,7 @@ def export():
 
     return json.dumps({
         'html': html,
+        'markdown': render_markdown(request.json['contentState']),
         'prettified': prettify(html),
     })
 

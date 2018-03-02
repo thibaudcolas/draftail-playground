@@ -54,6 +54,7 @@ class App extends React.Component {
             contentState: initialContentState,
             exporterConfig: initialConfig,
             html: '',
+            markdown: '',
             prettified: '',
         };
 
@@ -72,10 +73,11 @@ class App extends React.Component {
                 contentState,
                 exporterConfig,
             },
-            ({ html, prettified }) => {
+            ({ html, markdown, prettified }) => {
                 this.setState({
                     contentState,
                     html,
+                    markdown,
                     prettified,
                 });
 
@@ -94,10 +96,11 @@ class App extends React.Component {
                 contentState,
                 exporterConfig,
             },
-            ({ html, prettified }) => {
+            ({ html, markdown, prettified }) => {
                 this.setState({
                     exporterConfig,
                     html,
+                    markdown,
                     prettified,
                 });
             },
@@ -105,7 +108,13 @@ class App extends React.Component {
     }
 
     render() {
-        const { contentState, html, prettified, exporterConfig } = this.state;
+        const {
+            contentState,
+            html,
+            markdown,
+            prettified,
+            exporterConfig,
+        } = this.state;
 
         return (
             <div>
@@ -135,6 +144,7 @@ class App extends React.Component {
                         value={JSON.stringify(contentState, null, 2)}
                         language="js"
                     />
+                    <Highlight value={markdown} language="css" />
                     <Highlight value={prettified} language="html" />
                 </SplitPanel>
                 <JSONView
