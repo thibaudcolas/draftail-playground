@@ -1,32 +1,82 @@
-import PropTypes from "prop-types"
-import React, { Component } from "react"
+// @flow
+import React, { Component } from "react";
+import { Icon } from "draftail";
+import type { Node } from "react";
 
-import { Icon } from "draftail"
+import Tooltip from "../components/Tooltip";
+import Portal from "../components/Portal";
 
-import Tooltip from "../components/Tooltip"
-import Portal from "../components/Portal"
+import "./TooltipEntity.css";
 
-import "./TooltipEntity.css"
+const shortenLabel = (label: string) => {
+  let shortened = label;
+  if (shortened.length > 25) {
+    shortened = `${shortened.slice(0, 20)}…`;
+  }
 
-class TooltipEntity extends Component {
-  constructor(props) {
-    super(props)
+  return shortened;
+};
+
+type Props = {
+  entityKey: string,
+  contentState: Object,
+  children: Node,
+  onEdit: Function,
+  onRemove: Function,
+  icon: string | Object | Array<string>,
+  label: string,
+};
+
+type State = {
+  showTooltipAt: ?Object,
+};
+
+class TooltipEntity extends Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
 
     this.state = {
       showTooltipAt: null,
-    }
+    };
 
-    this.openTooltip = this.openTooltip.bind(this)
-    this.closeTooltip = this.closeTooltip.bind(this)
+    (this: any).openTooltip = this.openTooltip.bind(this);
+    (this: any).closeTooltip = this.closeTooltip.bind(this);
   }
 
-  openTooltip(e) {
-    const trigger = e.target
-    this.setState({ showTooltipAt: trigger.getBoundingClientRect() })
+  openTooltip(e: SyntheticMouseEvent<HTMLButtonElement>) {
+    // $FlowFixMe
+    const trigger = e.target.closest("[data-draftail-trigger]");
+
+    // Click is within the tooltip.
+    if (!trigger || !document.documentElement || !document.body) {
+      return;
+    }
+
+    const container = trigger.closest("[data-draftail-editor-wrapper]");
+    const containerRect = container.getBoundingClientRect();
+    const rect = trigger.getBoundingClientRect();
+
+    this.setState({
+      showTooltipAt: {
+        container: container,
+        top:
+          rect.top -
+          containerRect.top -
+          // $FlowFixMe
+          (document.documentElement.scrollTop || document.body.scrollTop),
+        left:
+          rect.left -
+          containerRect.left -
+          // $FlowFixMe
+          (document.documentElement.scrollLeft || document.body.scrollLeft),
+        width: rect.width,
+        height: rect.height,
+      },
+    });
   }
 
   closeTooltip() {
-    this.setState({ showTooltipAt: null })
+    this.setState({ showTooltipAt: null });
   }
 
   render() {
@@ -38,18 +88,24 @@ class TooltipEntity extends Component {
       onRemove,
       icon,
       label,
-    } = this.props
-    const { showTooltipAt } = this.state
-    const { url } = contentState.getEntity(entityKey).getData()
+    } = this.props;
+    const { showTooltipAt } = this.state;
+    const { url } = contentState.getEntity(entityKey).getData();
 
     // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
     /* eslint-disable springload/jsx-a11y/interactive-supports-focus */
     return (
-      <a role="button" onMouseUp={this.openTooltip} className="TooltipEntity">
+      <a
+        role="button"
+        onMouseUp={this.openTooltip}
+        className="TooltipEntity"
+        data-draftail-trigger
+      >
         <Icon icon={icon} className="TooltipEntity__icon" />
         {children}
         {showTooltipAt && (
           <Portal
+            node={showTooltipAt.container}
             onClose={this.closeTooltip}
             closeOnClick
             closeOnType
@@ -63,7 +119,7 @@ class TooltipEntity extends Component {
                 rel="noopener noreferrer"
                 className="Tooltip__link"
               >
-                {label}
+                {shortenLabel(label)}
               </a>
 
               <button
@@ -83,22 +139,8 @@ class TooltipEntity extends Component {
           </Portal>
         )}
       </a>
-    )
+    );
   }
 }
 
-TooltipEntity.propTypes = {
-  entityKey: PropTypes.string.isRequired,
-  contentState: PropTypes.object.isRequired,
-  children: PropTypes.node.isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onRemove: PropTypes.func.isRequired,
-  icon: PropTypes.oneOfType([
-    PropTypes.string.isRequired,
-    PropTypes.object.isRequired,
-    PropTypes.arrayOf(PropTypes.string).isRequired,
-  ]).isRequired,
-  label: PropTypes.string.isRequired,
-}
-
-export default TooltipEntity
+export default TooltipEntity;

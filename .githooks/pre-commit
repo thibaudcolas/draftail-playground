@@ -45,7 +45,7 @@ fi
 
 if [ -n "$JS_STAGED" ];
 then
-    npm run linter:js -s -- $JS_STAGED
+    npm run linter:format -s -- $JS_STAGED
 fi
 
 if [ -n "$JSON_FULLY_STAGED" ];
@@ -56,7 +56,7 @@ fi
 
 if [ -n "$JSON_STAGED" ];
 then
-    npm run linter:json -s -- $JSON_STAGED
+    npm run linter:format -s -- $JSON_STAGED
 fi
 
 if [ -n "$MD_FULLY_STAGED" ];
@@ -67,7 +67,18 @@ fi
 
 if [ -n "$MD_STAGED" ];
 then
-    npm run linter:md -s -- $MD_STAGED
+    npm run linter:format -s -- $MD_STAGED
+fi
+
+if [ -n "$CSS_FULLY_STAGED" ];
+then
+    npm run formatter -s -- $CSS_FULLY_STAGED
+    git add $CSS_FULLY_STAGED
+fi
+
+if [ -n "$CSS_STAGED" ];
+then
+    npm run linter:format -s -- $MD_STAGED
 fi
 
 if [ -n "$PY_FULLY_STAGED" ];
@@ -87,4 +98,9 @@ then
     fi
 
     make test-ci
+fi
+
+if [ -n "$JS_STAGED" ];
+then
+    npm run flow -s
 fi

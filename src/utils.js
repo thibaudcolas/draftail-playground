@@ -1,14 +1,14 @@
 export const postRequest = (endpoint, data, successCallback) => {
-  const request = new XMLHttpRequest()
-  request.open("POST", endpoint, true)
-  request.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+  const request = new XMLHttpRequest();
+  request.open("POST", endpoint, true);
+  request.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
   request.onload = () => {
     if (request.status >= 200 && request.status < 400) {
-      successCallback(JSON.parse(request.responseText))
+      successCallback(JSON.parse(request.responseText));
     }
-  }
-  request.send(JSON.stringify(data))
-}
+  };
+  request.send(JSON.stringify(data));
+};
 
 // eslint-disable-next-line
 export const defaultContentState = {
@@ -83,18 +83,18 @@ export const defaultContentState = {
       data: {},
     },
   ],
-}
+};
 
 export const getInitialContentState = () => {
   return (
     JSON.parse(window.sessionStorage.getItem("demo:contentState")) ||
     defaultContentState
-  )
-}
+  );
+};
 
 export const saveContentState = (contentState) => {
   window.sessionStorage.setItem(
     "demo:contentState",
     JSON.stringify(contentState),
-  )
-}
+  );
+};

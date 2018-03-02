@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from "styled-components";
 
 const SplitPanel = styled.div`
   @media screen and (min-width: 768px) {
@@ -16,6 +16,6 @@ const SplitPanel = styled.div`
       overflow: auto;
     }
   }
-`
+`;
 
-export default SplitPanel
+export default SplitPanel;

@@ -1,10 +1,15 @@
-import PropTypes from "prop-types"
-import React from "react"
-import Prism from "prismjs"
+// @flow
+import React from "react";
+import Prism from "prismjs";
 
-import "prismjs/themes/prism.css"
+import "prismjs/themes/prism.css";
 
-const Highlight = ({ value, language }) => (
+type Props = {
+  value: string,
+  language: string,
+};
+
+const Highlight = ({ value, language }: Props) => (
   <pre>
     <code
       dangerouslySetInnerHTML={{
@@ -12,11 +17,6 @@ const Highlight = ({ value, language }) => (
       }}
     />
   </pre>
-)
+);
 
-Highlight.propTypes = {
-  value: PropTypes.string.isRequired,
-  language: PropTypes.oneOf(Object.keys(Prism.languages)).isRequired,
-}
-
-export default Highlight
+export default Highlight;

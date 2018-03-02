@@ -1,28 +1,27 @@
-import PropTypes from "prop-types"
-import React, { Component } from "react"
+// @flow
+import React, { Component } from "react";
+import { ContentBlock, EditorState } from "draft-js";
 
-const propTypes = {
-  block: PropTypes.object.isRequired,
-  blockProps: PropTypes.shape({
-    editorState: PropTypes.object.isRequired,
-    entity: PropTypes.object,
-    onChange: PropTypes.func.isRequired,
-  }).isRequired,
-}
+type Props = {
+  block: ContentBlock,
+  blockProps: {
+    editorState: EditorState,
+    entity: Object,
+    onChange: Function,
+  },
+};
 
 /**
  * Editor block to preview and edit images.
  */
-class ImageBlock extends Component {
+class ImageBlock extends Component<Props> {
   render() {
-    const { blockProps } = this.props
-    const { entity } = blockProps
-    const { src, alt } = entity.getData()
+    const { blockProps } = this.props;
+    const { entity } = blockProps;
+    const { src, alt } = entity.getData();
 
-    return <img className="ImageBlock" src={src} alt={alt} width="256" />
+    return <img className="ImageBlock" src={src} alt={alt} width="256" />;
   }
 }
 
-ImageBlock.propTypes = propTypes
-
-export default ImageBlock
+export default ImageBlock;

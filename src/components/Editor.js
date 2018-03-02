@@ -1,16 +1,26 @@
-import PropTypes from "prop-types"
-import React from "react"
+// @flow
+import React from "react";
 
-import { DraftailEditor, ENTITY_TYPE, BLOCK_TYPE, INLINE_STYLE } from "draftail"
-import "draft-js/dist/Draft.css"
-import "draftail/dist/draftail.css"
+import {
+  DraftailEditor,
+  ENTITY_TYPE,
+  BLOCK_TYPE,
+  INLINE_STYLE,
+} from "draftail";
+import "draft-js/dist/Draft.css";
+import "draftail/dist/draftail.css";
 
-import LinkSource from "../entities/LinkSource"
-import ImageSource from "../entities/ImageSource"
-import ImageBlock from "../entities/ImageBlock"
-import Link from "../entities/Link"
+import LinkSource from "../entities/LinkSource";
+import ImageSource from "../entities/ImageSource";
+import ImageBlock from "../entities/ImageBlock";
+import Link from "../entities/Link";
 
-const Editor = ({ rawContentState, onSave }) => (
+type Props = {
+  rawContentState: Object,
+  onSave: Function,
+};
+
+const Editor = ({ rawContentState, onSave }: Props) => (
   <DraftailEditor
     rawContentState={rawContentState}
     onSave={onSave}
@@ -63,11 +73,6 @@ const Editor = ({ rawContentState, onSave }) => (
       },
     ]}
   />
-)
+);
 
-Editor.propTypes = {
-  rawContentState: PropTypes.object.isRequired,
-  onSave: PropTypes.func.isRequired,
-}
-
-export default Editor
+export default Editor;

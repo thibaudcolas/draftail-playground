@@ -1,14 +1,18 @@
-import React from "react"
+import React from "react";
 
-import { getInitialContentState, saveContentState, postRequest } from "../utils"
+import {
+  getInitialContentState,
+  saveContentState,
+  postRequest,
+} from "../utils";
 
-import SplitPanel from "./SplitPanel"
-import Editor from "./Editor"
-import Highlight from "./Highlight"
+import SplitPanel from "./SplitPanel";
+import Editor from "./Editor";
+import Highlight from "./Highlight";
 
-import JSONView from "react-json-view"
+import JSONView from "react-json-view";
 
-const initialContentState = getInitialContentState()
+const initialContentState = getInitialContentState();
 
 const initialConfig = {
   entity_decorators: {
@@ -40,11 +44,11 @@ const initialConfig = {
       },
     },
   },
-}
+};
 
 class App extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       contentState: initialContentState,
@@ -52,16 +56,16 @@ class App extends React.Component {
       html: "",
       markdown: "",
       prettified: "",
-    }
+    };
 
-    this.onSave = this.onSave.bind(this)
-    this.onChangeConfig = this.onChangeConfig.bind(this)
+    this.onSave = this.onSave.bind(this);
+    this.onChangeConfig = this.onChangeConfig.bind(this);
 
-    this.onSave(initialContentState)
+    this.onSave(initialContentState);
   }
 
   onSave(contentState) {
-    const { exporterConfig } = this.state
+    const { exporterConfig } = this.state;
 
     postRequest(
       "/api/export",
@@ -75,16 +79,16 @@ class App extends React.Component {
           html,
           markdown,
           prettified,
-        })
+        });
 
-        saveContentState(contentState)
+        saveContentState(contentState);
       },
-    )
+    );
   }
 
   onChangeConfig(update) {
-    const { contentState } = this.state
-    const exporterConfig = update.updated_src
+    const { contentState } = this.state;
+    const exporterConfig = update.updated_src;
 
     postRequest(
       "/api/export",
@@ -98,9 +102,9 @@ class App extends React.Component {
           html,
           markdown,
           prettified,
-        })
+        });
       },
-    )
+    );
   }
 
   render() {
@@ -110,7 +114,7 @@ class App extends React.Component {
       markdown,
       prettified,
       exporterConfig,
-    } = this.state
+    } = this.state;
 
     return (
       <div>
@@ -151,8 +155,8 @@ class App extends React.Component {
           onDelete={this.onChangeConfig}
         />
       </div>
-    )
+    );
   }
 }
 
-export default App
+export default App;

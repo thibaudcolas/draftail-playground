@@ -1,13 +1,17 @@
-import React from "react"
-import ReactDOM from "react-dom"
+// @flow
+import React from "react";
+import ReactDOM from "react-dom";
 
-import "normalize.css"
-import "./index.css"
-import "./icomoon/styles.css"
+import "normalize.css";
+import "./index.css";
 
-import App from "./components/App"
-import registerServiceWorker from "./registerServiceWorker"
+import App from "./components/App";
+import registerServiceWorker from "./registerServiceWorker";
 
-ReactDOM.render(<App />, document.querySelector("[data-mount]"))
+const mount = document.getElementById("root");
 
-registerServiceWorker()
+if (mount) {
+  ReactDOM.render(<App />, mount);
+}
+
+registerServiceWorker();
