@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 import {
   getInitialContentState,
@@ -7,6 +8,8 @@ import {
 } from "../utils";
 
 import SplitPanel from "./SplitPanel";
+import SidePanel from "./SidePanel";
+import LivePage from "./LivePage";
 import Editor from "./Editor";
 import Highlight from "./Highlight";
 
@@ -45,6 +48,10 @@ const initialConfig = {
     },
   },
 };
+
+const AppContainer = styled.div`
+  display: flex;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -117,46 +124,91 @@ class App extends React.Component {
     } = this.state;
 
     return (
-      <div>
-        <SplitPanel>
+      <AppContainer>
+        <SidePanel>
+          <h1>
+            <a href="/">Draftail playground</a>
+          </h1>
           <Editor rawContentState={initialContentState} onSave={this.onSave} />
-          <div>
-            <div className="Draftail-Toolbar">
-              <div className="Draftail-ToolbarGroup">
-                <button
-                  className="Draftail-ToolbarButton"
-                  disabled
-                  style={{ pointerEvents: "none" }}
-                >
-                  Generated HTML
-                </button>
-              </div>
-            </div>
-            <div dangerouslySetInnerHTML={{ __html: html }} />
-          </div>
-        </SplitPanel>
-        <hr />
-        <SplitPanel>
-          <Highlight
-            value={JSON.stringify(contentState, null, 2)}
-            language="js"
-          />
-          <Highlight value={markdown} language="css" />
-          <Highlight value={prettified} language="html" />
-        </SplitPanel>
-        <JSONView
-          src={exporterConfig}
-          name={false}
-          enableClipboard={false}
-          displayObjectSize={false}
-          displayDataTypes={false}
-          onEdit={this.onChangeConfig}
-          onAdd={this.onChangeConfig}
-          onDelete={this.onChangeConfig}
-        />
-      </div>
+
+          <details>
+            <summary>Content (JSON)</summary>
+
+            <p>
+              Comes straight from <a href="https://draftjs.org/">Draft.js</a>.
+            </p>
+
+            <Highlight
+              value={JSON.stringify(contentState, null, 2)}
+              language="json"
+            />
+          </details>
+
+          <details>
+            <summary>Content (Markdown)</summary>
+
+            <p>
+              Generated with{" "}
+              <a href="https://github.com/thibaudcolas/draftjs_exporter_markdown">
+                Draft.js exporter: Markdown
+              </a>
+            </p>
+
+            <Highlight value={markdown} language="markdown" />
+          </details>
+
+          <details>
+            <summary>Content (HTML)</summary>
+
+            <p>
+              Generated with{" "}
+              <a href="https://github.com/springload/draftjs_exporter">
+                Draft.js exporter
+              </a>
+            </p>
+
+            <Highlight value={prettified} language="html" />
+          </details>
+
+          <details>
+            <summary>Editor configuration</summary>
+
+            <JSONView
+              src={exporterConfig}
+              name={false}
+              enableClipboard={false}
+              displayObjectSize={false}
+              displayDataTypes={false}
+              onEdit={this.onChangeConfig}
+              onAdd={this.onChangeConfig}
+              onDelete={this.onChangeConfig}
+            />
+          </details>
+
+          <details>
+            <summary>Exporter configuration</summary>
+
+            <JSONView
+              src={exporterConfig}
+              name={false}
+              enableClipboard={false}
+              displayObjectSize={false}
+              displayDataTypes={false}
+              onEdit={this.onChangeConfig}
+              onAdd={this.onChangeConfig}
+              onDelete={this.onChangeConfig}
+            />
+          </details>
+        </SidePanel>
+        <LivePage html={html} />
+      </AppContainer>
     );
   }
 }
+
+// <SplitPanel>
+
+//
+// </SplitPanel>
 
 export default App;

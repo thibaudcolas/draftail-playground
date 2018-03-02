@@ -8,14 +8,21 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+body > div {
+  margin: 0;
+  min-height: 100vh;
+  margin: 0;
+}
+
 body {
   background-color: #fff;
-  font-family: -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   color: #333;
   font-weight: 400;
-  max-width: 1280px;
-  margin: auto;
-  padding: 2rem;
+  font-size: 1rem;
 }
 
 h1 {
@@ -25,8 +32,4 @@ h1 {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-.clearfix {
-  overflow: auto;
 }

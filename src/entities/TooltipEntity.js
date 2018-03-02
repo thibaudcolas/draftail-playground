@@ -52,21 +52,17 @@ class TooltipEntity extends Component<Props, State> {
       return;
     }
 
-    const container = trigger.closest("[data-draftail-editor-wrapper]");
-    const containerRect = container.getBoundingClientRect();
     const rect = trigger.getBoundingClientRect();
 
     this.setState({
       showTooltipAt: {
-        container: container,
+        container: document.body,
         top:
           rect.top -
-          containerRect.top -
           // $FlowFixMe
           (document.documentElement.scrollTop || document.body.scrollTop),
         left:
           rect.left -
-          containerRect.left -
           // $FlowFixMe
           (document.documentElement.scrollLeft || document.body.scrollLeft),
         width: rect.width,
@@ -111,7 +107,7 @@ class TooltipEntity extends Component<Props, State> {
             closeOnType
             closeOnResize
           >
-            <Tooltip target={showTooltipAt} direction="top">
+            <Tooltip target={showTooltipAt} direction="top-left">
               <a
                 href={url}
                 title={url}
