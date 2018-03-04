@@ -7,6 +7,13 @@ import Highlight from "./Highlight";
 
 import "./Exports.css";
 
+const savedTab = Number(window.sessionStorage.getItem("tab-index"));
+const initTab = savedTab || 0;
+
+const saveTab = (tab) => {
+  window.sessionStorage.setItem("tab-index", tab);
+};
+
 type Props = {
   markdown: string,
   contentState: string,
@@ -23,12 +30,12 @@ const Exports = ({
   onChangeConfig,
 }: Props) => {
   return (
-    <Tabs>
+    <Tabs defaultIndex={initTab} onSelect={saveTab}>
       <TabList>
         <Tab>Markdown</Tab>
         <Tab>JSON</Tab>
         <Tab>HTML</Tab>
-        <Tab>Exporter configuration</Tab>
+        <Tab>Configuration</Tab>
       </TabList>
 
       <TabPanel>
@@ -44,6 +51,12 @@ const Exports = ({
         <Highlight value={prettified} language="html" />
       </TabPanel>
       <TabPanel>
+        <p>
+          Have a look at the{" "}
+          <a href="https://github.com/springload/draftjs_exporter/">
+            Draft.js exporter configuration.
+          </a>
+        </p>
         <JSONView
           src={exporterConfig}
           name={false}
