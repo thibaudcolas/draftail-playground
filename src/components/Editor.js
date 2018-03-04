@@ -15,6 +15,7 @@ import LinkSource from "../entities/LinkSource";
 import ImageSource from "../entities/ImageSource";
 import ImageBlock from "../entities/ImageBlock";
 import Link from "../entities/Link";
+import ReadingTime from "../components/controls/ReadingTime";
 
 const Container = styled.div``;
 
@@ -30,7 +31,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
       onSave={onSave}
       placeholder="Write here…"
       enableHorizontalRule={true}
-      enableLineBreak={true}
+      enableLineBreak={false}
       stripPastedStyles={false}
       entityTypes={[
         {
@@ -84,6 +85,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
           icon: "#icon-italic",
         },
       ]}
+      controls={[ReadingTime]}
     />
   </Container>
 );
