@@ -57,10 +57,11 @@ def export():
     })
 
     html = exporter.render(request.json['contentState'])
+    markdown = render_markdown(request.json['contentState'])
 
     return json.dumps({
         'html': html,
-        'markdown': render_markdown(request.json['contentState']),
+        'markdown': markdown,
         'prettified': prettify(html),
     })
 

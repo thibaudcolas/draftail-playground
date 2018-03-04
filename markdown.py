@@ -1,4 +1,5 @@
 from draftjs_exporter.html import HTML
+from draftjs_exporter.dom import DOM
 from draftjs_exporter_markdown import BLOCK_MAP, ENGINE, ENTITY_DECORATORS, STYLE_MAP
 
 exporter = HTML({
@@ -8,5 +9,7 @@ exporter = HTML({
     'engine': ENGINE,
 })
 
+
 def render_markdown(content_state):
+    DOM.use(ENGINE)
     return exporter.render(content_state)
