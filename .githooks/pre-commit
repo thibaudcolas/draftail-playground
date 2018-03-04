@@ -96,8 +96,6 @@ then
         echo $format_diff
         exit 1
     fi
-
-    make test-ci
 fi
 
 if [ -n "$JS_STAGED" ];
