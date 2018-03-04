@@ -87,14 +87,11 @@ export const defaultContentState = {
 
 export const getInitialContentState = () => {
   return (
-    JSON.parse(window.sessionStorage.getItem("demo:contentState")) ||
+    JSON.parse(window.sessionStorage.getItem("contentState")) ||
     defaultContentState
   );
 };
 
 export const saveContentState = (contentState) => {
-  window.sessionStorage.setItem(
-    "demo:contentState",
-    JSON.stringify(contentState),
-  );
+  window.sessionStorage.setItem("contentState", JSON.stringify(contentState));
 };
