@@ -33,8 +33,17 @@ a {
   color: inherit;
 }
 
-p:empty {
-  height: 18px;
+p:empty::before,
+h1:empty::before,
+h2:empty::before,
+h3:empty::before,
+h4:empty::before,
+h5:empty::before,
+h6:empty::before,
+li:empty::before {
+  content: " ";
+  display: inline-block;
+  height: 1em;
 }
 
 h1 {
