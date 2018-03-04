@@ -36,7 +36,6 @@ const Container = styled.div`
 
   @media screen and (min-width: 768px) {
     min-height: 100vh;
-    border-right: 1px solid #333;
     padding: 2rem;
   }
 `;

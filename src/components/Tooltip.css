@@ -3,7 +3,7 @@
   --tooltip-arrow-spacing: 25px;
   --button-spacing: 0.5rem;
   --controls-spacing: 0.25rem;
-  --color-tooltip-chrome: #333;
+  --color-tooltip-chrome: #555;
 }
 
 .Tooltip {
@@ -58,15 +58,16 @@
 .Tooltip__link {
   margin-right: 1rem;
   display: inline-block;
+  text-decoration: none;
 }
 
 .Tooltip__button {
-  appearance: none;
-  background: #808080;
+  -webkit-appearance: none;
+  background: transparent;
   color: #fff;
+  border: 1px solid currentColor;
   padding: var(--button-spacing) var(--controls-spacing);
-  border: 0;
-  border-radius: 1px;
+  border-radius: 3px;
   cursor: pointer;
 }
 
