@@ -36,3 +36,11 @@ a {
 p:empty {
   height: 18px;
 }
+
+h1 {
+  margin: 0.5em 0;
+}
+
+.Draftail-Editor .DraftEditor-editorContainer {
+  font-family: Georgia, serif;
+}
