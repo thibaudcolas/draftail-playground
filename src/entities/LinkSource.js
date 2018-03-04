@@ -5,14 +5,14 @@ import { DraftUtils } from "draftail";
 
 type Props = {
   editorState: EditorState,
-  options: Object,
+  entityType: Object,
   entity: Object,
-  onUpdate: Function,
+  onComplete: Function,
 };
 
 class LinkSource extends Component<Props> {
   componentDidMount() {
-    const { editorState, entity, options, onUpdate } = this.props;
+    const { editorState, entity, entityType, onComplete } = this.props;
     const url = window.prompt("Link URL", entity ? entity.getData().url : "");
     let nextState = editorState;
 
@@ -27,7 +27,7 @@ class LinkSource extends Component<Props> {
       if (hasText) {
         const contentState = editorState.getCurrentContent();
         const contentStateWithEntity = contentState.createEntity(
-          options.type,
+          entityType.type,
           "MUTABLE",
           entityData,
         );
@@ -37,7 +37,7 @@ class LinkSource extends Component<Props> {
       } else {
         nextState = DraftUtils.createEntity(
           editorState,
-          options.type,
+          entityType.type,
           entityData,
           url,
           "MUTABLE",
@@ -45,7 +45,7 @@ class LinkSource extends Component<Props> {
       }
     }
 
-    onUpdate(nextState);
+    onComplete(nextState);
   }
 
   render() {
