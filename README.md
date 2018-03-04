@@ -1,6 +1,8 @@
-# [Draftail Playground](https://draftail-playground.herokuapp.com/) [![Build Status](https://travis-ci.org/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.org/thibaudcolas/draftail-playground)
+# [Draftail Playground](https://draftail-playground.herokuapp.com/) [![Build Status](https://travis-ci.org/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.org/thibaudcolas/draftail-playground) [<img src="https://cdn.rawgit.com/springload/awesome-wagtail/ac912cc661a7099813f90545adffa6bb3e75216c/logo.svg" width="104" align="right" alt="Wagtail">](https://wagtail.io/)
 
-> A [demo](https://draftail-playground.herokuapp.com/) of [Draftail](https://github.com/springload/draftail) and the [Draft.js exporter](https://github.com/springload/draftjs_exporter) used together.
+> Try [Draftail](https://github.com/springload/draftail) in a full-fledged [preview environment](https://draftail-playground.herokuapp.com/).
+
+[![Screenshot of the playground](https://springload.github.io/draftail/static/draftail-playground-screenshot.png)](https://draftail-playground.herokuapp.com/)
 
 ## Install
 
