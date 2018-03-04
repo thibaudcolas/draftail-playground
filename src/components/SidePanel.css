@@ -1,13 +1,15 @@
-.react-resizable {
-  position: relative;
-  border-right: 3px double #555;
-}
+@media screen and (min-width: 768px) {
+  .react-resizable {
+    position: relative;
+    border-right: 3px double #555;
+  }
 
-.react-resizable-handle {
-  position: absolute;
-  height: 100%;
-  bottom: 0;
-  right: -1rem;
-  width: 2rem;
-  cursor: col-resize;
+  .react-resizable-handle {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    right: -1rem;
+    width: 2rem;
+    cursor: col-resize;
+  }
 }

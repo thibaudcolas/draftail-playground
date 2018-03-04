@@ -22,6 +22,10 @@ const Container = styled.div`
   padding-bottom: 1.5rem;
 `;
 
+const Title = styled.h2`
+  margin-top: 0;
+`;
+
 type Props = {
   rawContentState: Object,
   onSave: Function,
@@ -29,6 +33,7 @@ type Props = {
 
 const Editor = ({ rawContentState, onSave }: Props) => (
   <Container>
+    <Title>Tell your story…</Title>
     <SentryBoundary>
       <DraftailEditor
         rawContentState={rawContentState}

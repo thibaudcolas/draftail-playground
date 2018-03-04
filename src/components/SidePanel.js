@@ -15,7 +15,7 @@ const VIEWPORT_WIDTH = document.documentElement
   : 1024;
 const IS_BIG = VIEWPORT_WIDTH >= 768;
 const IS_DESKTOP = VIEWPORT_WIDTH >= 1024;
-const MIN_PANEL_WIDTH = IS_BIG ? 400 : VIEWPORT_WIDTH;
+const MIN_PANEL_WIDTH = IS_BIG ? 400 : "100%";
 const MIN_PREVIEW_WIDTH = 320;
 const MAX_PANEL_WIDTH = VIEWPORT_WIDTH - (IS_BIG ? MIN_PREVIEW_WIDTH : 0);
 const RESIZABLE_AXIS = IS_BIG ? "x" : "none";
@@ -24,8 +24,9 @@ console.log(MAX_PANEL_WIDTH);
 
 const savedWidth = Number(window.sessionStorage.getItem("panel-width"));
 const initWidth =
-  savedWidth ||
-  Math.max(MIN_PANEL_WIDTH, VIEWPORT_WIDTH * 0.4, IS_DESKTOP ? 560 : 0);
+  savedWidth || IS_BIG
+    ? Math.max(IS_BIG ? 400 : 0, VIEWPORT_WIDTH * 0.4, IS_DESKTOP ? 560 : 0)
+    : "100%";
 
 const saveWidth = (
   e: SyntheticEvent<EventTarget>,
