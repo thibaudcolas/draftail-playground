@@ -4,20 +4,20 @@ import { AtomicBlockUtils, EditorState } from "draft-js";
 
 type Props = {
   editorState: EditorState,
-  options: Object,
-  onUpdate: Function,
+  entityType: Object,
+  onComplete: Function,
 };
 
 class ImageSource extends Component<Props> {
   componentDidMount() {
-    const { editorState, options, onUpdate } = this.props;
+    const { editorState, entityType, onComplete } = this.props;
 
-    const url = global.prompt("Image URL");
+    const url = global.prompt("Image URL", "/example.jpg");
 
     if (url) {
       const contentState = editorState.getCurrentContent();
       const contentStateWithEntity = contentState.createEntity(
-        options.type,
+        entityType.type,
         "IMMUTABLE",
         {
           altText: "Test image alt text",
@@ -32,9 +32,9 @@ class ImageSource extends Component<Props> {
         " ",
       );
 
-      onUpdate(nextState);
+      onComplete(nextState);
     } else {
-      onUpdate(editorState);
+      onComplete(editorState);
     }
   }
 

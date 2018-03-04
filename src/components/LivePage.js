@@ -67,6 +67,10 @@ const Article = styled.article`
   padding: 1.5rem;
   font-family: Georgia, serif;
   border-bottom: 1px solid #bfbfbf;
+
+  img {
+    max-width: 100%;
+  }
 `;
 
 const Meta = styled.p`
