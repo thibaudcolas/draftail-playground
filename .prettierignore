@@ -1,2 +1,4 @@
 build
 .venv
+package.json
+package-lock.json
