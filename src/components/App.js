@@ -10,9 +10,7 @@ import {
 import SidePanel from "./SidePanel";
 import LivePage from "./LivePage";
 import Editor from "./Editor";
-import Highlight from "./Highlight";
-
-import JSONView from "react-json-view";
+import Exports from "./Exports";
 
 const initialContentState = getInitialContentState();
 
@@ -136,41 +134,12 @@ class App extends React.Component {
         <SidePanel>
           <Editor rawContentState={initialContentState} onSave={this.onSave} />
 
-          <details>
-            <summary>Content (JSON)</summary>
-
-            <Highlight
-              value={JSON.stringify(contentState, null, 2)}
-              language="json"
-            />
-          </details>
-
-          <details>
-            <summary>Content (Markdown)</summary>
-
-            <Highlight value={markdown} language="markdown" />
-          </details>
-
-          <details>
-            <summary>Content (HTML)</summary>
-
-            <Highlight value={prettified} language="html" />
-          </details>
-
-          <details>
-            <summary>Exporter configuration</summary>
-
-            <JSONView
-              src={exporterConfig}
-              name={false}
-              enableClipboard={false}
-              displayObjectSize={false}
-              displayDataTypes={false}
-              onEdit={this.onChangeConfig}
-              onAdd={this.onChangeConfig}
-              onDelete={this.onChangeConfig}
-            />
-          </details>
+          <Exports
+            markdown={markdown}
+            contentState={contentState}
+            prettified={prettified}
+            exporterConfig={exporterConfig}
+          />
         </SidePanel>
         <LivePage html={html} />
       </AppContainer>
