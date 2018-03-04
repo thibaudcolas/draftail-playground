@@ -1,10 +1,31 @@
 // @flow
 import React from "react";
+import styled from "styled-components";
 import Prism from "prismjs";
 import "prismjs/components/prism-markdown";
 import "prismjs/components/prism-json";
 
 import "prismjs/themes/prism.css";
+
+const onCopy = (value) => {
+  const hidden = document.createElement("textarea");
+  hidden.value = value;
+  // $FlowFixMe
+  document.body.appendChild(hidden);
+  hidden.select();
+  document.execCommand("copy");
+  // $FlowFixMe
+  document.body.removeChild(hidden);
+};
+
+const Pre = styled.pre`
+  position: relative;
+`;
+
+const CopyButton = styled.button`
+  position: absolute;
+  right: 1rem;
+`;
 
 type Props = {
   value: string,
@@ -12,13 +33,14 @@ type Props = {
 };
 
 const Highlight = ({ value, language }: Props) => (
-  <pre className={`language-${language}`}>
+  <Pre className={`language-${language}`}>
+    <CopyButton onClick={onCopy.bind(null, value)}>Copy</CopyButton>
     <code
       dangerouslySetInnerHTML={{
         __html: Prism.highlight(value, Prism.languages[language]),
       }}
     />
-  </pre>
+  </Pre>
 );
 
 export default Highlight;
