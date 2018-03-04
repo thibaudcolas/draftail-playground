@@ -158,21 +158,6 @@ class App extends React.Component {
           </details>
 
           <details>
-            <summary>Editor configuration</summary>
-
-            <JSONView
-              src={exporterConfig}
-              name={false}
-              enableClipboard={false}
-              displayObjectSize={false}
-              displayDataTypes={false}
-              onEdit={this.onChangeConfig}
-              onAdd={this.onChangeConfig}
-              onDelete={this.onChangeConfig}
-            />
-          </details>
-
-          <details>
             <summary>Exporter configuration</summary>
 
             <JSONView
