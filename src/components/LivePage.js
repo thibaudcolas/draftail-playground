@@ -66,6 +66,7 @@ const Article = styled.article`
   flex: 1;
   padding: 1.5rem;
   font-family: Georgia, serif;
+  border-bottom: 1px solid #bfbfbf;
 `;
 
 const Meta = styled.p`
@@ -79,6 +80,7 @@ const Footer = styled.footer.attrs({
 })`
   padding: 0.5rem 1.5rem;
   font-size: 0.8em;
+  border-top: 1px solid #f2f2f2;
   text-shadow: #d9d9d9 0 1px;
   color: #444;
   background-color: #e0e0e0;
