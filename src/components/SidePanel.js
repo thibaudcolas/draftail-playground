@@ -13,10 +13,11 @@ delete ResizableBox.propTypes;
 const VIEWPORT_WIDTH = document.documentElement
   ? document.documentElement.clientWidth
   : 1024;
-const MIN_PANEL_WIDTH = 320;
+const IS_BIG = VIEWPORT_WIDTH >= 768;
+const MIN_PANEL_WIDTH = IS_BIG ? 320 : VIEWPORT_WIDTH;
 const MIN_PREVIEW_WIDTH = 320;
-const MAX_PANEL_WIDTH =
-  VIEWPORT_WIDTH - (VIEWPORT_WIDTH > 768 ? MIN_PREVIEW_WIDTH : 0);
+const MAX_PANEL_WIDTH = VIEWPORT_WIDTH - (IS_BIG ? MIN_PREVIEW_WIDTH : 0);
+const RESIZABLE_AXIS = IS_BIG ? "x" : "none";
 
 console.log(MAX_PANEL_WIDTH);
 
@@ -35,9 +36,8 @@ const Container = styled.div`
 
   @media screen and (min-width: 768px) {
     min-height: 100vh;
-    border-right: 1px double #333;
+    border-right: 1px solid #333;
     padding: 2rem;
-    --min-width: 420px;
   }
 `;
 
@@ -49,7 +49,7 @@ const SidePanel = ({ children }: Props) => (
   <ResizableBox
     width={initWidth}
     height="100%"
-    axis="x"
+    axis={RESIZABLE_AXIS}
     minConstraints={[MIN_PANEL_WIDTH, "100%"]}
     maxConstraints={[MAX_PANEL_WIDTH, "100%"]}
     onResizeStop={saveWidth}

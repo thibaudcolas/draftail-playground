@@ -7,7 +7,6 @@ import {
   postRequest,
 } from "../utils";
 
-import SplitPanel from "./SplitPanel";
 import SidePanel from "./SidePanel";
 import LivePage from "./LivePage";
 import Editor from "./Editor";
@@ -51,6 +50,15 @@ const initialConfig = {
 
 const AppContainer = styled.div`
   display: flex;
+  flex-direction: column;
+
+  > :last-child {
+    flex: 1;
+  }
+
+  @media screen and (min-width: 768px) {
+    flex-direction: row;
+  }
 `;
 
 class App extends React.Component {
@@ -126,17 +134,10 @@ class App extends React.Component {
     return (
       <AppContainer>
         <SidePanel>
-          <h1>
-            <a href="/">Draftail playground</a>
-          </h1>
           <Editor rawContentState={initialContentState} onSave={this.onSave} />
 
           <details>
             <summary>Content (JSON)</summary>
-
-            <p>
-              Comes straight from <a href="https://draftjs.org/">Draft.js</a>.
-            </p>
 
             <Highlight
               value={JSON.stringify(contentState, null, 2)}
@@ -147,25 +148,11 @@ class App extends React.Component {
           <details>
             <summary>Content (Markdown)</summary>
 
-            <p>
-              Generated with{" "}
-              <a href="https://github.com/thibaudcolas/draftjs_exporter_markdown">
-                Draft.js exporter: Markdown
-              </a>
-            </p>
-
             <Highlight value={markdown} language="markdown" />
           </details>
 
           <details>
             <summary>Content (HTML)</summary>
-
-            <p>
-              Generated with{" "}
-              <a href="https://github.com/springload/draftjs_exporter">
-                Draft.js exporter
-              </a>
-            </p>
 
             <Highlight value={prettified} language="html" />
           </details>
