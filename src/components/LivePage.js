@@ -122,7 +122,7 @@ const LivePage = ({ html }: Props) => (
       <Title>
         <a href="/">Draftail Playground</a>
       </Title>
-      <p>Try the editor in a full-fledged preview environment</p>
+      <p>Try Draftail in a full-fledged preview environment</p>
     </Header>
 
     <Nav>
