@@ -20,10 +20,25 @@ import SentryBoundary from "../components/SentryBoundary";
 
 const Container = styled.div`
   padding-bottom: 1.5rem;
+
+  @media screen and (min-width: 768px) {
+    margin-top: -2rem;
+    padding-top: 150px;
+  }
+
+  .Draftail-Toolbar {
+    min-height: 48px;
+  }
+
+  .Draftail-block--header-one:first-child {
+    padding-top: 1.45rem;
+  }
 `;
 
 const Title = styled.h2`
-  margin-top: 0;
+  height: 40px;
+  margin-top: -40px;
+  margin-bottom: 0;
 `;
 
 type Props = {
