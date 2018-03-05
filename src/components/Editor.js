@@ -56,6 +56,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
         placeholder="Write here…"
         enableHorizontalRule={true}
         enableLineBreak={false}
+        spellCheck={true}
         stripPastedStyles={false}
         entityTypes={[
           {
