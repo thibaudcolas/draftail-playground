@@ -2,7 +2,7 @@
 
 > Try [Draftail](https://github.com/springload/draftail) in a full-fledged [preview environment](https://draftail-playground.herokuapp.com/).
 
-[![Screenshot of the playground](https://springload.github.io/draftail/static/draftail-playground-screenshot.png)](https://draftail-playground.herokuapp.com/)
+[![Screenshot of the playground](https://draftail-playground.herokuapp.com/static/draftail-playground-screenshot.png)](https://draftail-playground.herokuapp.com/)
 
 ## Install
 
