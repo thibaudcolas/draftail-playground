@@ -97,7 +97,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
           },
           {
             type: BLOCK_TYPE.CODE,
-            icon: "#icon-code",
+            label: "{ }",
           },
           {
             type: BLOCK_TYPE.BLOCKQUOTE,
@@ -112,6 +112,11 @@ const Editor = ({ rawContentState, onSave }: Props) => (
           {
             type: INLINE_STYLE.ITALIC,
             icon: "#icon-italic",
+          },
+
+          {
+            type: INLINE_STYLE.CODE,
+            icon: "#icon-code",
           },
         ]}
         controls={[ReadingTime]}
