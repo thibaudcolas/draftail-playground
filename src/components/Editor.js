@@ -99,6 +99,10 @@ const Editor = ({ rawContentState, onSave }: Props) => (
             type: BLOCK_TYPE.CODE,
             icon: "#icon-code",
           },
+          {
+            type: BLOCK_TYPE.BLOCKQUOTE,
+            icon: "#icon-openquote",
+          },
         ]}
         inlineStyles={[
           {
