@@ -44,11 +44,11 @@ export const defaultContentState = {
     {
       key: "fe44d",
       text:
-        "It’s time to add some noodles and flavour, give some structure to our bland broth and enjoy rich text again.",
+        "It’s time to add some noodles and flavour, give some structure to your bland broth and enjoy rich text again.",
       type: "unstyled",
       depth: 0,
       inlineStyleRanges: [],
-      entityRanges: [{ offset: 43, length: 38, key: 1 }],
+      entityRanges: [{ offset: 43, length: 39, key: 1 }],
       data: {},
     },
     {
