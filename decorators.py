@@ -16,7 +16,7 @@ def link(props):
 def image(props):
     return DOM.create_element('img', {
         'src': props.get('src'),
-        'width': props.get('width'),
+        'width': props.get('width', 256),
         'height': props.get('height'),
         'alt': props.get('altText'),
     })
