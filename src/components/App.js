@@ -147,9 +147,4 @@ class App extends React.Component {
   }
 }
 
-// <SplitPanel>
-
-//
-// </SplitPanel>
-
 export default App;

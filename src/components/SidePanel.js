@@ -20,8 +20,6 @@ const MIN_PREVIEW_WIDTH = 320;
 const MAX_PANEL_WIDTH = VIEWPORT_WIDTH - (IS_BIG ? MIN_PREVIEW_WIDTH : 0);
 const RESIZABLE_AXIS = IS_BIG ? "x" : "none";
 
-console.log(MAX_PANEL_WIDTH);
-
 const savedWidth = Number(window.sessionStorage.getItem("panel-width"));
 const initWidth =
   savedWidth || IS_BIG
