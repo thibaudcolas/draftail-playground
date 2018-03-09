@@ -18,6 +18,8 @@ nvm install
 # Then, install all project dependencies.
 npm install
 npm run start
+# Install git hooks
+./.githooks/deploy
 ```
 
 ## Working on the project
