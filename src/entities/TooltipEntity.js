@@ -46,6 +46,9 @@ class TooltipEntity extends Component<Props, State> {
   openTooltip(e: SyntheticMouseEvent<HTMLButtonElement>) {
     // $FlowFixMe
     const trigger = e.target.closest("[data-draftail-trigger]");
+    const container = document.body;
+    // $FlowFixMe
+    const containerRect = container.getBoundingClientRect();
 
     // Click is within the tooltip.
     if (!trigger || !document.documentElement || !document.body) {
@@ -56,13 +59,15 @@ class TooltipEntity extends Component<Props, State> {
 
     this.setState({
       showTooltipAt: {
-        container: document.body,
+        container,
         top:
           rect.top -
+          containerRect.top -
           // $FlowFixMe
           (document.documentElement.scrollTop || document.body.scrollTop),
         left:
           rect.left -
+          containerRect.left -
           // $FlowFixMe
           (document.documentElement.scrollLeft || document.body.scrollLeft),
         width: rect.width,
