@@ -1,51 +1,95 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# -------------------------------------------------
+# OS files
+# -------------------------------------------------
 .DS_Store
-/MANIFEST
-/.tox/
-/*.egg-info/
-/.venv/
-/var/static/
-/var/media/
-/local/
-/.vagrant/
-/Vagrantfile.local
-/docs/_build/
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# -------------------------------------------------
+# Logs and databases
+# -------------------------------------------------
+logs
+*.log
+npm-debug.log*
+*.sql
+*.sqlite3
+
+# -------------------------------------------------
+# Runtime data and caches
+# -------------------------------------------------
+pids
+*.pid
+*.seed
 *.pyc
 *.pyo
+*.pot
+
+# -------------------------------------------------
+# Instrumentation and tooling
+# -------------------------------------------------
+lib-cov
+coverage
+.coverage
+.grunt
+.bundle
+docs/pattern-library/index.html
+webpack-stats.json
+source-map-explorer.html
+
+# -------------------------------------------------
+# Dependency directories
+# -------------------------------------------------
+node_modules*
+python_modules*
+bower_components
+.venv
+venv
+$virtualenv.tar.gz
+$node_modules.tar.gz
+
+# -------------------------------------------------
+# Users Environment
+# -------------------------------------------------
+.lock-wscript
+.idea
 .installed.cfg
-bin
-.idea/
+.vagrant
+.anaconda
+Vagrantfile.local
+/local
+local.py
+*.sublime-project
+*.sublime-workspace
+.vscode
+
+# -------------------------------------------------
+# Generated files
+# -------------------------------------------------
+dist
+build
+/var/static/
+/var/media/
+/docs/_build/
 develop-eggs
-build/
-dist/
-# dist
+*.egg-info
 downloads
+media
 eggs
 parts
-src/*.egg-info
 lib64
-*.log
-*.pot
-static/CACHE/*
-.vagrant/*
-media/*
-.anaconda
-*.DS_Store
-*.sass-cache
-.idea
-.coverage
-coverage_html_report/
+.sass-cache
 
-# node
-node_modules/
-# bower
-bower_components/
+# -------------------------------------------------
+# Your own project's ignores
+# -------------------------------------------------
 
-$virtualenv.tar.gz
-core/static/css/
-core/static/js/
-core/static/images/
-core/jinja2/svg.html
-
-*.sql
-example.html
-npm-debug.log*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
