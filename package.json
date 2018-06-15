@@ -21,9 +21,9 @@
     "proseWrap": "preserve"
   },
   "devDependencies": {
-    "flow-bin": "^0.66.0",
-    "prettier": "^1.11.1",
-    "react-scripts": "^1.1.1",
+    "flow-bin": "^0.74.0",
+    "prettier": "^1.13.5",
+    "react-scripts": "^1.1.4",
     "source-map-explorer": "^1.5.0"
   },
   "dependencies": {
@@ -47,8 +47,7 @@
     "server": "FLASK_APP=app.py FLASK_DEBUG=1 flask run",
     "watch": "react-scripts start",
     "flow": "flow",
-    "build":
-      "react-scripts build && source-map-explorer --html build/static/js/main.* > build/source-map-explorer.html",
+    "build": "react-scripts build && source-map-explorer --html build/static/js/main.* > build/source-map-explorer.html",
     "dist": "CI=true npm run build -s",
     "linter:format": "prettier --list-different",
     "lint": "npm run linter:format -s -- '**/*.{js,css,json,md}'",
