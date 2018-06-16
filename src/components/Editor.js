@@ -15,7 +15,8 @@ import LinkSource from "../entities/LinkSource";
 import ImageSource from "../entities/ImageSource";
 import ImageBlock from "../entities/ImageBlock";
 import Link from "../entities/Link";
-import ReadingTime from "../components/controls/ReadingTime";
+import ReadingTime from "../extensions/ReadingTime";
+import MaxLength, { MaxLengthDecorator } from "../extensions/MaxLength";
 import SentryBoundary from "../components/SentryBoundary";
 
 const Container = styled.div`
@@ -118,7 +119,8 @@ const Editor = ({ rawContentState, onSave }: Props) => (
             icon: "#icon-code",
           },
         ]}
-        controls={[ReadingTime]}
+        controls={[ReadingTime, MaxLength]}
+        decorators={[new MaxLengthDecorator()]}
       />
     </SentryBoundary>
   </Container>
