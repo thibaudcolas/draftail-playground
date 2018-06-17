@@ -1,0 +1,31 @@
+.ProgressMeter {
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+
+@keyframes RadialCounterPulse {
+  0% {
+    stroke-width: 2px;
+  }
+  50% {
+    stroke-width: 4px;
+  }
+  100% {
+    stroke-width: 2px;
+  }
+}
+
+.ProgressMeter__background {
+  fill: none;
+  stroke-width: 1px;
+  stroke: #eeeeee;
+}
+
+.ProgressMeter__progressbar {
+  fill: none;
+  stroke-width: 2px;
+}
+
+.ProgressMeter--pulse .ProgressMeter__progressbar {
+  animation: RadialCounterPulse 0.3s ease-in-out;
+}

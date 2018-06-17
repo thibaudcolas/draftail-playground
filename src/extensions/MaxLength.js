@@ -1,21 +1,62 @@
 import { EditorState } from "draft-js";
 import PropTypes from "prop-types";
-import React from "react";
+import React, { PureComponent } from "react";
 import { ToolbarButton } from "draftail";
+
+import "./MaxLength.css";
 
 const MAX_CONTENT_LENGTH = 50;
 
-const getCounterColor = (contentLength) => {
+const getMeterColor = (progress) => {
   let color = "#1da1f2";
 
-  if (contentLength >= MAX_CONTENT_LENGTH) {
+  if (progress >= 1) {
     color = "#ff4136";
-  } else if (contentLength + 10 >= MAX_CONTENT_LENGTH) {
+  } else if (progress >= 0.9) {
     color = "orange";
   }
 
   return color;
 };
+
+class ProgressMeter extends PureComponent {
+  render() {
+    const { radius, progress } = this.props;
+    const diameter = radius * 2;
+    const circumference = diameter * Math.PI;
+    const isFull = progress >= 1;
+
+    return (
+      <svg
+        height={diameter}
+        width={diameter}
+        className={`ProgressMeter Draftail-Icon${
+          isFull ? " ProgressMeter--pulse" : ""
+        }`}
+      >
+        <circle
+          className="ProgressMeter__background"
+          cx="50%"
+          cy="50%"
+          r={radius}
+        />
+        <circle
+          className="ProgressMeter__progressbar"
+          cx="50%"
+          cy="50%"
+          r={radius}
+          stroke={getMeterColor(progress)}
+          style={{
+            strokeDasharray: circumference,
+            strokeDashoffset: isFull
+              ? 0
+              : circumference - circumference * progress,
+          }}
+        />
+      </svg>
+    );
+  }
+}
 
 /**
  * A basic control showing the reading time / content length for the editor’s content.
@@ -26,45 +67,22 @@ const MaxLength = ({ getEditorState, onChange }) => {
   const contentLength = content
     .getBlockMap()
     .reduce((length, block) => length + block.getLength(), 0);
-  const isOverThreshold = contentLength > MAX_CONTENT_LENGTH;
-
-  const radius = 8;
-  const circumference = radius * 2 * Math.PI;
-  const color = getCounterColor(contentLength);
 
   return (
-    <svg
-      height="16"
-      width="16"
-      style={{
-        overflow: "visible",
-        transform: "rotate(-90deg)",
+    <ToolbarButton
+      name="MAX_LENGTH"
+      description={"Test"}
+      icon={
+        <ProgressMeter
+          radius={8}
+          progress={contentLength / MAX_CONTENT_LENGTH}
+        />
+      }
+      onClick={() => {
+        // eslint-disable-next-line no-alert
+        console.log("hello!");
       }}
-    >
-      <circle
-        cx="50%"
-        cy="50%"
-        r={radius}
-        fill="none"
-        strokeWidth="1"
-        stroke="#eee"
-      />
-      <circle
-        cx="50%"
-        cy="50%"
-        r={radius}
-        fill="none"
-        strokeWidth="2"
-        stroke={color}
-        style={{
-          strokeDasharray: circumference,
-          strokeDashoffset: isOverThreshold
-            ? 0
-            : circumference -
-              (circumference * contentLength) / MAX_CONTENT_LENGTH,
-        }}
-      />
-    </svg>
+    />
   );
 };
 
