@@ -1,11 +1,28 @@
 import { EditorState } from "draft-js";
 import PropTypes from "prop-types";
-import React, { PureComponent } from "react";
+import React, { Component, PureComponent } from "react";
 import { ToolbarButton } from "draftail";
+import Select from "react-simpler-select";
+
+import Modal from "../components/Modal";
 
 import "./MaxLength.css";
 
 const MAX_CONTENT_LENGTH = 50;
+
+const CONTENT_LENGTHS = {};
+CONTENT_LENGTHS[140] = "Tweet";
+CONTENT_LENGTHS[280] = "Double tweet";
+CONTENT_LENGTHS[1 * 10 * 200] = "1-min read";
+CONTENT_LENGTHS[3 * 10 * 200] = "3-min read";
+CONTENT_LENGTHS[5 * 10 * 200] = "5-min read";
+CONTENT_LENGTHS[10 * 10 * 200] = "10-min read";
+CONTENT_LENGTHS[211591 * 10 * 200] = "Crime and Punishment";
+
+const CONTENT_LENGTH_OPTIONS = Object.keys(CONTENT_LENGTHS).map((value) => ({
+  value,
+  label: CONTENT_LENGTHS[value],
+}));
 
 const getMeterColor = (progress) => {
   let color = "#1da1f2";
@@ -61,30 +78,75 @@ class ProgressMeter extends PureComponent {
 /**
  * A basic control showing the reading time / content length for the editor’s content.
  */
-const MaxLength = ({ getEditorState, onChange }) => {
-  const editorState = getEditorState();
-  const content = editorState.getCurrentContent();
-  const contentLength = content
-    .getBlockMap()
-    .reduce((length, block) => length + block.getLength(), 0);
+class MaxLength extends Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <ToolbarButton
-      name="MAX_LENGTH"
-      description={"Test"}
-      icon={
-        <ProgressMeter
-          radius={8}
-          progress={contentLength / MAX_CONTENT_LENGTH}
+    this.state = {
+      isOpen: false,
+      threshold: CONTENT_LENGTH_OPTIONS[0].value,
+    };
+
+    this.onRequestClose = this.onRequestClose.bind(this);
+    this.onChangeThreshold = this.onChangeThreshold.bind(this);
+  }
+
+  onRequestClose() {
+    this.setState({
+      isOpen: false,
+    });
+  }
+
+  onChangeThreshold(threshold) {
+    const { getEditorState, onChange } = this.props;
+    const editorState = getEditorState();
+    this.setState({
+      threshold: Number(threshold),
+    });
+  }
+
+  render() {
+    const { getEditorState } = this.props;
+    const { isOpen, threshold } = this.state;
+    const editorState = getEditorState();
+    const content = editorState.getCurrentContent();
+    const contentLength = content
+      .getBlockMap()
+      .reduce((length, block) => length + block.getLength(), 0);
+
+    return (
+      <React.Fragment>
+        <ToolbarButton
+          name="MAX_LENGTH"
+          title={`Max length: ${CONTENT_LENGTHS[threshold].label}`}
+          icon={
+            <ProgressMeter radius={8} progress={contentLength / threshold} />
+          }
+          onClick={() => {
+            this.setState({
+              isOpen: true,
+            });
+          }}
         />
-      }
-      onClick={() => {
-        // eslint-disable-next-line no-alert
-        console.log("hello!");
-      }}
-    />
-  );
-};
+        <Modal
+          onRequestClose={this.onRequestClose}
+          onAfterOpen={this.onAfterOpen}
+          isOpen={isOpen}
+          contentLabel="Max length chooser"
+        >
+          <label>
+            Set a length threshold
+            <Select
+              value={threshold}
+              options={CONTENT_LENGTH_OPTIONS}
+              onChange={this.onChangeThreshold}
+            />
+          </label>
+        </Modal>
+      </React.Fragment>
+    );
+  }
+}
 
 MaxLength.propTypes = {
   getEditorState: PropTypes.func.isRequired,
