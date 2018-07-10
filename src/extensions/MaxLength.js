@@ -8,21 +8,23 @@ import Modal from "../components/Modal";
 
 import "./MaxLength.css";
 
-const MAX_CONTENT_LENGTH = 50;
-
 const CONTENT_LENGTHS = {};
 CONTENT_LENGTHS[140] = "Tweet";
 CONTENT_LENGTHS[280] = "Double tweet";
-CONTENT_LENGTHS[1 * 10 * 200] = "1-min read";
 CONTENT_LENGTHS[3 * 10 * 200] = "3-min read";
-CONTENT_LENGTHS[5 * 10 * 200] = "5-min read";
-CONTENT_LENGTHS[10 * 10 * 200] = "10-min read";
 CONTENT_LENGTHS[211591 * 10 * 200] = "Crime and Punishment";
 
 const CONTENT_LENGTH_OPTIONS = Object.keys(CONTENT_LENGTHS).map((value) => ({
   value,
   label: CONTENT_LENGTHS[value],
 }));
+
+const getDefaultThreshold = () => {
+  return (
+    JSON.parse(window.sessionStorage.getItem("threshold")) ||
+    CONTENT_LENGTH_OPTIONS[0].value
+  );
+};
 
 const getMeterColor = (progress) => {
   let color = "#1da1f2";
@@ -34,6 +36,40 @@ const getMeterColor = (progress) => {
   }
 
   return color;
+};
+
+const forceResetEditorState = (editorState) => {
+  return EditorState.set(
+    EditorState.createWithContent(
+      editorState.getCurrentContent(),
+      editorState.getDecorator(),
+    ),
+    {
+      selection: editorState.getSelection(),
+      undoStack: editorState.getUndoStack(),
+      redoStack: editorState.getRedoStack(),
+    },
+  );
+};
+
+const delayAndIdle = (timeoutHandle, idleHandle, callback) => {
+  if (timeoutHandle) {
+    window.clearTimeout(timeoutHandle);
+  }
+
+  if (idleHandle) {
+    window.clearIdleCallback(idleHandle);
+  }
+
+  if (window.requestIdleCallback) {
+    timeoutHandle = window.setTimeout(() => {
+      idleHandle = window.requestIdleCallback(callback, {
+        timeout: 500,
+      });
+    }, 500);
+  } else {
+    timeoutHandle = window.setTimeout(callback, 1000);
+  }
 };
 
 class ProgressMeter extends PureComponent {
@@ -81,14 +117,22 @@ class ProgressMeter extends PureComponent {
 class MaxLength extends Component {
   constructor(props) {
     super(props);
+    const threshold = getDefaultThreshold();
 
     this.state = {
       isOpen: false,
-      threshold: CONTENT_LENGTH_OPTIONS[0].value,
+      threshold,
     };
 
     this.onRequestClose = this.onRequestClose.bind(this);
     this.onChangeThreshold = this.onChangeThreshold.bind(this);
+    this.forceRenderDecorators = this.forceRenderDecorators.bind(this);
+    this.delayForceResetEditorState = delayAndIdle.bind(
+      null,
+      this.timeoutHandle,
+      this.idleHandle,
+      this.forceRenderDecorators,
+    );
   }
 
   onRequestClose() {
@@ -97,12 +141,32 @@ class MaxLength extends Component {
     });
   }
 
-  onChangeThreshold(threshold) {
+  onChangeThreshold(value) {
+    const threshold = Number(value);
+    this.setState({
+      threshold,
+    });
+
+    window.sessionStorage.setItem("threshold", JSON.stringify(threshold));
+
+    this.forceRenderDecorators();
+  }
+
+  forceRenderDecorators() {
     const { getEditorState, onChange } = this.props;
     const editorState = getEditorState();
-    this.setState({
-      threshold: Number(threshold),
-    });
+
+    onChange(forceResetEditorState(editorState));
+  }
+
+  componentDidUpdate() {
+    const { getEditorState } = this.props;
+    const editorState = getEditorState();
+    const lastChange = editorState.getLastChangeType();
+
+    if (lastChange) {
+      this.forceRenderDecorators();
+    }
   }
 
   render() {
@@ -160,47 +224,24 @@ export class MaxLengthDecorator {
   }
 
   // Renders the decorated tokens.
-  renderToken({ children, contentState }) {
-    console.log(contentState.getPlainText().length);
-    return (
-      <mark
-        key={contentState.getPlainText().length}
-        style={{ backgroundColor: "#ff4136" }}
-      >
-        {children}
-      </mark>
-    );
+  renderToken({ children }) {
+    return <mark className="overflow-mark">{children}</mark>;
   }
 
   getDecorations(block, callback, contentState) {
     const blockKey = block.getKey();
     const blockLength = block.getLength();
 
-    // TODO Needs to remove the blocks when they are gone.
-    // this.blockLength[blockKey] = blockLength;
-
-    let isBeforeCurrent = true;
     const previousContentLength = contentState
       .getBlockMap()
-      .filter((block) => {
-        isBeforeCurrent = isBeforeCurrent && block.getKey() !== blockKey;
-        return isBeforeCurrent;
-      })
+      .takeUntil((block) => block.getKey() === blockKey)
       .reduce((length, block) => length + block.getLength(), 0);
 
-    // const previousContentLength = Object.keys(this.blockLength)
-    //   .filter((key, i, keys) => i < keys.indexOf(blockKey))
-    //   .reduce((length, key) => {
-    //     return length + this.blockLength[key];
-    //   }, 0);
+    const threshold = getDefaultThreshold();
 
-    console.log(previousContentLength);
-
-    if (previousContentLength + blockLength > MAX_CONTENT_LENGTH) {
-      const startOffset = Math.max(
-        0,
-        MAX_CONTENT_LENGTH - previousContentLength,
-      );
+    if (previousContentLength + blockLength > threshold) {
+      console.log("decorate");
+      const startOffset = Math.max(0, threshold - previousContentLength);
       callback(startOffset, blockLength);
     }
   }
