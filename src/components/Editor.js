@@ -16,6 +16,7 @@ import ImageSource from "../entities/ImageSource";
 import ImageBlock from "../entities/ImageBlock";
 import Link from "../entities/Link";
 import ReadingTime from "../components/controls/ReadingTime";
+import SentimentAnalysis from "../components/controls/SentimentAnalysis";
 import SentryBoundary from "../components/SentryBoundary";
 
 const Container = styled.div`
@@ -118,7 +119,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
             icon: "#icon-code",
           },
         ]}
-        controls={[ReadingTime]}
+        controls={[ReadingTime, SentimentAnalysis]}
       />
     </SentryBoundary>
   </Container>
