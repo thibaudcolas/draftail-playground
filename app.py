@@ -14,6 +14,18 @@ from decorators import import_decorator
 
 from markdown import render_markdown
 
+from watson_developer_cloud import ToneAnalyzerV3
+
+# See https://www.ibm.com/watson/developercloud/tone-analyzer/api/v3/python.html?python
+tone_analyzer = ToneAnalyzerV3(
+    version='2017-09-21',
+    username=os.environ.get('WATSON_API_USERNAME'),
+    password=os.environ.get('WATSON_API_PASSWORD'),
+    url='https://gateway.watsonplatform.net/tone-analyzer/api'
+)
+
+tone_analyzer.set_default_headers({'x-watson-learning-opt-out': "true"})
+
 app = Flask(__name__, static_folder='./build', static_path='')
 
 
@@ -29,6 +41,17 @@ def home():
 @app.route('/static/<path:path>')
 def send_static(path):
     return send_from_directory('./build/static', path)
+
+
+@app.route('/api/tone', methods=['POST'])
+def tone():
+    if request.json is None:
+        abort(400)
+
+    text = request.json['text']
+    tone_analysis = tone_analyzer.tone(
+        {'text': text}, 'application/json').get_result()
+    return json.dumps(tone_analysis)
 
 
 @app.route('/api/export', methods=['GET', 'POST'])
