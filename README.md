@@ -1,8 +1,8 @@
-# [Draftail Playground](https://draftail-playground.herokuapp.com/) [![Build Status](https://travis-ci.org/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.org/thibaudcolas/draftail-playground) [<img src="https://cdn.rawgit.com/springload/awesome-wagtail/ac912cc661a7099813f90545adffa6bb3e75216c/logo.svg" width="104" align="right" alt="Wagtail">](https://wagtail.io/)
+# [Draftail Playground](http://playground.draftail.org/) [![Build Status](https://travis-ci.org/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.org/thibaudcolas/draftail-playground) [<img src="https://cdn.rawgit.com/springload/awesome-wagtail/ac912cc661a7099813f90545adffa6bb3e75216c/logo.svg" width="104" align="right" alt="Wagtail">](https://wagtail.io/)
 
-> Try [Draftail](https://github.com/springload/draftail) in a full-fledged [preview environment](https://draftail-playground.herokuapp.com/).
+> Try [Draftail](https://www.draftail.org/) in a full-fledged [preview environment](http://playground.draftail.org/).
 
-[![Screenshot of the playground](https://draftail-playground.herokuapp.com/static/draftail-playground-screenshot.png)](https://draftail-playground.herokuapp.com/)
+[![Screenshot of the playground](http://playground.draftail.org/static/draftail-playground-screenshot.png)](http://playground.draftail.org/)
 
 ## Install
 
@@ -39,6 +39,6 @@ npm run
 
 ## Deployment
 
-> The demo is [on Heroku](https://draftail-playground.herokuapp.com/).
+> The demo is [on Heroku](http://playground.draftail.org/).
 
 It uses two buildpacks: `heroku/nodejs` and `heroku/python`, and is configured to automatically deploy after each push on `master`.
