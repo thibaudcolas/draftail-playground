@@ -21,10 +21,14 @@ const CONTENT_LENGTH_OPTIONS = Object.keys(CONTENT_LENGTHS).map((value) => ({
 }));
 
 const getDefaultThreshold = () => {
-  return (
-    JSON.parse(window.sessionStorage.getItem("threshold")) ||
-    CONTENT_LENGTH_OPTIONS[0].value
-  );
+  let threshold = CONTENT_LENGTH_OPTIONS[0].value;
+  try {
+    threshold = JSON.parse(window.sessionStorage.getItem("threshold"));
+  } catch (e) {
+    console.error("sessionStorage unavailable");
+  }
+
+  return threshold;
 };
 
 const forceResetEditorState = (editorState) => {
@@ -74,6 +78,7 @@ class MaxLength extends Component {
       threshold,
     };
 
+    this.onClickButton = this.onClickButton.bind(this);
     this.onRequestClose = this.onRequestClose.bind(this);
     this.onChangeThreshold = this.onChangeThreshold.bind(this);
     this.forceRenderDecorators = this.forceRenderDecorators.bind(this);
@@ -85,10 +90,23 @@ class MaxLength extends Component {
     );
   }
 
+  onClickButton() {
+    this.setState({
+      isOpen: true,
+    });
+  }
+
   onRequestClose() {
     this.setState({
       isOpen: false,
     });
+  }
+
+  forceRenderDecorators() {
+    const { getEditorState, onChange } = this.props;
+    const editorState = getEditorState();
+
+    onChange(forceResetEditorState(editorState));
   }
 
   onChangeThreshold(value) {
@@ -97,16 +115,15 @@ class MaxLength extends Component {
       threshold,
     });
 
-    window.sessionStorage.setItem("threshold", JSON.stringify(threshold));
+    if (window.sessionStorage) {
+      try {
+        window.sessionStorage.setItem("threshold", JSON.stringify(threshold));
+      } catch (e) {
+        console.error("sessionStorage unavailable");
+      }
+    }
 
     this.forceRenderDecorators();
-  }
-
-  forceRenderDecorators() {
-    const { getEditorState, onChange } = this.props;
-    const editorState = getEditorState();
-
-    onChange(forceResetEditorState(editorState));
   }
 
   componentDidUpdate() {
@@ -132,15 +149,11 @@ class MaxLength extends Component {
       <React.Fragment>
         <ToolbarButton
           name="MAX_LENGTH"
-          title={`Max length: ${CONTENT_LENGTHS[threshold].label}`}
+          title={`Length: ${CONTENT_LENGTHS[threshold]}`}
           icon={
             <ProgressMeter radius={8} progress={contentLength / threshold} />
           }
-          onClick={() => {
-            this.setState({
-              isOpen: true,
-            });
-          }}
+          onClick={this.onClickButton}
         />
         <Modal
           onRequestClose={this.onRequestClose}
@@ -149,7 +162,7 @@ class MaxLength extends Component {
           contentLabel="Maximum length"
         >
           <label>
-            <p>How long should your content be?</p>
+            <p>How long should the content be?</p>
             <Select
               className="MaxLength__select"
               value={threshold}
