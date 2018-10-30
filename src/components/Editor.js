@@ -16,7 +16,9 @@ import ImageSource from "../entities/ImageSource";
 import ImageBlock from "../entities/ImageBlock";
 import Link from "../entities/Link";
 import ReadingTime from "../extensions/ReadingTime";
-import MaxLength, { MaxLengthDecorator } from "../extensions/MaxLength";
+import MaxLength, {
+  MaxLengthDecorator,
+} from "../extensions/MaxLength/MaxLength";
 import SentryBoundary from "../components/SentryBoundary";
 
 const Container = styled.div`

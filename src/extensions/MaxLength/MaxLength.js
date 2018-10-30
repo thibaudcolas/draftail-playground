@@ -1,10 +1,11 @@
 import { EditorState } from "draft-js";
 import PropTypes from "prop-types";
-import React, { Component, PureComponent } from "react";
+import React, { Component } from "react";
 import { ToolbarButton } from "draftail";
 import Select from "react-simpler-select";
 
-import Modal from "../components/Modal";
+import Modal from "../../components/Modal";
+import ProgressMeter from "./ProgressMeter";
 
 import "./MaxLength.css";
 
@@ -24,18 +25,6 @@ const getDefaultThreshold = () => {
     JSON.parse(window.sessionStorage.getItem("threshold")) ||
     CONTENT_LENGTH_OPTIONS[0].value
   );
-};
-
-const getMeterColor = (progress) => {
-  let color = "#1da1f2";
-
-  if (progress >= 1) {
-    color = "#ff4136";
-  } else if (progress >= 0.9) {
-    color = "orange";
-  }
-
-  return color;
 };
 
 const forceResetEditorState = (editorState) => {
@@ -71,45 +60,6 @@ const delayAndIdle = (timeoutHandle, idleHandle, callback) => {
     timeoutHandle = window.setTimeout(callback, 1000);
   }
 };
-
-class ProgressMeter extends PureComponent {
-  render() {
-    const { radius, progress } = this.props;
-    const diameter = radius * 2;
-    const circumference = diameter * Math.PI;
-    const isFull = progress >= 1;
-
-    return (
-      <svg
-        height={diameter}
-        width={diameter}
-        className={`ProgressMeter Draftail-Icon${
-          isFull ? " ProgressMeter--pulse" : ""
-        }`}
-      >
-        <circle
-          className="ProgressMeter__background"
-          cx="50%"
-          cy="50%"
-          r={radius}
-        />
-        <circle
-          className="ProgressMeter__progressbar"
-          cx="50%"
-          cy="50%"
-          r={radius}
-          stroke={getMeterColor(progress)}
-          style={{
-            strokeDasharray: circumference,
-            strokeDashoffset: isFull
-              ? 0
-              : circumference - circumference * progress,
-          }}
-        />
-      </svg>
-    );
-  }
-}
 
 /**
  * A basic control showing the reading time / content length for the editor’s content.
@@ -216,19 +166,21 @@ MaxLength.propTypes = {
   getEditorState: PropTypes.func.isRequired,
 };
 
+/**
+ * Creates text decorations based on the length of text of each block, and its preceding blocks.
+ */
 export class MaxLengthDecorator {
   constructor() {
     this.blockLength = {};
-    this.component = this.renderToken.bind(this);
-    this.strategy = this.getDecorations.bind(this);
+    this.component = this.renderDecoration.bind(this);
+    this.strategy = this.createDecorations.bind(this);
   }
 
-  // Renders the decorated tokens.
-  renderToken({ children }) {
+  renderDecoration({ children }) {
     return <mark className="overflow-mark">{children}</mark>;
   }
 
-  getDecorations(block, callback, contentState) {
+  createDecorations(block, callback, contentState) {
     const blockKey = block.getKey();
     const blockLength = block.getLength();
 
@@ -237,10 +189,12 @@ export class MaxLengthDecorator {
       .takeUntil((block) => block.getKey() === blockKey)
       .reduce((length, block) => length + block.getLength(), 0);
 
+    const currentLength = previousContentLength + blockLength;
     const threshold = getDefaultThreshold();
+    const shouldDecorate = currentLength > threshold;
 
-    if (previousContentLength + blockLength > threshold) {
-      console.log("decorate");
+    if (shouldDecorate) {
+      // Decorate from the first character going over the threshold, to the end of the block.
       const startOffset = Math.max(0, threshold - previousContentLength);
       callback(startOffset, blockLength);
     }
