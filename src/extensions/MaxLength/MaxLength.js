@@ -146,11 +146,12 @@ class MaxLength extends Component {
           onRequestClose={this.onRequestClose}
           onAfterOpen={this.onAfterOpen}
           isOpen={isOpen}
-          contentLabel="Max length chooser"
+          contentLabel="Maximum length"
         >
           <label>
-            Set a length threshold
+            <p>How long should your content be?</p>
             <Select
+              className="MaxLength__select"
               value={threshold}
               options={CONTENT_LENGTH_OPTIONS}
               onChange={this.onChangeThreshold}

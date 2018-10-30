@@ -1,3 +1,12 @@
 .overflow-mark {
   background-color: #ff4136;
 }
+
+.MaxLength__select {
+  display: block;
+  position: relative;
+  border: 1px solid currentColor;
+  background: transparent;
+  height: 3rem;
+  border-radius: 0;
+}
