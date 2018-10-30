@@ -31,6 +31,10 @@ const getDefaultThreshold = () => {
   return threshold;
 };
 
+/**
+ * Forces a reset of the whole editor state, so text decorations are re-calculated on all blocks.
+ * By default, Draft.js only updates decorations for the blocks that are under focus.
+ */
 const forceResetEditorState = (editorState) => {
   return EditorState.set(
     EditorState.createWithContent(
@@ -45,24 +49,21 @@ const forceResetEditorState = (editorState) => {
   );
 };
 
-const delayAndIdle = (timeoutHandle, idleHandle, callback) => {
+/**
+ * Execute time-consuming logic out of order with performance-sensitive JS on the main thread.
+ */
+const delayAndIdle = (callback, timeoutHandle) => {
   if (timeoutHandle) {
     window.clearTimeout(timeoutHandle);
   }
 
-  if (idleHandle) {
-    window.clearIdleCallback(idleHandle);
-  }
-
-  if (window.requestIdleCallback) {
-    timeoutHandle = window.setTimeout(() => {
-      idleHandle = window.requestIdleCallback(callback, {
-        timeout: 500,
-      });
-    }, 500);
-  } else {
-    timeoutHandle = window.setTimeout(callback, 1000);
-  }
+  return window.setTimeout(() => {
+    if (window.requestIdleCallback) {
+      window.requestIdleCallback(callback, { timeout: 500 });
+    } else {
+      callback();
+    }
+  }, 500);
 };
 
 /**
@@ -81,12 +82,9 @@ class MaxLength extends Component {
     this.onClickButton = this.onClickButton.bind(this);
     this.onRequestClose = this.onRequestClose.bind(this);
     this.onChangeThreshold = this.onChangeThreshold.bind(this);
-    this.forceRenderDecorators = this.forceRenderDecorators.bind(this);
-    this.delayForceResetEditorState = delayAndIdle.bind(
+    this.delayForceRenderDecorators = delayAndIdle.bind(
       null,
-      this.timeoutHandle,
-      this.idleHandle,
-      this.forceRenderDecorators,
+      this.forceRenderDecorators.bind(this),
     );
   }
 
@@ -123,7 +121,7 @@ class MaxLength extends Component {
       }
     }
 
-    this.forceRenderDecorators();
+    this.delayHandles = this.delayForceRenderDecorators(this.delayHandles);
   }
 
   componentDidUpdate() {
@@ -132,7 +130,8 @@ class MaxLength extends Component {
     const lastChange = editorState.getLastChangeType();
 
     if (lastChange) {
-      this.forceRenderDecorators();
+      console.log(lastChange);
+      this.delayHandles = this.delayForceRenderDecorators(this.delayHandles);
     }
   }
 

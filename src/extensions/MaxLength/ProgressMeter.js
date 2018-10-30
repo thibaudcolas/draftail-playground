@@ -15,6 +15,9 @@ const getMeterColor = (progress) => {
   return color;
 };
 
+/**
+ * A radial progress meter, made with SVG stroke-dasharray and stroke-dashoffset.
+ */
 class ProgressMeter extends PureComponent {
   render() {
     const { radius, progress } = this.props;
