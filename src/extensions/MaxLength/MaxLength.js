@@ -82,10 +82,7 @@ class MaxLength extends Component {
     this.onClickButton = this.onClickButton.bind(this);
     this.onRequestClose = this.onRequestClose.bind(this);
     this.onChangeThreshold = this.onChangeThreshold.bind(this);
-    this.delayForceRenderDecorators = delayAndIdle.bind(
-      null,
-      this.forceRenderDecorators.bind(this),
-    );
+    this.forceRenderDecorators = this.forceRenderDecorators.bind(this);
   }
 
   onClickButton() {
@@ -104,7 +101,9 @@ class MaxLength extends Component {
     const { getEditorState, onChange } = this.props;
     const editorState = getEditorState();
 
-    onChange(forceResetEditorState(editorState));
+    this.timeoutHandle = delayAndIdle(() => {
+      onChange(forceResetEditorState(editorState));
+    }, this.timeoutHandle);
   }
 
   onChangeThreshold(value) {
@@ -121,7 +120,7 @@ class MaxLength extends Component {
       }
     }
 
-    this.delayHandles = this.delayForceRenderDecorators(this.delayHandles);
+    this.forceRenderDecorators();
   }
 
   componentDidUpdate() {
@@ -130,8 +129,7 @@ class MaxLength extends Component {
     const lastChange = editorState.getLastChangeType();
 
     if (lastChange) {
-      console.log(lastChange);
-      this.delayHandles = this.delayForceRenderDecorators(this.delayHandles);
+      this.forceRenderDecorators();
     }
   }
 
@@ -184,7 +182,6 @@ MaxLength.propTypes = {
  */
 export class MaxLengthDecorator {
   constructor() {
-    this.blockLength = {};
     this.component = this.renderDecoration.bind(this);
     this.strategy = this.createDecorations.bind(this);
   }
