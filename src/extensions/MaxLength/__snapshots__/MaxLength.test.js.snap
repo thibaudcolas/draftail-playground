@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MaxLength works 1`] = `
+<Fragment>
+  <ToolbarButton
+    active={false}
+    icon={
+      <ProgressMeter
+        progress={NaN}
+        radius={8}
+      />
+    }
+    label={null}
+    name="MAX_LENGTH"
+    onClick={[Function]}
+    title="Length: undefined"
+  />
+  <Modal
+    contentLabel="Maximum length"
+    isOpen={false}
+    onRequestClose={[Function]}
+  >
+    <label>
+      <p>
+        How long should the content be?
+      </p>
+      <Select
+        className="MaxLength__select"
+        onChange={[Function]}
+        options={
+          Array [
+            Object {
+              "label": "Tweet",
+              "value": "140",
+            },
+            Object {
+              "label": "Double tweet",
+              "value": "280",
+            },
+            Object {
+              "label": "3-min read",
+              "value": "6000",
+            },
+            Object {
+              "label": "Crime and Punishment",
+              "value": "423182000",
+            },
+          ]
+        }
+        placeholder={null}
+        value={null}
+      />
+    </label>
+  </Modal>
+</Fragment>
+`;
