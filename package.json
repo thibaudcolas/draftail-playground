@@ -60,6 +60,9 @@
     "formatter": "prettier --write",
     "format": "npm run formatter -s -- '**/*.{js,css,json,md}'",
     "report:build": "open public/source-map-explorer.html",
-    "test": "npm run lint -s && npm run flow -s && npm run dist -s"
+    "test": "react-scripts test",
+    "test:watch": "react-scripts test --watch",
+    "test:coverage": "react-scripts test --coverage",
+    "test:ci": "npm run lint -s && npm run flow -s && npm run dist -s"
   }
 }
