@@ -1,21 +1,37 @@
 import React from "react";
-import { convertFromRaw } from "draft-js";
-import { shallow } from "enzyme";
+import { convertFromRaw, EditorState } from "draft-js";
+import { shallow, mount } from "enzyme";
 import MaxLength, { MaxLengthDecorator } from "./MaxLength";
 
 describe("MaxLength", () => {
   it("works", () => {
     expect(
-      shallow(<MaxLength radius={8} progress={0.5} />),
-    ).toMatchInlineSnapshot();
+      shallow(<MaxLength getEditorState={() => EditorState.createEmpty()} />),
+    ).toMatchSnapshot();
+  });
+
+  it("recovers from sessionStorage / JSON parsing issues", () => {
+    jest.spyOn(JSON, "parse").mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    expect(() => {
+      mount(<MaxLength getEditorState={() => EditorState.createEmpty()} />);
+    }).toThrow();
+
+    jest.restoreAllMocks();
   });
 });
+
 describe("MaxLengthDecorator", () => {
   it("decorates", () => {
     const decorator = new MaxLengthDecorator();
-    expect(
-      shallow(decorator.component(<div>Test!</div>)),
-    ).toMatchInlineSnapshot();
+    expect(shallow(decorator.component(<div>Test!</div>)))
+      .toMatchInlineSnapshot(`
+<mark
+  className="overflow-mark"
+/>
+`);
   });
 
   describe("finds decorations", () => {
