@@ -64,5 +64,11 @@
     "test:watch": "react-scripts test --watch",
     "test:coverage": "react-scripts test --coverage",
     "test:ci": "npm run lint -s && npm run flow -s && npm run dist -s"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
