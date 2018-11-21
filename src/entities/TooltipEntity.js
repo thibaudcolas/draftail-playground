@@ -94,7 +94,7 @@ class TooltipEntity extends Component<Props, State> {
     const { url } = contentState.getEntity(entityKey).getData();
 
     // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
-    /* eslint-disable springload/jsx-a11y/interactive-supports-focus */
+    /* eslint-disable jsx-a11y/anchor-is-valid */
     return (
       <a
         role="button"
