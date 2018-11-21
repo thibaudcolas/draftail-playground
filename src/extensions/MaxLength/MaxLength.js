@@ -23,7 +23,11 @@ const CONTENT_LENGTH_OPTIONS = Object.keys(CONTENT_LENGTHS).map((value) => ({
 const getDefaultThreshold = () => {
   let threshold = CONTENT_LENGTH_OPTIONS[0].value;
   try {
-    threshold = JSON.parse(window.sessionStorage.getItem("threshold"));
+    const saved = JSON.parse(window.sessionStorage.getItem("threshold"));
+
+    if (saved) {
+      threshold = saved;
+    }
   } catch (e) {
     console.error("sessionStorage unavailable");
   }
