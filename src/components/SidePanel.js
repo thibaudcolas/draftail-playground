@@ -7,7 +7,9 @@ import type { Node } from "react";
 import "./SidePanel.css";
 
 // Remove propTypes declaration preventing 100% height.
+// eslint-disable-next-line react/forbid-foreign-prop-types
 delete Resizable.propTypes;
+// eslint-disable-next-line react/forbid-foreign-prop-types
 delete ResizableBox.propTypes;
 
 const VIEWPORT_WIDTH = document.documentElement
