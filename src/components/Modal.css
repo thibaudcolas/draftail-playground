@@ -4,7 +4,7 @@
   --color-bg-modal: #fff;
 
   --modal__overlay-z-index: 30;
-  --modal-z-index: --modal__overlay-z-index + 1;
+  --modal-z-index: calc(var(--modal__overlay-z-index) + 1);
 
   --spacing-modal: 0.5rem;
 }
