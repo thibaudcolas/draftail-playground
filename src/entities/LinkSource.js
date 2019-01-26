@@ -1,7 +1,8 @@
 // @flow
 import { Component } from "react";
 import { RichUtils, EditorState } from "draft-js";
-import { DraftUtils } from "draftail";
+
+import createEntity from "../utils/createEntity";
 
 type Props = {
   editorState: EditorState,
@@ -35,7 +36,7 @@ class LinkSource extends Component<Props> {
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         nextState = RichUtils.toggleLink(editorState, selection, entityKey);
       } else {
-        nextState = DraftUtils.createEntity(
+        nextState = createEntity(
           editorState,
           entityType.type,
           entityData,
