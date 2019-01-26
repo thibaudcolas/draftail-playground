@@ -5,6 +5,8 @@ import ReactDOM from "react-dom";
 import "normalize.css";
 import "./index.css";
 
+import "./utils/polyfills";
+
 import App from "./components/App";
 import registerServiceWorker from "./registerServiceWorker";
 
