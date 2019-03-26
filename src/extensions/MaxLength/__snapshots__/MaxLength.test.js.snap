@@ -6,14 +6,14 @@ exports[`MaxLength works 1`] = `
     active={false}
     icon={
       <ProgressMeter
-        progress={NaN}
+        progress={0}
         radius={8}
       />
     }
     label={null}
     name="MAX_LENGTH"
     onClick={[Function]}
-    title="Length: undefined"
+    title="Length: Tweet"
   />
   <Modal
     contentLabel="Maximum length"
@@ -48,7 +48,7 @@ exports[`MaxLength works 1`] = `
           ]
         }
         placeholder={null}
-        value={null}
+        value="140"
       />
     </label>
   </Modal>
