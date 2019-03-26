@@ -83,19 +83,13 @@ fi
 
 if [ -n "$PY_FULLY_STAGED" ];
 then
-    autopep8 --in-place $PY_FULLY_STAGED
+    black $PY_FULLY_STAGED
     git add $PY_FULLY_STAGED
-    echo "autopep8 formatted: $PY_FULLY_STAGED"
 fi
 
 if [ -n "$PY_STAGED" ];
 then
-    format_diff=$(autopep8 --diff $PY_STAGED)
-    if [[ $format_diff ]]; then
-        echo "autopep8 invalid formatting:"
-        echo $format_diff
-        exit 1
-    fi
+    black --check $PY_STAGED
 fi
 
 if [ -n "$JS_STAGED" ];
