@@ -39,46 +39,46 @@ PY_FULLY_STAGED=$(grep .py$ <<< "$FULLY_STAGED" || true)
 
 if [ -n "$JS_FULLY_STAGED" ];
 then
-    npm run formatter -s -- $JS_FULLY_STAGED
+    npx prettier --write $JS_FULLY_STAGED
     git add $JS_FULLY_STAGED
 fi
 
 if [ -n "$JS_STAGED" ];
 then
-    npm run linter:format -s -- $JS_STAGED
+    npx prettier --check $JS_STAGED
 fi
 
 if [ -n "$JSON_FULLY_STAGED" ];
 then
-    npm run formatter -s -- $JSON_FULLY_STAGED
+    npx prettier --write $JSON_FULLY_STAGED
     git add $JSON_FULLY_STAGED
 fi
 
 if [ -n "$JSON_STAGED" ];
 then
-    npm run linter:format -s -- $JSON_STAGED
+    npx prettier --check $JSON_STAGED
 fi
 
 if [ -n "$MD_FULLY_STAGED" ];
 then
-    npm run formatter -s -- $MD_FULLY_STAGED
+    npx prettier --write $MD_FULLY_STAGED
     git add $MD_FULLY_STAGED
 fi
 
 if [ -n "$MD_STAGED" ];
 then
-    npm run linter:format -s -- $MD_STAGED
+    npx prettier --check $MD_STAGED
 fi
 
 if [ -n "$CSS_FULLY_STAGED" ];
 then
-    npm run formatter -s -- $CSS_FULLY_STAGED
+    npx prettier --write $CSS_FULLY_STAGED
     git add $CSS_FULLY_STAGED
 fi
 
 if [ -n "$CSS_STAGED" ];
 then
-    npm run linter:format -s -- $MD_STAGED
+    npx prettier --check $MD_STAGED
 fi
 
 if [ -n "$PY_FULLY_STAGED" ];
