@@ -47,7 +47,7 @@ def export():
     block_map[BLOCK_TYPES.FALLBACK] = import_decorator('missing_block')
     style_map[INLINE_STYLES.FALLBACK] = import_decorator('missing_inline')
 
-    for type_, value in exporter_config.get('entity_decorators', {}).iteritems():
+    for type_, value in exporter_config.get('entity_decorators', {}).items():
         entity_decorators[type_] = import_decorator(value)
 
     exporter = HTML({
