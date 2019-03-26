@@ -14,7 +14,7 @@ from decorators import import_decorator
 
 from markdown import render_markdown
 
-app = Flask(__name__, static_folder="./build", static_path="")
+app = Flask(__name__, static_folder="./build", static_url_path="")
 
 
 def prettify(markup):
