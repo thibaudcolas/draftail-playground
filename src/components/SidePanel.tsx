@@ -1,16 +1,14 @@
-// @flow
 import React from "react";
 import styled from "styled-components";
 import { ResizableBox, Resizable } from "react-resizable";
-import type { Node } from "react";
 
 import "./SidePanel.css";
 
 // Remove propTypes declaration preventing 100% height.
 // eslint-disable-next-line react/forbid-foreign-prop-types
-delete Resizable.propTypes;
+delete (Resizable as any).propTypes;
 // eslint-disable-next-line react/forbid-foreign-prop-types
-delete ResizableBox.propTypes;
+delete (ResizableBox as any).propTypes;
 
 const VIEWPORT_WIDTH = document.documentElement
   ? document.documentElement.clientWidth
@@ -29,10 +27,10 @@ const initWidth =
     : "100%";
 
 const saveWidth = (
-  e: SyntheticEvent<EventTarget>,
-  { size }: { size: { width: number, height: number } },
+  e: React.SyntheticEvent<Element, Event>,
+  { size }: { size: { width: number; height: number } },
 ) => {
-  window.sessionStorage.setItem("panel-width", size.width);
+  window.sessionStorage.setItem("panel-width", JSON.stringify(size.width));
 };
 
 const Container = styled.div`
@@ -45,15 +43,19 @@ const Container = styled.div`
 `;
 
 type Props = {
-  children: Node,
+  children: React.ReactNode;
 };
 
 const SidePanel = ({ children }: Props) => (
   <ResizableBox
+    // @ts-ignore
     width={initWidth}
+    // @ts-ignore
     height="100%"
     axis={RESIZABLE_AXIS}
+    // @ts-ignore
     minConstraints={[MIN_PANEL_WIDTH, "100%"]}
+    // @ts-ignore
     maxConstraints={[MAX_PANEL_WIDTH, "100%"]}
     onResizeStop={saveWidth}
   >

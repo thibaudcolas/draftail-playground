@@ -94,5 +94,5 @@ fi
 
 if [ -n "$JS_STAGED" ];
 then
-    npm run flow -s
+    npm run dist -s
 fi

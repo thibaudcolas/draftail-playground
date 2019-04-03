@@ -1,9 +1,8 @@
-// @flow
+
 import React from "react";
 import { ContentState } from "draft-js";
-import type { Node } from "react";
 
-import TooltipEntity from "../entities/TooltipEntity";
+import TooltipEntity from "./TooltipEntity";
 
 const LINK_ICON = [
   "M440.236 635.766c-13.31 0-26.616-5.076-36.77-15.23-95.134-95.136-95.134-249.934 0-345.070l192-192c46.088-46.086 107.36-71.466 172.534-71.466s126.448 25.38 172.536 71.464c95.132 95.136 95.132 249.934 0 345.070l-87.766 87.766c-20.308 20.308-53.23 20.308-73.54 0-20.306-20.306-20.306-53.232 0-73.54l87.766-87.766c54.584-54.586 54.584-143.404 0-197.99-26.442-26.442-61.6-41.004-98.996-41.004s-72.552 14.562-98.996 41.006l-192 191.998c-54.586 54.586-54.586 143.406 0 197.992 20.308 20.306 20.306 53.232 0 73.54-10.15 10.152-23.462 15.23-36.768 15.23z",
@@ -13,7 +12,7 @@ const LINK_ICON = [
 type Props = {
   entityKey: string,
   contentState: ContentState,
-  children: Node,
+  children: React.ReactNode,
   onEdit: Function,
   onRemove: Function,
 };

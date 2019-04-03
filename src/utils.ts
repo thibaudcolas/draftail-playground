@@ -1,4 +1,10 @@
-export const postRequest = (endpoint, data, successCallback) => {
+import { RawDraftContentState } from "draft-js";
+
+export const postRequest = (
+  endpoint: string,
+  data: {},
+  successCallback: (data: any) => void,
+) => {
   const request = new XMLHttpRequest();
   request.open("POST", endpoint, true);
   request.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
@@ -27,12 +33,10 @@ export const defaultContentState = {
 };
 
 export const getInitialContentState = () => {
-  return (
-    JSON.parse(window.localStorage.getItem("contentState")) ||
-    defaultContentState
-  );
+  const contentState = window.localStorage.getItem("contentState");
+  return (contentState && JSON.parse(contentState)) || defaultContentState;
 };
 
-export const saveContentState = (contentState) => {
+export const saveContentState = (contentState: RawDraftContentState) => {
   window.localStorage.setItem("contentState", JSON.stringify(contentState));
 };

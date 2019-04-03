@@ -2,11 +2,16 @@ import PropTypes from "prop-types";
 import React from "react";
 import readingTime from "reading-time";
 import { ToolbarButton } from "draftail";
+import { EditorState } from "draft-js";
 
 /**
  * A basic control showing the reading time / content length for the editor’s content.
  */
-const ReadingTime = ({ getEditorState }) => {
+const ReadingTime = ({
+  getEditorState,
+}: {
+  getEditorState: () => EditorState;
+}) => {
   const editorState = getEditorState();
   const content = editorState.getCurrentContent();
   const text = content.getPlainText();

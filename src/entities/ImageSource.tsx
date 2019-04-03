@@ -1,18 +1,19 @@
-// @flow
 import { Component } from "react";
 import { AtomicBlockUtils, EditorState } from "draft-js";
 
 type Props = {
-  editorState: EditorState,
-  entityType: Object,
-  onComplete: Function,
+  editorState: EditorState;
+  entityType: {
+    type: string;
+  };
+  onComplete: Function;
 };
 
 class ImageSource extends Component<Props> {
   componentDidMount() {
     const { editorState, entityType, onComplete } = this.props;
 
-    const url = global.prompt("Image URL", "/example.jpg");
+    const url = window.prompt("Image URL", "/example.jpg");
 
     if (url) {
       const contentState = editorState.getCurrentContent();

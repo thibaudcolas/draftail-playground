@@ -1,4 +1,4 @@
-// @flow
+
 import React from "react";
 import styled from "styled-components";
 
@@ -19,7 +19,7 @@ import ReadingTime from "../extensions/ReadingTime";
 import MaxLength, {
   MaxLengthDecorator,
 } from "../extensions/MaxLength/MaxLength";
-import SentryBoundary from "../components/SentryBoundary";
+import SentryBoundary from "./SentryBoundary";
 
 const Container = styled.div`
   padding-bottom: 1.5rem;

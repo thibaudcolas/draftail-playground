@@ -17,13 +17,21 @@ const overlayClassName = {
 
 ReactModal.setAppElement(document.body);
 
+type Props = {
+  onRequestClose: () => void;
+  onAfterOpen: () => void;
+  isOpen: boolean;
+  contentLabel: string;
+  children: React.ReactNode;
+};
+
 const Modal = ({
   onRequestClose,
   onAfterOpen,
   isOpen,
   contentLabel,
   children,
-}) => (
+}: Props) => (
   <ReactModal
     className={className}
     overlayClassName={overlayClassName}

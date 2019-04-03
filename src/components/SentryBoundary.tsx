@@ -1,19 +1,23 @@
-// @flow
 import React, { Component } from "react";
-import type { Node } from "react";
+
+export interface RavenWindow extends Window {
+  Raven: any;
+}
+
+declare let window: RavenWindow;
 
 type Props = {
-  children: Node,
+  children: React.ReactNode;
 };
 
 type State = {
-  error: ?Error,
+  error?: Error;
 };
 
 class SentryBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { error: null };
+    this.state = { error: undefined };
   }
 
   componentDidCatch(error: Error, errorInfo: Object) {

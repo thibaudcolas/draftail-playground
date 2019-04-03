@@ -1,15 +1,13 @@
-// @flow
 import { Component } from "react";
 import { createPortal } from "react-dom";
-import type { Node } from "react";
 
 type Props = {
-  onClose: Function,
-  node: Element,
-  children: Node,
-  closeOnClick: boolean,
-  closeOnType: boolean,
-  closeOnResize: boolean,
+  onClose: () => void;
+  node: Element;
+  children: React.ReactNode;
+  closeOnClick: boolean;
+  closeOnType: boolean;
+  closeOnResize: boolean;
 };
 
 /**
@@ -20,19 +18,25 @@ type Props = {
 class Portal extends Component<Props> {
   portal: HTMLDivElement;
 
+  static defaultProps = {
+    node: document.body,
+    children: null,
+    closeOnClick: false,
+    closeOnType: false,
+    closeOnResize: false,
+  };
+
   constructor(props: Props) {
     super(props);
 
-    (this: any).portal = document.createElement("div");
-
-    (this: any).onCloseEvent = this.onCloseEvent.bind(this);
+    this.portal = document.createElement("div");
+    this.onCloseEvent = this.onCloseEvent.bind(this);
   }
 
   onCloseEvent(e: Event) {
     const { onClose } = this.props;
 
-    // $FlowFixMe
-    if (!this.portal.contains(e.target)) {
+    if (!this.portal.contains(e.target as Element)) {
       onClose();
     }
   }
@@ -77,14 +81,5 @@ class Portal extends Component<Props> {
     return createPortal(children, this.portal);
   }
 }
-
-// $FlowFixMe
-Portal.defaultProps = {
-  node: document.body,
-  children: null,
-  closeOnClick: false,
-  closeOnType: false,
-  closeOnResize: false,
-};
 
 export default Portal;

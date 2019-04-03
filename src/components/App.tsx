@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { RawDraftContentState } from "draft-js";
 
 import {
   getInitialContentState,
@@ -59,12 +60,25 @@ const AppContainer = styled.div`
   }
 `;
 
-class App extends React.Component {
-  constructor(props) {
+type Props = {};
+
+type Export = {
+  html: string;
+  markdown: string;
+  prettified: string;
+};
+
+type State = {
+  contentState: {};
+  exporterConfig: {};
+} & Export;
+
+class App extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
-      contentState: initialContentState,
+      contentState: {},
       exporterConfig: initialConfig,
       html: "",
       markdown: "",
@@ -77,7 +91,7 @@ class App extends React.Component {
     this.onSave(initialContentState);
   }
 
-  onSave(contentState) {
+  onSave(contentState: RawDraftContentState) {
     const { exporterConfig } = this.state;
 
     postRequest(
@@ -86,7 +100,7 @@ class App extends React.Component {
         contentState,
         exporterConfig,
       },
-      ({ html, markdown, prettified }) => {
+      ({ html, markdown, prettified }: Export) => {
         this.setState({
           contentState,
           html,
@@ -99,7 +113,7 @@ class App extends React.Component {
     );
   }
 
-  onChangeConfig(update) {
+  onChangeConfig(update: { updated_src: {} }) {
     const { contentState } = this.state;
     const exporterConfig = update.updated_src;
 
@@ -109,7 +123,7 @@ class App extends React.Component {
         contentState,
         exporterConfig,
       },
-      ({ html, markdown, prettified }) => {
+      ({ html, markdown, prettified }: Export) => {
         this.setState({
           exporterConfig,
           html,
@@ -139,6 +153,7 @@ class App extends React.Component {
             contentState={contentState}
             prettified={prettified}
             exporterConfig={exporterConfig}
+            onChangeConfig={this.onChangeConfig}
           />
         </SidePanel>
         <LivePage html={html} />

@@ -1,4 +1,3 @@
-// @flow
 import React from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import JSONView from "react-json-view";
@@ -10,16 +9,16 @@ import "./Exports.css";
 const savedTab = Number(window.sessionStorage.getItem("tab-index"));
 const initTab = savedTab || 0;
 
-const saveTab = (tab) => {
-  window.sessionStorage.setItem("tab-index", tab);
+const saveTab = (tab: number) => {
+  window.sessionStorage.setItem("tab-index", JSON.stringify(tab));
 };
 
 type Props = {
-  markdown: string,
-  contentState: string,
-  prettified: string,
-  exporterConfig: Object,
-  onChangeConfig: Function,
+  markdown: string;
+  contentState: object;
+  prettified: string;
+  exporterConfig: Object;
+  onChangeConfig: (edit: { updated_src: {} }) => any;
 };
 
 const Exports = ({

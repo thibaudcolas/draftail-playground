@@ -1,6 +1,4 @@
-// @flow
 import React from "react";
-import type { Node } from "react";
 
 import "./Tooltip.css";
 
@@ -8,7 +6,16 @@ const TOP = "top";
 const LEFT = "left";
 const TOP_LEFT = "top-left";
 
-const getTooltipStyles = (target, direction) => {
+export type Target = {
+  top: number;
+  left: number;
+  width: number;
+  height: number;
+};
+
+type Direction = "top" | "left" | "top-left";
+
+const getTooltipStyles = (target: Target, direction: Direction) => {
   const top = window.pageYOffset + target.top;
   const left = window.pageXOffset + target.left;
   switch (direction) {
@@ -32,14 +39,9 @@ const getTooltipStyles = (target, direction) => {
 };
 
 type Props = {
-  target: {
-    top: number,
-    left: number,
-    width: number,
-    height: number,
-  },
-  direction: "top" | "left" | "top-left",
-  children: Node,
+  target: Target;
+  direction: Direction;
+  children: React.ReactNode;
 };
 
 /**

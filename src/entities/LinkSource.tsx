@@ -1,17 +1,22 @@
-// @flow
 import { Component } from "react";
-import { RichUtils, EditorState } from "draft-js";
+import { RichUtils, EditorState, EntityInstance } from "draft-js";
 
 import createEntity from "../utils/createEntity";
 
 type Props = {
-  editorState: EditorState,
-  entityType: Object,
-  entity: Object,
-  onComplete: Function,
+  editorState: EditorState;
+  entityType: {
+    type: string;
+  };
+  entity: EntityInstance;
+  onComplete: Function;
 };
 
 class LinkSource extends Component<Props> {
+  static defaultProps = {
+    entity: null,
+  };
+
   componentDidMount() {
     const { editorState, entity, entityType, onComplete } = this.props;
     const url = window.prompt("Link URL", entity ? entity.getData().url : "");
@@ -53,10 +58,5 @@ class LinkSource extends Component<Props> {
     return null;
   }
 }
-
-// $FlowFixMe
-LinkSource.defaultProps = {
-  entity: null,
-};
 
 export default LinkSource;

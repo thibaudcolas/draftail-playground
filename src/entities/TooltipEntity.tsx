@@ -1,9 +1,8 @@
-// @flow
 import React, { Component } from "react";
 import { Icon } from "draftail";
-import type { Node } from "react";
+import { ContentState } from "draft-js";
 
-import Tooltip from "../components/Tooltip";
+import Tooltip, { Target } from "../components/Tooltip";
 import Portal from "../components/Portal";
 
 import "./TooltipEntity.css";
@@ -18,17 +17,19 @@ const shortenLabel = (label: string) => {
 };
 
 type Props = {
-  entityKey: string,
-  contentState: Object,
-  children: Node,
-  onEdit: Function,
-  onRemove: Function,
-  icon: string | Object | Array<string>,
-  label: string,
+  entityKey: string;
+  contentState: ContentState;
+  children: React.ReactNode;
+  onEdit: Function;
+  onRemove: Function;
+  icon: string | Object | Array<string>;
+  label: string;
 };
 
 type State = {
-  showTooltipAt: ?Object,
+  showTooltipAt?: {
+    container: Element;
+  } & Target;
 };
 
 class TooltipEntity extends Component<Props, State> {
@@ -36,18 +37,18 @@ class TooltipEntity extends Component<Props, State> {
     super(props);
 
     this.state = {
-      showTooltipAt: null,
+      showTooltipAt: undefined,
     };
 
-    (this: any).openTooltip = this.openTooltip.bind(this);
-    (this: any).closeTooltip = this.closeTooltip.bind(this);
+    this.openTooltip = this.openTooltip.bind(this);
+    this.closeTooltip = this.closeTooltip.bind(this);
   }
 
-  openTooltip(e: SyntheticMouseEvent<HTMLButtonElement>) {
-    // $FlowFixMe
-    const trigger = e.target.closest("[data-draftail-trigger]");
+  openTooltip(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    const trigger = (e.target as HTMLAnchorElement).closest(
+      "[data-draftail-trigger]",
+    );
     const container = document.body;
-    // $FlowFixMe
     const containerRect = container.getBoundingClientRect();
 
     // Click is within the tooltip.
@@ -63,12 +64,10 @@ class TooltipEntity extends Component<Props, State> {
         top:
           rect.top -
           containerRect.top -
-          // $FlowFixMe
           (document.documentElement.scrollTop || document.body.scrollTop),
         left:
           rect.left -
           containerRect.left -
-          // $FlowFixMe
           (document.documentElement.scrollLeft || document.body.scrollLeft),
         width: rect.width,
         height: rect.height,
@@ -77,7 +76,7 @@ class TooltipEntity extends Component<Props, State> {
   }
 
   closeTooltip() {
-    this.setState({ showTooltipAt: null });
+    this.setState({ showTooltipAt: undefined });
   }
 
   render() {

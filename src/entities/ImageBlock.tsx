@@ -1,14 +1,13 @@
-// @flow
 import React, { Component } from "react";
-import { ContentBlock, EditorState } from "draft-js";
+import { ContentBlock, EditorState, EntityInstance } from "draft-js";
 
 type Props = {
-  block: ContentBlock,
+  block: ContentBlock;
   blockProps: {
-    editorState: EditorState,
-    entity: Object,
-    onChange: Function,
-  },
+    editorState: EditorState;
+    entity: EntityInstance;
+    onChange: Function;
+  };
 };
 
 /**

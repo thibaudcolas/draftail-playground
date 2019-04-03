@@ -1,4 +1,3 @@
-// @flow
 import { Modifier, EditorState } from "draft-js";
 
 const createEntity = (
@@ -11,9 +10,6 @@ const createEntity = (
   const contentState = editorState.getCurrentContent();
   const selection = editorState.getSelection();
   const contentStateWithEntity = contentState.createEntity(
-    // Draft.js Flow types issue.
-    // See https://github.com/facebook/draft-js/issues/868.
-    // $FlowFixMe
     entityType,
     entityMutability,
     entityData,
@@ -27,7 +23,7 @@ const createEntity = (
       contentState,
       selection,
       entityText,
-      null,
+      undefined,
       entityKey,
     );
   } else {
@@ -35,7 +31,7 @@ const createEntity = (
       contentState,
       selection,
       entityText,
-      null,
+      undefined,
       entityKey,
     );
   }
