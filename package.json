@@ -6,8 +6,23 @@
     "node": "^12.2.0",
     "npm": "^6.4.1"
   },
+  "proxy": "http://localhost:5000",
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "not IE 11"
+    ],
+    "development": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "not IE 11"
+    ]
   },
   "devDependencies": {
     "enzyme": "^3.9.0",
@@ -43,26 +58,19 @@
     "reading-time": "^1.1.0",
     "styled-components": "^4.2.0"
   },
-  "proxy": "http://localhost:5000",
   "scripts": {
     "heroku-postbuild": "npm run build -s",
     "start": "npm run server -s & npm run watch -s",
     "server": "FLASK_APP=app.py FLASK_DEBUG=1 flask run",
     "watch": "react-scripts start",
-    "build": "react-scripts build && source-map-explorer --html build/static/js/main.* > build/source-map-explorer.html",
-    "dist": "CI=true npm run build -s",
-    "lint": "prettier --check '**/*.{ts,tsx,js,jsx,scss,css,json,md,yml,yaml,html}' && black --check *.py",
-    "format": "prettier --write '**/*.{ts,tsx,js,jsx,scss,css,json,md,yml,yaml,html}' && black *.py",
+    "build": "CI=true react-scripts build && source-map-explorer --html build/static/js/main.* > build/source-map-explorer.html",
+    "lint": "prettier --check '**/?(.)*.{md,css,scss,js,jsx,ts,tsx,json,yaml,yml,html}' && black --check *.py",
+    "format": "prettier --write '**/?(.)*.{md,css,scss,js,jsx,ts,tsx,json,yaml,yml,html}' && black *.py",
     "report:build": "open public/source-map-explorer.html",
-    "test": "react-scripts test",
+    "test": "CI=true react-scripts test",
     "test:watch": "react-scripts test --watch",
-    "test:coverage": "react-scripts test --coverage",
-    "test:ci": "npm run lint -s && npm run dist -s"
-  },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+    "test:coverage": "CI=true react-scripts test --coverage",
+    "prepare": "./.githooks/deploy.sh",
+    "test:ci": "npm run lint -s && npm run test:coverage npm run build -s"
+  }
 }

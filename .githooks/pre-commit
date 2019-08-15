@@ -94,5 +94,5 @@ fi
 
 if [ -n "$JS_STAGED" ];
 then
-    npm run dist -s
+    npm run build -s
 fi
