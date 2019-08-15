@@ -1,4 +1,3 @@
-
 import React from "react";
 import { ContentState } from "draft-js";
 
@@ -10,11 +9,11 @@ const LINK_ICON = [
 ];
 
 type Props = {
-  entityKey: string,
-  contentState: ContentState,
-  children: React.ReactNode,
-  onEdit: Function,
-  onRemove: Function,
+  entityKey: string;
+  contentState: ContentState;
+  children: React.ReactNode;
+  onEdit: Function;
+  onRemove: Function;
 };
 
 const Link = (props: Props) => {

@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "styled-components";
 
@@ -45,8 +44,8 @@ const Title = styled.h2`
 `;
 
 type Props = {
-  rawContentState: Object,
-  onSave: Function,
+  rawContentState: Object;
+  onSave: Function;
 };
 
 const Editor = ({ rawContentState, onSave }: Props) => (

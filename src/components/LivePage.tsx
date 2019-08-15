@@ -1,4 +1,3 @@
-
 import React from "react";
 import styled from "styled-components";
 
@@ -113,7 +112,7 @@ const formattedDate = `${
 } ${posted.getDate()}, ${posted.getFullYear()}`;
 
 type Props = {
-  html: string,
+  html: string;
 };
 
 const LivePage = ({ html }: Props) => (
