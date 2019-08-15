@@ -25,60 +25,23 @@ PATCH_STAGED=$(git --no-pager diff --name-only --diff-filter=ACM $STAGED)
 # Files which are fully staged.
 FULLY_STAGED=$(comm -23 <(echo "$STAGED") <(echo "$PATCH_STAGED"))
 
-JS_STAGED=$(grep .js$ <<< "$STAGED" || true)
-JS_FULLY_STAGED=$(grep .js$ <<< "$FULLY_STAGED" || true)
-CSS_STAGED=$(grep .css$ <<< "$STAGED" || true)
-CSS_FULLY_STAGED=$(grep .css$ <<< "$FULLY_STAGED" || true)
-MD_STAGED=$(grep .md$ <<< "$STAGED" || true)
-MD_FULLY_STAGED=$(grep .md$ <<< "$FULLY_STAGED" || true)
-JSON_STAGED=$(grep .json$ <<< "$STAGED" || true)
-JSON_FULLY_STAGED=$(grep .json$ <<< "$FULLY_STAGED" || true)
-SNAPSHOT_STAGED=$(grep .snap$ <<< "$STAGED" || true)
-PY_STAGED=$(grep .py$ <<< "$STAGED" || true)
-PY_FULLY_STAGED=$(grep .py$ <<< "$FULLY_STAGED" || true)
+JS_STAGED=$(grep -E '.(js|jsx|ts|tsx)$' <<< "$STAGED" || true)
+CSS_STAGED=$(grep -E '.(css|scss)$' <<< "$STAGED" || true)
+SNAPSHOT_STAGED=$(grep -E '.snap$' <<< "$STAGED" || true)
+PRETTIER_STAGED=$(grep -E '.(md|css|scss|js|json|yaml|yml|html)$' <<< "$STAGED" || true)
+PRETTIER_FULLY_STAGED=$(grep -E '.(md|css|scss|js|json|yaml|yml|html)$' <<< "$FULLY_STAGED" || true)
+PY_STAGED=$(grep -E '.py$' <<< "$STAGED" || true)
+PY_FULLY_STAGED=$(grep -E '.py$' <<< "$FULLY_STAGED" || true)
 
-if [ -n "$JS_FULLY_STAGED" ];
+if [ -n "$PRETTIER_FULLY_STAGED" ];
 then
-    npx prettier --write $JS_FULLY_STAGED
-    git add $JS_FULLY_STAGED
+  npx prettier --write $PRETTIER_FULLY_STAGED
+  git add $PRETTIER_FULLY_STAGED
 fi
 
-if [ -n "$JS_STAGED" ];
+if [ -n "$PRETTIER_STAGED" ];
 then
-    npx prettier --check $JS_STAGED
-fi
-
-if [ -n "$JSON_FULLY_STAGED" ];
-then
-    npx prettier --write $JSON_FULLY_STAGED
-    git add $JSON_FULLY_STAGED
-fi
-
-if [ -n "$JSON_STAGED" ];
-then
-    npx prettier --check $JSON_STAGED
-fi
-
-if [ -n "$MD_FULLY_STAGED" ];
-then
-    npx prettier --write $MD_FULLY_STAGED
-    git add $MD_FULLY_STAGED
-fi
-
-if [ -n "$MD_STAGED" ];
-then
-    npx prettier --check $MD_STAGED
-fi
-
-if [ -n "$CSS_FULLY_STAGED" ];
-then
-    npx prettier --write $CSS_FULLY_STAGED
-    git add $CSS_FULLY_STAGED
-fi
-
-if [ -n "$CSS_STAGED" ];
-then
-    npx prettier --check $MD_STAGED
+  npx prettier --check $PRETTIER_STAGED
 fi
 
 if [ -n "$PY_FULLY_STAGED" ];
@@ -92,7 +55,12 @@ then
     black --check $PY_STAGED
 fi
 
-if [ -n "$JS_STAGED" ];
+if [ -n "$JS_STAGED" ] || [ -n "$CSS_STAGED" ];
 then
     npm run build -s
+fi
+
+if [ -n "$JS_STAGED" ] || [ -n "$SNAPSHOT_STAGED" ];
+then
+    npm run test -s
 fi
