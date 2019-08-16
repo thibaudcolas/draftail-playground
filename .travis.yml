@@ -10,7 +10,7 @@ install:
   - pip install -r requirements.txt
 script:
   # Test Git hooks in CI, to make sure script upgrades do not break them.
-  - npm run prepare
+  - ./.githooks/deploy.sh
   - npm run test:ci
 notifications:
   email: false
