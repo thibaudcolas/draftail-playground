@@ -1,7 +1,13 @@
-sudo: false
-language: node_js
+language: python
+cache:
+  pip: true
+python: 3.7
+sudo: required
+dist: xenial
 install:
+  - nvm install
   - npm ci
+  - pip install -r requirements.txt
 script:
   # Test Git hooks in CI, to make sure script upgrades do not break them.
   - npm run prepare
