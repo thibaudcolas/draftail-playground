@@ -1,7 +1,7 @@
-draftjs_exporter>=2.1.6,<3.0.0
+draftjs_exporter==2.1.6
 draftjs_exporter_markdown==0.2.1
 Flask==1.1.1
 black==18.9b0
-flake8>=3.2.0
-beautifulsoup4>=4.6.0,<5.0.0
+flake8==3.7.8
+beautifulsoup4==4.8.0
 html5lib==1.0.1
