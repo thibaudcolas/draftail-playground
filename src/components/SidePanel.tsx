@@ -47,15 +47,12 @@ type Props = {
 };
 
 const SidePanel = ({ children }: Props) => (
+  // @ts-ignore
   <ResizableBox
-    // @ts-ignore
     width={initWidth}
-    // @ts-ignore
     height="100%"
     axis={RESIZABLE_AXIS}
-    // @ts-ignore
     minConstraints={[MIN_PANEL_WIDTH, "100%"]}
-    // @ts-ignore
     maxConstraints={[MAX_PANEL_WIDTH, "100%"]}
     onResizeStop={saveWidth}
   >
