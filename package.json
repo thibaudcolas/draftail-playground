@@ -70,6 +70,6 @@
     "test": "CI=true react-scripts test",
     "test:watch": "react-scripts test --watch",
     "test:coverage": "CI=true react-scripts test --coverage",
-    "test:ci": "npm run lint -s && npm run test:coverage npm run build -s"
+    "test:ci": "npm run lint -s && npm run test:coverage && npm run build -s"
   }
 }
