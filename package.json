@@ -25,8 +25,8 @@
     ]
   },
   "devDependencies": {
-    "enzyme": "3.10.0",
-    "enzyme-adapter-react-16": "1.15.1",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.2",
     "enzyme-to-json": "3.4.3",
     "prettier": "1.19.1",
     "react-scripts": "3.3.0",
