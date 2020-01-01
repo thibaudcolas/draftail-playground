@@ -1,4 +1,4 @@
-draftjs_exporter==2.1.7
+draftjs_exporter==3.0.0
 draftjs_exporter_markdown==0.2.1
 Flask==1.1.1
 black==18.9b0
