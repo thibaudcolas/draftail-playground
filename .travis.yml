@@ -1,9 +1,9 @@
+version: ~> 1.0
+dist: bionic
 language: python
+python: 3.7
 cache:
   pip: true
-python: 3.7
-sudo: required
-dist: xenial
 install:
   - nvm install
   - npm ci
