@@ -68,7 +68,7 @@
       automerge: true,
     },
     {
-      packageNames: ["styled-components, @types/styled-components"],
+      packageNames: ["styled-components", "@types/styled-components"],
       groupName: "styled-components",
       automerge: true,
     },
