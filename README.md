@@ -1,4 +1,4 @@
-# [Draftail Playground](http://playground.draftail.org/) [![Build Status](https://travis-ci.org/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.org/thibaudcolas/draftail-playground)
+# [Draftail Playground](http://playground.draftail.org/) [![Build Status](https://travis-ci.com/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.com/thibaudcolas/draftail-playground)
 
 > Try [Draftail](https://www.draftail.org/) in a full-fledged [preview environment](http://playground.draftail.org/).
 
