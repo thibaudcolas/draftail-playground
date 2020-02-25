@@ -14,12 +14,3 @@ script:
   - npm run test:ci
 notifications:
   email: false
-deploy:
-  provider: heroku
-  api_key:
-    # $ travis encrypt $(heroku auth:token)
-    # ›   Warning: token will expire 01/01/2021
-    secure: "l1dn/ZU0grLQW5ugvVkdSXjs+/lksJSppn1+0YtBIC6OQv+FuQWKoNlNhJbQkBau6esUdHNmuP+2Vv8EOlbN18vQZLdktUtWD8zyMjl5v10bXN8ngc1jsLCEkbJQrqMKINRRL4Q1KFjxoESl0UJfSpO+nwLWiS9piVQgXfLKT35KMPGJ0CybtUqbxvLKVwjOAIQiyEKqsEVEj5DcMGUXwlsl90pk4LJ/qatbwiEj9F96Gtq7fMG5K1/QFakjeDvS3QHJhuDv9tF4e04eBe8K94KQd9rkpb8cCHNZCSF0pkz85do5VuisYcUBnUjPAIGHDZymrkvuDd9ey/DBSJkdDqztl+7lIb70l2WocPexwkrMJNXw1E4VymSUOqzmj4GYzLLpQBLY0znxlN94zFO8COKEpUE7HpcLRjOPyoHdGB7R/+5ezscemIke5IErQx+7eeqzdMOPE/lEoRl9P6AepTe6b2mA2Nak0qSMLF3/VSNPgUjuspv4rgst/xkn9LtWO7ZMfgeDWzYvrbAVF4rhonD+iqrC1Gt+rnHdfv9MYxsZaO/8GDnoVpbHboBzIDMGxO5jkA4Jwei6kqQp7GUQCUPO2UYH3CqS15qELMuJnlTMcPpm6LxkLQJEMvUric1AyxlOKJ2iXo6rIFFAMghksV8K7z9VUNS9LEvLecZpPsk="
-  app: draftail-playground
-  on:
-    repo: thibaudcolas/draftail-playground
