@@ -2,6 +2,6 @@ draftjs_exporter==4.0.0
 draftjs_exporter_markdown==0.2.2
 Flask==1.1.2
 black==18.9b0
-flake8==3.8.1
+flake8==3.8.2
 beautifulsoup4==4.9.1
 html5lib==1.0.1
