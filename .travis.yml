@@ -6,7 +6,7 @@ cache:
   pip: true
 install:
   - nvm install
-  - npm ci
+  - npm ci --ignore-scripts
   - pip install -r requirements.txt
 script:
   # Test Git hooks in CI, to make sure script upgrades do not break them.
