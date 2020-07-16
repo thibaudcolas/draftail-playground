@@ -32,7 +32,7 @@
     "react-scripts": "3.4.1",
     "react-test-renderer": "16.13.1",
     "source-map-explorer": "2.4.1",
-    "typescript": "3.9.6"
+    "typescript": "3.9.7"
   },
   "dependencies": {
     "@types/draft-js": "^0.10.29",
