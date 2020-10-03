@@ -104,5 +104,10 @@
       groupName: "flake8",
       automerge: true,
     },
+    {
+      packageNames: ["beautifulsoup4"],
+      groupName: "beautifulsoup4",
+      automerge: true,
+    },
   ],
 }
