@@ -1,4 +1,4 @@
-# [Draftail Playground](http://playground.draftail.org/) [![Build Status](https://travis-ci.com/thibaudcolas/draftail-playground.svg?branch=master)](https://travis-ci.com/thibaudcolas/draftail-playground)
+# [Draftail Playground](http://playground.draftail.org/) [![Build Status](https://travis-ci.com/thibaudcolas/draftail-playground.svg?branch=main)](https://travis-ci.com/thibaudcolas/draftail-playground)
 
 > Try [Draftail](https://www.draftail.org/) in a full-fledged [preview environment](http://playground.draftail.org/).
 
@@ -40,4 +40,4 @@ npm run
 
 > The demo is [on Heroku](http://playground.draftail.org/).
 
-It uses two buildpacks: `heroku/nodejs` and `heroku/python`, and is configured to automatically deploy after each push on `master`.
+It uses two buildpacks: `heroku/nodejs` and `heroku/python`, and is configured to automatically deploy after each push on `main`.
