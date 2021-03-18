@@ -32,12 +32,12 @@
     "react-scripts": "3.4.3",
     "react-test-renderer": "16.14.0",
     "source-map-explorer": "2.4.1",
-    "typescript": "4.0.3"
+    "typescript": "4.1.5"
   },
   "dependencies": {
     "@types/draft-js": "^0.10.29",
     "@types/jest": "26.0.15",
-    "@types/node": "11.11.7",
+    "@types/node": "11.15.45",
     "@types/prismjs": "^1.16.0",
     "@types/react": "16.9.56",
     "@types/react-dom": "16.9.9",
