@@ -163,7 +163,7 @@ const LivePage = ({ html }: Props) => (
         >
           CC0
         </a>{" "}
-        - Hosted on <a href="https://www.heroku.com/">Heroku</a> -{" "}
+        - Hosted on <a href="https://vercel.com/">Vercel</a> -{" "}
         <a href="https://github.com/thibaudcolas/draftail-playground">
           View source
         </a>
