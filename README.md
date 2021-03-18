@@ -1,8 +1,8 @@
-# [Draftail Playground](http://playground.draftail.org/) [![Build status](https://github.com/thibaudcolas/draftail-playground/workflows/CI/badge.svg)](https://github.com/thibaudcolas/draftail-playground/actions)
+# [Draftail Playground](https://playground.draftail.org/) [![Build status](https://github.com/thibaudcolas/draftail-playground/workflows/CI/badge.svg)](https://github.com/thibaudcolas/draftail-playground/actions)
 
-> Try [Draftail](https://www.draftail.org/) in a full-fledged [preview environment](http://playground.draftail.org/).
+> Try [Draftail](https://www.draftail.org/) in a full-fledged [preview environment](https://playground.draftail.org/).
 
-[![Screenshot of the playground](http://playground.draftail.org/static/draftail-playground-screenshot.png)](http://playground.draftail.org/)
+[![Screenshot of the playground](https://playground.draftail.org/static/draftail-playground-screenshot.png)](https://playground.draftail.org/)
 
 ## Install
 
@@ -38,4 +38,4 @@ npm run
 
 ## Deployment
 
-> The demo is [on Vercel](http://playground.draftail.org/).
+> The demo is [on Vercel](https://playground.draftail.org/).

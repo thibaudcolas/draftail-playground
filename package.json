@@ -59,7 +59,6 @@
     "styled-components": "5.2.1"
   },
   "scripts": {
-    "heroku-postbuild": "npm run build -s",
     "start": "npm run server -s & npm run watch -s",
     "server": "FLASK_APP=app.py FLASK_DEBUG=1 flask run",
     "watch": "react-scripts start",
