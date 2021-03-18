@@ -15,6 +15,9 @@ jobs:
       - uses: actions/setup-node@v2-beta
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
+      - uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
       - uses: actions/cache@v2
         with:
           path: ~/.npm
@@ -22,4 +25,5 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - run: npm install --no-optional --no-audit --no-fund --progress=false
+      - run: pip install -r requirements.txt
       - run: npm run test:ci
