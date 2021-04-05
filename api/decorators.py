@@ -45,4 +45,4 @@ def missing_inline(props):
 
 
 def import_decorator(name):
-    return getattr(import_module(".decorators"), name, None)
+    return getattr(import_module(".decorators", __name__), name, None)
