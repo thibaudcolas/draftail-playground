@@ -92,11 +92,6 @@
       automerge: true,
     },
     {
-      packageNames: ["Flask"],
-      groupName: "Flask",
-      automerge: true,
-    },
-    {
       packageNames: ["black"],
       groupName: "black",
       automerge: true,
