@@ -8,7 +8,7 @@ from draftjs_exporter.constants import BLOCK_TYPES, ENTITY_TYPES, INLINE_STYLES
 from draftjs_exporter.defaults import BLOCK_MAP, STYLE_MAP
 from draftjs_exporter.html import HTML
 
-from .decorators import import_decorator
+from .decorators import import_decorator, missing_block, missing_inline
 
 from .markdown import render_markdown
 
@@ -37,11 +37,9 @@ class handler(BaseHTTPRequestHandler):
         block_map = dict(BLOCK_MAP, **exporter_config.get("block_map", {}))
         style_map = dict(STYLE_MAP, **exporter_config.get("style_map", {}))
 
-        entity_decorators[ENTITY_TYPES.FALLBACK] = import_decorator(
-            "missing_inline"
-        )
-        block_map[BLOCK_TYPES.FALLBACK] = import_decorator("missing_block")
-        style_map[INLINE_STYLES.FALLBACK] = import_decorator("missing_inline")
+        entity_decorators[ENTITY_TYPES.FALLBACK] = missing_inline
+        block_map[BLOCK_TYPES.FALLBACK] = missing_block
+        style_map[INLINE_STYLES.FALLBACK] = missing_inline
 
         for type_, value in exporter_config.get(
             "entity_decorators", {}

@@ -1,7 +1,5 @@
 from draftjs_exporter.dom import DOM
 
-from importlib import import_module
-
 
 def hr(props):
     return DOM.create_element("hr")
@@ -45,4 +43,12 @@ def missing_inline(props):
 
 
 def import_decorator(name):
-    return getattr(import_module(".decorators", __name__), name, None)
+    all_decorators = {
+        "hr": hr,
+        "link": link,
+        "image": image,
+        "icon": icon,
+        "missing_block": missing_block,
+        "missing_inline": missing_inline,
+    }
+    return getattr(all_decorators, name, None)
