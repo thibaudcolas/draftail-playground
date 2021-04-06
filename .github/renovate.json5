@@ -83,6 +83,8 @@
         "@types/react",
         "@types/react-dom",
       ],
+      // Disallow React v17 major updates until Draft.js gains support for it.
+      allowedVersions: "<=17",
       groupName: "react",
       automerge: true,
     },
