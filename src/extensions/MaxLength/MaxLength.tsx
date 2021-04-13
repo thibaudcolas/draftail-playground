@@ -1,7 +1,6 @@
-import { EditorState } from "draft-js";
-import PropTypes from "prop-types";
+import { ContentState, EditorState } from "draft-js";
 import React, { Component } from "react";
-import { ToolbarButton } from "draftail";
+import { ToolbarButton, ControlProps } from "draftail";
 import Select from "react-simpler-select";
 
 import Modal from "../../components/Modal";
@@ -9,24 +8,32 @@ import ProgressMeter from "./ProgressMeter";
 
 import "./MaxLength.css";
 
-const CONTENT_LENGTHS = {};
-CONTENT_LENGTHS[140] = "Tweet";
-CONTENT_LENGTHS[280] = "Double tweet";
-CONTENT_LENGTHS[3 * 10 * 200] = "3-min read";
-CONTENT_LENGTHS[211591 * 10 * 200] = "Crime and Punishment";
+const CONTENT_LENGTHS = {
+  "140": "Tweet",
+  "280": "Double tweet",
+  // 3 * 10 * 200
+  "6000": "3-min read",
+  // 211591 * 10 * 200
+  "423182000": "Crime and Punishment",
+} as const;
 
-const CONTENT_LENGTH_OPTIONS = Object.keys(CONTENT_LENGTHS).map((value) => ({
-  value,
-  label: CONTENT_LENGTHS[value],
-}));
+const CONTENT_LENGTH_OPTIONS = Object.entries(CONTENT_LENGTHS).map(
+  ([value, label]) => ({
+    value,
+    label,
+  }),
+);
 
 const getDefaultThreshold = () => {
-  let threshold = CONTENT_LENGTH_OPTIONS[0].value;
+  let threshold = Number(CONTENT_LENGTH_OPTIONS[0].value);
   try {
-    const saved = JSON.parse(window.sessionStorage.getItem("threshold"));
+    const raw = window.sessionStorage.getItem("threshold");
+    if (raw) {
+      const saved = JSON.parse(raw);
 
-    if (saved) {
-      threshold = saved;
+      if (saved) {
+        threshold = Number(saved);
+      }
     }
   } catch (e) {
     console.error("sessionStorage unavailable");
@@ -39,7 +46,7 @@ const getDefaultThreshold = () => {
  * Forces a reset of the whole editor state, so text decorations are re-calculated on all blocks.
  * By default, Draft.js only updates decorations for the blocks that are under focus.
  */
-const forceResetEditorState = (editorState) => {
+const forceResetEditorState = (editorState: EditorState) => {
   return EditorState.set(
     EditorState.createWithContent(
       editorState.getCurrentContent(),
@@ -53,10 +60,29 @@ const forceResetEditorState = (editorState) => {
   );
 };
 
+type RequestIdleCallbackHandle = any;
+type RequestIdleCallbackOptions = {
+  timeout: number;
+};
+type RequestIdleCallbackDeadline = {
+  readonly didTimeout: boolean;
+  timeRemaining: () => number;
+};
+
+declare global {
+  interface Window {
+    requestIdleCallback: (
+      callback: (deadline: RequestIdleCallbackDeadline) => void,
+      opts?: RequestIdleCallbackOptions,
+    ) => RequestIdleCallbackHandle;
+    cancelIdleCallback: (handle: RequestIdleCallbackHandle) => void;
+  }
+}
+
 /**
  * Execute time-consuming logic out of order with performance-sensitive JS on the main thread.
  */
-const delayAndIdle = (callback, timeoutHandle) => {
+const delayAndIdle = (callback: () => void, timeoutHandle: number) => {
   if (timeoutHandle) {
     window.clearTimeout(timeoutHandle);
   }
@@ -73,8 +99,13 @@ const delayAndIdle = (callback, timeoutHandle) => {
 /**
  * A basic control showing the reading time / content length for the editor’s content.
  */
-class MaxLength extends Component {
-  constructor(props) {
+class MaxLength extends Component<
+  ControlProps,
+  { isOpen: boolean; threshold: keyof typeof CONTENT_LENGTHS }
+> {
+  private timeoutHandle: number;
+
+  constructor(props: ControlProps) {
     super(props);
     const threshold = getDefaultThreshold();
 
@@ -82,6 +113,8 @@ class MaxLength extends Component {
       isOpen: false,
       threshold,
     };
+
+    this.timeoutHandle = 0;
 
     this.onClickButton = this.onClickButton.bind(this);
     this.onRequestClose = this.onRequestClose.bind(this);
@@ -110,8 +143,8 @@ class MaxLength extends Component {
     }, this.timeoutHandle);
   }
 
-  onChangeThreshold(value) {
-    const threshold = Number(value);
+  onChangeThreshold(value: keyof typeof CONTENT_LENGTHS) {
+    const threshold = value;
     this.setState({
       threshold,
     });
@@ -142,9 +175,12 @@ class MaxLength extends Component {
     const { isOpen, threshold } = this.state;
     const editorState = getEditorState();
     const content = editorState.getCurrentContent();
-    const contentLength = content
-      .getBlockMap()
-      .reduce((length, block) => length + block.getLength(), 0);
+    const contentLength = content.getBlockMap().reduce(
+      // @ts-ignore
+      (length: number, block: { getLength: () => number }): number =>
+        length + block.getLength(),
+      0,
+    );
 
     return (
       <React.Fragment>
@@ -152,13 +188,16 @@ class MaxLength extends Component {
           name="MAX_LENGTH"
           title={`Length: ${CONTENT_LENGTHS[threshold]}`}
           icon={
-            <ProgressMeter radius={8} progress={contentLength / threshold} />
+            <ProgressMeter
+              radius={8}
+              progress={contentLength / Number(threshold)}
+            />
           }
           onClick={this.onClickButton}
         />
         <Modal
           onRequestClose={this.onRequestClose}
-          onAfterOpen={this.onAfterOpen}
+          onAfterOpen={() => {}}
           isOpen={isOpen}
           contentLabel="Maximum length"
         >
@@ -177,30 +216,36 @@ class MaxLength extends Component {
   }
 }
 
-MaxLength.propTypes = {
-  getEditorState: PropTypes.func.isRequired,
-};
-
 /**
  * Creates text decorations based on the length of text of each block, and its preceding blocks.
  */
 export class MaxLengthDecorator {
+  private component: (props: { children: React.ReactNode }) => JSX.Element;
+
   constructor() {
     this.component = this.renderDecoration.bind(this);
+    // @ts-ignore
     this.strategy = this.createDecorations.bind(this);
   }
 
-  renderDecoration({ children }) {
+  renderDecoration({ children }: { children: React.ReactNode }) {
     return <mark className="overflow-mark">{children}</mark>;
   }
 
-  createDecorations(block, callback, contentState) {
+  createDecorations(
+    // @ts-ignore
+    block,
+    callback: (start: number, length: number) => void,
+    contentState: ContentState,
+  ) {
     const blockKey = block.getKey();
     const blockLength = block.getLength();
 
     const previousContentLength = contentState
       .getBlockMap()
+      // @ts-ignore
       .takeUntil((block) => block.getKey() === blockKey)
+      // @ts-ignore
       .reduce((length, block) => length + block.getLength(), 0);
 
     const currentLength = previousContentLength + blockLength;
