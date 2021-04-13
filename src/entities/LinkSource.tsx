@@ -1,18 +1,10 @@
 import { Component } from "react";
-import { RichUtils, EditorState, EntityInstance } from "draft-js";
+import { RichUtils } from "draft-js";
+import { SourceProps } from "draftail";
 
 import createEntity from "../utils/createEntity";
 
-type Props = {
-  editorState: EditorState;
-  entityType: {
-    type: string;
-  };
-  entity: EntityInstance;
-  onComplete: Function;
-};
-
-class LinkSource extends Component<Props> {
+class LinkSource extends Component<SourceProps> {
   static defaultProps = {
     entity: null,
   };

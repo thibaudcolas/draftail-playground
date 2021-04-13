@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import readingTime from "reading-time";
 import { ToolbarButton } from "draftail";
@@ -27,10 +26,6 @@ const ReadingTime = ({
       }}
     />
   );
-};
-
-ReadingTime.propTypes = {
-  getEditorState: PropTypes.func.isRequired,
 };
 
 export default ReadingTime;

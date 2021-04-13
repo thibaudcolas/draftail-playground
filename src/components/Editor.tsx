@@ -1,6 +1,7 @@
-import React from "react";
+import * as React from "react";
 import styled from "styled-components";
 
+import { RawDraftContentState } from "draft-js";
 import {
   DraftailEditor,
   ENTITY_TYPE,
@@ -44,8 +45,8 @@ const Title = styled.h2`
 `;
 
 type Props = {
-  rawContentState: Object;
-  onSave: Function;
+  rawContentState: RawDraftContentState;
+  onSave: (content: null | RawDraftContentState) => void;
 };
 
 const Editor = ({ rawContentState, onSave }: Props) => (
@@ -120,7 +121,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
             icon: "#icon-code",
           },
         ]}
-        controls={[ReadingTime, MaxLength]}
+        controls={[ReadingTime, MaxLength as React.Component<ControlProps>]}
         decorators={[new MaxLengthDecorator()]}
       />
     </SentryBoundary>

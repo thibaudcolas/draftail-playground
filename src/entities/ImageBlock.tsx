@@ -1,19 +1,10 @@
 import React, { Component } from "react";
-import { ContentBlock, EditorState, EntityInstance } from "draft-js";
-
-type Props = {
-  block: ContentBlock;
-  blockProps: {
-    editorState: EditorState;
-    entity: EntityInstance;
-    onChange: Function;
-  };
-};
+import { BlockProps } from "draftail";
 
 /**
  * Editor block to preview and edit images.
  */
-class ImageBlock extends Component<Props> {
+class ImageBlock extends Component<BlockProps> {
   render() {
     const { blockProps } = this.props;
     const { entity } = blockProps;

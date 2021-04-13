@@ -1,15 +1,8 @@
 import { Component } from "react";
-import { AtomicBlockUtils, EditorState } from "draft-js";
+import { AtomicBlockUtils } from "draft-js";
+import { SourceProps } from "draftail";
 
-type Props = {
-  editorState: EditorState;
-  entityType: {
-    type: string;
-  };
-  onComplete: Function;
-};
-
-class ImageSource extends Component<Props> {
+class ImageSource extends Component<SourceProps> {
   componentDidMount() {
     const { editorState, entityType, onComplete } = this.props;
 

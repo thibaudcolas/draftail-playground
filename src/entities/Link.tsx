@@ -1,5 +1,5 @@
 import React from "react";
-import { ContentState } from "draft-js";
+import { DecoratorProps } from "draftail";
 
 import TooltipEntity from "./TooltipEntity";
 
@@ -8,15 +8,7 @@ const LINK_ICON = [
   "M256 1012c-65.176 0-126.45-25.38-172.534-71.464-95.134-95.136-95.134-249.934 0-345.070l87.764-87.764c20.308-20.306 53.234-20.306 73.54 0 20.308 20.306 20.308 53.232 0 73.54l-87.764 87.764c-54.586 54.586-54.586 143.406 0 197.992 26.44 26.44 61.598 41.002 98.994 41.002s72.552-14.562 98.998-41.006l192-191.998c54.584-54.586 54.584-143.406 0-197.992-20.308-20.308-20.306-53.232 0-73.54 20.306-20.306 53.232-20.306 73.54 0.002 95.132 95.134 95.132 249.932 0.002 345.068l-192.002 192c-46.090 46.088-107.364 71.466-172.538 71.466z",
 ];
 
-type Props = {
-  entityKey: string;
-  contentState: ContentState;
-  children: React.ReactNode;
-  onEdit: Function;
-  onRemove: Function;
-};
-
-const Link = (props: Props) => {
+const Link = (props: DecoratorProps) => {
   const { entityKey, contentState } = props;
   const { url } = contentState.getEntity(entityKey).getData();
   return (
