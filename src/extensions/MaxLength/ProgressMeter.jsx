@@ -1,5 +1,4 @@
 import React, { PureComponent } from "react";
-import PropTypes from "prop-types";
 
 import "./ProgressMeter.css";
 
@@ -56,10 +55,5 @@ class ProgressMeter extends PureComponent {
     );
   }
 }
-
-ProgressMeter.propTypes = {
-  radius: PropTypes.number.isRequired,
-  progress: PropTypes.number.isRequired,
-};
 
 export default ProgressMeter;
