@@ -135,13 +135,8 @@ class App extends React.Component<Props, State> {
   }
 
   render() {
-    const {
-      contentState,
-      html,
-      markdown,
-      prettified,
-      exporterConfig,
-    } = this.state;
+    const { contentState, html, markdown, prettified, exporterConfig } =
+      this.state;
 
     return (
       <AppContainer>
