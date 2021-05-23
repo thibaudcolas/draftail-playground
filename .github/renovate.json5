@@ -19,6 +19,11 @@
     "@types/react-tabs",
     "reading-time",
     "html5lib",
+    "react",
+    "react-dom",
+    "react-test-renderer",
+    "@types/react",
+    "@types/react-dom",
   ],
   // https://renovatebot.com/docs/configuration-options/#labels
   labels: ["enhancement"],
@@ -75,19 +80,19 @@
       groupName: "typescript",
       automerge: true,
     },
-    {
-      packageNames: [
-        "react",
-        "react-dom",
-        "react-test-renderer",
-        "@types/react",
-        "@types/react-dom",
-      ],
-      // Disallow React v17 major updates until Draft.js gains support for it.
-      allowedVersions: "<=17",
-      groupName: "react",
-      automerge: true,
-    },
+    // {
+    //   packageNames: [
+    //     "react",
+    //     "react-dom",
+    //     "react-test-renderer",
+    //     "@types/react",
+    //     "@types/react-dom",
+    //   ],
+    //   // Disallow React v17 major updates until Draft.js gains support for it.
+    //   allowedVersions: "<=17",
+    //   groupName: "react",
+    //   automerge: true,
+    // },
     {
       packageNames: ["draftjs_exporter", "draftjs_exporter_markdown"],
       groupName: "draftjs_exporter",
