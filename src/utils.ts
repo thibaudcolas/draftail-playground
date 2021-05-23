@@ -37,6 +37,6 @@ export const getInitialContentState = () => {
   return (contentState && JSON.parse(contentState)) || defaultContentState;
 };
 
-export const saveContentState = (contentState: RawDraftContentState) => {
+export const saveContentState = (contentState: RawDraftContentState | null) => {
   window.localStorage.setItem("contentState", JSON.stringify(contentState));
 };

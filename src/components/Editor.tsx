@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ComponentType } from "react";
 import styled from "styled-components";
 
 import {
@@ -6,7 +6,9 @@ import {
   ENTITY_TYPE,
   BLOCK_TYPE,
   INLINE_STYLE,
+  ControlProps,
 } from "draftail";
+import { RawDraftContentState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import "draftail/dist/draftail.css";
 
@@ -44,8 +46,8 @@ const Title = styled.h2`
 `;
 
 type Props = {
-  rawContentState: Object;
-  onSave: Function;
+  rawContentState: RawDraftContentState | null;
+  onSave: ((content: null | RawDraftContentState) => void) | null;
 };
 
 const Editor = ({ rawContentState, onSave }: Props) => (
@@ -120,7 +122,10 @@ const Editor = ({ rawContentState, onSave }: Props) => (
             icon: "#icon-code",
           },
         ]}
-        controls={[ReadingTime, MaxLength]}
+        controls={[
+          ReadingTime,
+          MaxLength as unknown as ComponentType<ControlProps>,
+        ]}
         decorators={[new MaxLengthDecorator()]}
       />
     </SentryBoundary>

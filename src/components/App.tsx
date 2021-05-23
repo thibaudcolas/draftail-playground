@@ -69,7 +69,7 @@ type Export = {
 };
 
 type State = {
-  contentState: {};
+  contentState: RawDraftContentState | null;
   exporterConfig: {};
 } & Export;
 
@@ -78,7 +78,7 @@ class App extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      contentState: {},
+      contentState: null,
       exporterConfig: initialConfig,
       html: "",
       markdown: "",
@@ -91,7 +91,7 @@ class App extends React.Component<Props, State> {
     this.onSave(initialContentState);
   }
 
-  onSave(contentState: RawDraftContentState) {
+  onSave(contentState: RawDraftContentState | null) {
     const { exporterConfig } = this.state;
 
     postRequest(

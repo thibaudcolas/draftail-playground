@@ -1,4 +1,5 @@
 import React from "react";
+import { RawDraftContentState } from "draft-js";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import JSONView from "react-json-view";
 
@@ -15,7 +16,7 @@ const saveTab = (tab: number) => {
 
 type Props = {
   markdown: string;
-  contentState: object;
+  contentState: RawDraftContentState | null;
   prettified: string;
   exporterConfig: Object;
   onChangeConfig: (edit: { updated_src: {} }) => any;
