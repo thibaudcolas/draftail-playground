@@ -4,6 +4,7 @@ from http.server import BaseHTTPRequestHandler
 
 from bs4 import BeautifulSoup
 
+from draftjs_exporter import __version__
 from draftjs_exporter.constants import BLOCK_TYPES, ENTITY_TYPES, INLINE_STYLES
 from draftjs_exporter.defaults import BLOCK_MAP, STYLE_MAP
 from draftjs_exporter.html import HTML
@@ -58,7 +59,12 @@ class handler(BaseHTTPRequestHandler):
         markdown = render_markdown(request_json["contentState"])
 
         ret = json.dumps(
-            {"html": html, "markdown": markdown, "prettified": prettify(html)}
+            {
+                "html": html,
+                "markdown": markdown,
+                "prettified": prettify(html),
+                "version": __version__,
+            }
         )
 
         self.send_response(200)
