@@ -9,13 +9,14 @@ import ProgressMeter from "./ProgressMeter";
 import "./MaxLength.css";
 
 const CONTENT_LENGTHS = {
-  "140": "Tweet",
-  "280": "Double tweet",
+  140: "Tweet",
+  280: "Double tweet",
   // 3 * 10 * 200
-  "6000": "3-min read",
+  6000: "3-min read",
   // 211591 * 10 * 200
-  "423182000": "Crime and Punishment",
+  423182000: "Crime and Punishment",
 } as const;
+type ContentLength = keyof typeof CONTENT_LENGTHS;
 
 const CONTENT_LENGTH_OPTIONS = Object.entries(CONTENT_LENGTHS).map(
   ([value, label]) => ({
@@ -39,7 +40,7 @@ const getDefaultThreshold = () => {
     console.error("sessionStorage unavailable");
   }
 
-  return threshold;
+  return threshold as ContentLength;
 };
 
 /**
@@ -59,25 +60,6 @@ const forceResetEditorState = (editorState: EditorState) => {
     },
   );
 };
-
-type RequestIdleCallbackHandle = any;
-type RequestIdleCallbackOptions = {
-  timeout: number;
-};
-type RequestIdleCallbackDeadline = {
-  readonly didTimeout: boolean;
-  timeRemaining: () => number;
-};
-
-declare global {
-  interface Window {
-    requestIdleCallback: (
-      callback: (deadline: RequestIdleCallbackDeadline) => void,
-      opts?: RequestIdleCallbackOptions,
-    ) => RequestIdleCallbackHandle;
-    cancelIdleCallback: (handle: RequestIdleCallbackHandle) => void;
-  }
-}
 
 /**
  * Execute time-consuming logic out of order with performance-sensitive JS on the main thread.

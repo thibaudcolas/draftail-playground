@@ -68,10 +68,7 @@ class SentryBoundary extends Component<Props, State> {
                   </a>
                 )}
                 <span>&nbsp;</span>
-                <button
-                  type="button"
-                  onClick={() => window.location.reload(false)}
-                >
+                <button type="button" onClick={() => window.location.reload()}>
                   Reload the page
                 </button>
               </div>
