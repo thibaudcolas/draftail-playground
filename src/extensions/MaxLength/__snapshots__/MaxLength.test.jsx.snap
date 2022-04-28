@@ -18,6 +18,7 @@ exports[`MaxLength works 1`] = `
   <Modal
     contentLabel="Maximum length"
     isOpen={false}
+    onAfterOpen={[Function]}
     onRequestClose={[Function]}
   >
     <label>
@@ -48,7 +49,7 @@ exports[`MaxLength works 1`] = `
           ]
         }
         placeholder={null}
-        value="140"
+        value={140}
       />
     </label>
   </Modal>
