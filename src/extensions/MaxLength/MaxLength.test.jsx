@@ -11,7 +11,7 @@ describe("MaxLength", () => {
   });
 
   it("recovers from sessionStorage / JSON parsing issues", () => {
-    window.sessionStorage.setItem('threshold', "140")
+    window.sessionStorage.setItem("threshold", "140");
     jest.spyOn(JSON, "parse").mockImplementationOnce(() => {
       throw new Error();
     });
