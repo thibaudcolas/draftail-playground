@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.7
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
