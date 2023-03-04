@@ -52,7 +52,7 @@
     "react-simpler-select": "^3.0.0",
     "react-tabs": "^3.0.0",
     "reading-time": "^1.1.0",
-    "styled-components": "5.3.6"
+    "styled-components": "5.3.8"
   },
   "scripts": {
     "start": "npm run server -s & npm run watch -s",
