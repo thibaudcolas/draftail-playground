@@ -63,7 +63,7 @@
     "start": "npm run server -s & npm run watch -s",
     "server": "echo 'start separately'",
     "watch": "react-scripts start",
-    "build": "CI=true react-scripts build && source-map-explorer --html build/static/js/main.* > build/source-map-explorer.html",
+    "build": "CI=true react-scripts build && source-map-explorer --html 'build/static/js/*.js' > build/source-map-explorer.html",
     "lint": "prettier --check '**/?(.)*.{md,css,scss,js,jsx,ts,tsx,json,yaml,yml,html}' && black --check .",
     "format": "prettier --write '**/?(.)*.{md,css,scss,js,jsx,ts,tsx,json,yaml,yml,html}' && black .",
     "report:build": "open public/source-map-explorer.html",
