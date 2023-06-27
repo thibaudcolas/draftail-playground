@@ -62,6 +62,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
         enableLineBreak={false}
         spellCheck={true}
         stripPastedStyles={false}
+        maxListNesting={4}
         entityTypes={[
           {
             type: ENTITY_TYPE.IMAGE,
