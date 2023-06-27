@@ -12,3 +12,19 @@ beforeEach(() => {
     throw new Error(error);
   });
 });
+
+const warn = console.warn;
+
+function logWarning(...warnings) {
+  const [warning] = warnings;
+  if (
+    warning.includes("componentWillMount has been renamed") ||
+    warning.includes("componentWillReceiveProps has been renamed") ||
+    warning.includes("componentWillUpdate has been renamed")
+  ) {
+    return;
+  }
+  warn(...warnings);
+}
+
+console.warn = logWarning;

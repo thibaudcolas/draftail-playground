@@ -3,14 +3,12 @@
 exports[`MaxLength works 1`] = `
 <Fragment>
   <ToolbarButton
-    active={false}
     icon={
       <ProgressMeter
         progress={0}
         radius={8}
       />
     }
-    label={null}
     name="MAX_LENGTH"
     onClick={[Function]}
     title="Length: Tweet"
