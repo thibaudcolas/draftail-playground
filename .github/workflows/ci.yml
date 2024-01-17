@@ -9,16 +9,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: nvm
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
       - uses: actions/setup-node@v2-beta
         with:
           node-version: "${{ steps.nvm.outputs.NVMRC }}"
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.7
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
