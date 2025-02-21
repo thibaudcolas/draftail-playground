@@ -11,7 +11,7 @@ From the command-line:
 ```sh
 git clone git@github.com:thibaudcolas/draftail-playground.git
 cd draftail-playground
-virtualenv -p python3.7 .venv
+python -m venv .venv
 source ./.venv/bin/activate
 pip install -r requirements.txt
 nvm install
