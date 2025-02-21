@@ -1,4 +1,4 @@
-draftjs_exporter==5.0.0
+draftjs_exporter==5.1.0
 draftjs_exporter_markdown==0.2.4
 beautifulsoup4==4.12.2
 html5lib==1.1
