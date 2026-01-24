@@ -1,4 +1,13 @@
 {
+  "builds": [
+    {
+      "src": "api/**/*",
+      "use": "@vercel/python",
+      "config": {
+        "installCommand": "uv pip sync requirements.lock"
+      }
+    }
+  ],
   "github": {
     "silent": true
   }
