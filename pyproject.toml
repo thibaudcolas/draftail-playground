@@ -1,25 +1,17 @@
-[tool.black]
+[tool.ruff]
 line-length = 80
-target-version = ['py37']
-include = '\.pyi?$'
-exclude = '''
+target-version = "py37"
 
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | \.vercel
-    | _build
-    | buck-out
-    | build
-    | node_modules
-    | dist
-  )/
-  | foo.py           # also separately exclude a file named foo.py in
-                     # the root of the project
-)
-'''
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = ["E501"]  # line too long, handled by formatter
+
+[tool.ruff.format]
+quote-style = "double"
