@@ -13,7 +13,7 @@ git clone git@github.com:thibaudcolas/draftail-playground.git
 cd draftail-playground
 uv venv
 source .venv/bin/activate
-uv pip sync requirements.lock
+uv pip sync uv.lock
 nvm install
 # Then, install all project dependencies.
 npm install
