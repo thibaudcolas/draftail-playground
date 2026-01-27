@@ -1,25 +1,32 @@
-[tool.black]
-line-length = 80
-target-version = ['py37']
-include = '\.pyi?$'
-exclude = '''
+[project]
+name = "draftail-playground"
+version = "0.1.0"
+dependencies = [
+    "draftjs_exporter==5.1.0",
+    "draftjs_exporter_markdown==0.2.4",
+    "beautifulsoup4==4.12.2",
+    "html5lib==1.1",
+]
 
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | \.vercel
-    | _build
-    | buck-out
-    | build
-    | node_modules
-    | dist
-  )/
-  | foo.py           # also separately exclude a file named foo.py in
-                     # the root of the project
-)
-'''
+[project.optional-dependencies]
+dev = [
+    "ruff",
+]
+
+[tool.ruff]
+line-length = 80
+target-version = "py37"
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "C",  # flake8-comprehensions
+    "B",  # flake8-bugbear
+]
+ignore = ["E501"]  # line too long, handled by formatter
+
+[tool.ruff.format]
+quote-style = "double"
