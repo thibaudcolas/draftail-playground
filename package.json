@@ -2,44 +2,20 @@
   "name": "draftail-playground",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5000",
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all",
-      "not IE 11"
-    ],
-    "development": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all",
-      "not IE 11"
-    ]
-  },
-  "overrides": {
-    "@typescript-eslint/typescript-estree": "5.57.1",
-    "fork-ts-checker-webpack-plugin": "6.5.3",
-    "typescript": "5.1.3"
+  "scripts": {
+    "start": "vp dev",
+    "dev": "vp dev",
+    "build": "vp build",
+    "preview": "vp preview",
+    "test": "vp test run",
+    "test:watch": "vp test watch",
+    "lint": "vp check",
+    "format": "vp fmt --write . && black .",
+    "format:check": "vp check"
   },
   "devDependencies": {
-    "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.7",
-    "enzyme-to-json": "3.6.2",
-    "prettier": "2.8.8",
-    "react-scripts": "5.0.1",
-    "react-test-renderer": "16.14.0",
-    "source-map-explorer": "2.5.3",
-    "typescript": "5.1.3"
-  },
-  "dependencies": {
-    "@types/draft-js": "0.10.29",
-    "@types/jest": "26.0.23",
+    "@testing-library/react": "12.1.5",
     "@types/node": "18.16.18",
-    "@types/prismjs": "1.16.0",
     "@types/react": "16.14.6",
     "@types/react-dom": "16.9.13",
     "@types/react-modal": "3.8.1",
@@ -48,6 +24,8 @@
     "@types/styled-components": "5.1.26",
     "draft-js": "0.10.5",
     "draftail": "2.0.1",
+    "jsdom": "^30.1.1",
+    "normalize.css": "^8.0.1",
     "prismjs": "1.6.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
@@ -57,19 +35,18 @@
     "react-simpler-select": "3.0.0",
     "react-tabs": "3.0.0",
     "reading-time": "1.1.0",
-    "styled-components": "6.0.0-rc.6"
+    "styled-components": "6.0.0-rc.6",
+    "typescript": "5.1.3",
+    "vite-plus": "catalog:"
   },
-  "scripts": {
-    "start": "npm run server -s & npm run watch -s",
-    "server": "echo 'start separately'",
-    "watch": "react-scripts start",
-    "build": "CI=true react-scripts build && source-map-explorer --html 'build/static/js/*.js' > build/source-map-explorer.html",
-    "lint": "prettier --check '**/?(.)*.{md,css,scss,js,jsx,ts,tsx,json,yaml,yml,html}' && black --check .",
-    "format": "prettier --write '**/?(.)*.{md,css,scss,js,jsx,ts,tsx,json,yaml,yml,html}' && black .",
-    "report:build": "open public/source-map-explorer.html",
-    "test": "CI=true react-scripts test",
-    "test:watch": "react-scripts test --watch",
-    "test:coverage": "CI=true react-scripts test --coverage",
-    "test:ci": "npm run lint -s && npm run test:coverage && npm run build -s"
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@1.0.0"
+  },
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.8.1",
+      "onFail": "download"
+    }
   }
 }

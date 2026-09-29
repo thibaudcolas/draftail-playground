@@ -2,11 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { RawDraftContentState } from "draft-js";
 
-import {
-  getInitialContentState,
-  saveContentState,
-  postRequest,
-} from "../utils";
+import { getInitialContentState, saveContentState, postRequest } from "../utils";
 
 import SidePanel from "./SidePanel";
 import LivePage from "./LivePage";
@@ -135,8 +131,7 @@ class App extends React.Component<Props, State> {
   }
 
   render() {
-    const { contentState, html, markdown, prettified, exporterConfig } =
-      this.state;
+    const { contentState, html, markdown, prettified, exporterConfig } = this.state;
 
     return (
       <AppContainer>

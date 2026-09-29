@@ -1,55 +1,35 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`MaxLength works 1`] = `
-<Fragment>
-  <ToolbarButton
-    icon={
-      <ProgressMeter
-        progress={0}
-        radius={8}
-      />
-    }
+exports[`MaxLength > works 1`] = `
+<div>
+  <button
+    aria-label="Length: Tweet"
+    class="Draftail-ToolbarButton "
+    data-draftail-balloon="up"
     name="MAX_LENGTH"
-    onClick={[Function]}
-    title="Length: Tweet"
-  />
-  <Modal
-    contentLabel="Maximum length"
-    isOpen={false}
-    onAfterOpen={[Function]}
-    onRequestClose={[Function]}
+    tabindex="-1"
+    type="button"
   >
-    <label>
-      <p>
-        How long should the content be?
-      </p>
-      <Select
-        className="MaxLength__select"
-        onChange={[Function]}
-        options={
-          Array [
-            Object {
-              "label": "Tweet",
-              "value": "140",
-            },
-            Object {
-              "label": "Double tweet",
-              "value": "280",
-            },
-            Object {
-              "label": "3-min read",
-              "value": "6000",
-            },
-            Object {
-              "label": "Crime and Punishment",
-              "value": "423182000",
-            },
-          ]
-        }
-        placeholder={null}
-        value={140}
+    <svg
+      class="ProgressMeter Draftail-Icon"
+      height="16"
+      width="16"
+    >
+      <circle
+        class="ProgressMeter__background"
+        cx="50%"
+        cy="50%"
+        r="8"
       />
-    </label>
-  </Modal>
-</Fragment>
+      <circle
+        class="ProgressMeter__progressbar"
+        cx="50%"
+        cy="50%"
+        r="8"
+        stroke="#1da1f2"
+        style="stroke-dasharray: 50.26548245743669; stroke-dashoffset: 50.26548245743669;"
+      />
+    </svg>
+  </button>
+</div>
 `;

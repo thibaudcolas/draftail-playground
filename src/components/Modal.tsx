@@ -25,13 +25,7 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Modal = ({
-  onRequestClose,
-  onAfterOpen,
-  isOpen,
-  contentLabel,
-  children,
-}: Props) => (
+const Modal = ({ onRequestClose, onAfterOpen, isOpen, contentLabel, children }: Props) => (
   <ReactModal
     className={className}
     overlayClassName={overlayClassName}
@@ -42,19 +36,13 @@ const Modal = ({
     isOpen={isOpen}
     contentLabel={contentLabel}
   >
-    <button
-      className="modal__button modal__button--close"
-      onClick={onRequestClose}
-    >
+    <button className="modal__button modal__button--close" onClick={onRequestClose}>
       ×
     </button>
     <h2 className="modal__title">{contentLabel}</h2>
     <div className="modal__content">{children}</div>
     <div className="modal__actions">
-      <button
-        className="modal__button modal__button--confirm"
-        onClick={onRequestClose}
-      >
+      <button className="modal__button modal__button--confirm" onClick={onRequestClose}>
         Ok
       </button>
     </div>

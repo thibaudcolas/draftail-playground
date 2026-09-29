@@ -20,7 +20,7 @@ class SentryBoundary extends Component<Props, State> {
     this.state = { error: undefined };
   }
 
-  componentDidCatch(error: Error, errorInfo: Object) {
+  componentDidCatch(error: Error, errorInfo: object) {
     const isRavenAvailable = !!window.Raven;
     this.setState({ error });
 
@@ -41,17 +41,13 @@ class SentryBoundary extends Component<Props, State> {
             <div className="u-text-center">
               <p>Oops. The editor just crashed.</p>
               <p>
-                Our team has been notified. You can provide us with more
-                information if you want to.
+                Our team has been notified. You can provide us with more information if you want to.
               </p>
               <div>
                 {isRavenAvailable ? (
                   <button
                     type="button"
-                    onClick={() =>
-                      window.Raven.lastEventId() &&
-                      window.Raven.showReportDialog()
-                    }
+                    onClick={() => window.Raven.lastEventId() && window.Raven.showReportDialog()}
                   >
                     Submit a report
                   </button>

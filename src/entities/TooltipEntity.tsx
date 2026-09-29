@@ -22,7 +22,7 @@ type Props = {
   children: React.ReactNode;
   onEdit: Function;
   onRemove: Function;
-  icon: string | Object | Array<string>;
+  icon: string | object | Array<string>;
   label: string;
 };
 
@@ -45,9 +45,7 @@ class TooltipEntity extends Component<Props, State> {
   }
 
   openTooltip(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
-    const trigger = (e.target as HTMLAnchorElement).closest(
-      "[data-draftail-trigger]",
-    );
+    const trigger = (e.target as HTMLAnchorElement).closest("[data-draftail-trigger]");
     const container = document.body;
     const containerRect = container.getBoundingClientRect();
 
@@ -80,20 +78,14 @@ class TooltipEntity extends Component<Props, State> {
   }
 
   render() {
-    const { entityKey, contentState, children, onEdit, onRemove, icon, label } =
-      this.props;
+    const { entityKey, contentState, children, onEdit, onRemove, icon, label } = this.props;
     const { showTooltipAt } = this.state;
     const { url } = contentState.getEntity(entityKey).getData();
 
     // Contrary to what JSX A11Y says, this should be a button but it shouldn't be focusable.
     /* eslint-disable jsx-a11y/anchor-is-valid */
     return (
-      <a
-        role="button"
-        onMouseUp={this.openTooltip}
-        className="TooltipEntity"
-        data-draftail-trigger
-      >
+      <a role="button" onMouseUp={this.openTooltip} className="TooltipEntity" data-draftail-trigger>
         <Icon icon={icon} className="TooltipEntity__icon" />
         {children}
         {showTooltipAt && (
@@ -115,17 +107,11 @@ class TooltipEntity extends Component<Props, State> {
                 {shortenLabel(label)}
               </a>
 
-              <button
-                className="Tooltip__button"
-                onClick={onEdit.bind(null, entityKey)}
-              >
+              <button className="Tooltip__button" onClick={onEdit.bind(null, entityKey)}>
                 Edit
               </button>
 
-              <button
-                className="Tooltip__button"
-                onClick={onRemove.bind(null, entityKey)}
-              >
+              <button className="Tooltip__button" onClick={onRemove.bind(null, entityKey)}>
                 Remove
               </button>
             </Tooltip>

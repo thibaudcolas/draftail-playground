@@ -28,16 +28,9 @@ class ProgressMeter extends PureComponent {
       <svg
         height={diameter}
         width={diameter}
-        className={`ProgressMeter Draftail-Icon${
-          isFull ? " ProgressMeter--pulse" : ""
-        }`}
+        className={`ProgressMeter Draftail-Icon${isFull ? " ProgressMeter--pulse" : ""}`}
       >
-        <circle
-          className="ProgressMeter__background"
-          cx="50%"
-          cy="50%"
-          r={radius}
-        />
+        <circle className="ProgressMeter__background" cx="50%" cy="50%" r={radius} />
         <circle
           className="ProgressMeter__progressbar"
           cx="50%"
@@ -46,9 +39,7 @@ class ProgressMeter extends PureComponent {
           stroke={getMeterColor(progress)}
           style={{
             strokeDasharray: circumference,
-            strokeDashoffset: isFull
-              ? 0
-              : circumference - circumference * progress,
+            strokeDashoffset: isFull ? 0 : circumference - circumference * progress,
           }}
         />
       </svg>

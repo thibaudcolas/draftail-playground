@@ -1,13 +1,7 @@
 import React, { ComponentType } from "react";
 import styled from "styled-components";
 
-import {
-  DraftailEditor,
-  ENTITY_TYPE,
-  BLOCK_TYPE,
-  INLINE_STYLE,
-  ControlProps,
-} from "draftail";
+import { DraftailEditor, ENTITY_TYPE, BLOCK_TYPE, INLINE_STYLE, ControlProps } from "draftail";
 import { RawDraftContentState } from "draft-js";
 import "draft-js/dist/Draft.css";
 import "draftail/dist/draftail.css";
@@ -17,9 +11,7 @@ import ImageSource from "../entities/ImageSource";
 import ImageBlock from "../entities/ImageBlock";
 import Link from "../entities/Link";
 import ReadingTime from "../extensions/ReadingTime";
-import MaxLength, {
-  MaxLengthDecorator,
-} from "../extensions/MaxLength/MaxLength";
+import MaxLength, { MaxLengthDecorator } from "../extensions/MaxLength/MaxLength";
 import SentryBoundary from "./SentryBoundary";
 
 const Container = styled.div`
@@ -123,10 +115,7 @@ const Editor = ({ rawContentState, onSave }: Props) => (
             icon: "#icon-code",
           },
         ]}
-        controls={[
-          ReadingTime,
-          MaxLength as unknown as ComponentType<ControlProps>,
-        ]}
+        controls={[ReadingTime, MaxLength as unknown as ComponentType<ControlProps>]}
         decorators={[new MaxLengthDecorator()]}
       />
     </SentryBoundary>

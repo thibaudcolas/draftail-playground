@@ -1,0 +1,24 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`ProgressMeter > works 1`] = `
+<svg
+  class="ProgressMeter Draftail-Icon"
+  height="16"
+  width="16"
+>
+  <circle
+    class="ProgressMeter__background"
+    cx="50%"
+    cy="50%"
+    r="8"
+  />
+  <circle
+    class="ProgressMeter__progressbar"
+    cx="50%"
+    cy="50%"
+    r="8"
+    stroke="#1da1f2"
+    style="stroke-dasharray: 50.26548245743669; stroke-dashoffset: 25.132741228718345;"
+  />
+</svg>
+`;

@@ -28,20 +28,20 @@ FULLY_STAGED=$(comm -23 <(echo "$STAGED") <(echo "$PATCH_STAGED"))
 JS_STAGED=$(grep -E '.(js|jsx|ts|tsx)$' <<< "$STAGED" || true)
 CSS_STAGED=$(grep -E '.(css|scss)$' <<< "$STAGED" || true)
 SNAPSHOT_STAGED=$(grep -E '.snap$' <<< "$STAGED" || true)
-PRETTIER_STAGED=$(grep -E '.(md|css|scss|js|json|yaml|yml|html)$' <<< "$STAGED" || true)
-PRETTIER_FULLY_STAGED=$(grep -E '.(md|css|scss|js|json|yaml|yml|html)$' <<< "$FULLY_STAGED" || true)
+FMT_STAGED=$(grep -E '.(md|css|scss|js|jsx|ts|tsx|json|yaml|yml|html)$' <<< "$STAGED" || true)
+FMT_FULLY_STAGED=$(grep -E '.(md|css|scss|js|jsx|ts|tsx|json|yaml|yml|html)$' <<< "$FULLY_STAGED" || true)
 PY_STAGED=$(grep -E '.py$' <<< "$STAGED" || true)
 PY_FULLY_STAGED=$(grep -E '.py$' <<< "$FULLY_STAGED" || true)
 
-if [ -n "$PRETTIER_FULLY_STAGED" ];
+if [ -n "$FMT_FULLY_STAGED" ];
 then
-  npx prettier --write $PRETTIER_FULLY_STAGED
-  git add $PRETTIER_FULLY_STAGED
+  npx vp fmt --write $FMT_FULLY_STAGED
+  git add $FMT_FULLY_STAGED
 fi
 
-if [ -n "$PRETTIER_STAGED" ];
+if [ -n "$FMT_STAGED" ];
 then
-  npx prettier --check $PRETTIER_STAGED
+  npx vp fmt --check $FMT_STAGED
 fi
 
 if [ -n "$PY_FULLY_STAGED" ];

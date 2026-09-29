@@ -36,11 +36,7 @@ const createEntity = (
     );
   }
 
-  const nextState = EditorState.push(
-    editorState,
-    nextContentState,
-    "insert-fragment",
-  );
+  const nextState = EditorState.push(editorState, nextContentState, "insert-fragment");
 
   return nextState;
 };

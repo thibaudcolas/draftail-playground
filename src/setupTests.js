@@ -1,14 +1,14 @@
-import { configure } from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import { createSerializer } from "enzyme-to-json";
+import { cleanup } from "@testing-library/react";
+import { afterEach, vi } from "vitest";
 
-configure({ adapter: new Adapter() });
-
-expect.addSnapshotSerializer(createSerializer({ mode: "deep" }));
+// Unmount React trees after each test, as react-testing-library requires.
+afterEach(() => {
+  cleanup();
+});
 
 // Throw exceptions of console error messages
 beforeEach(() => {
-  console.error = jest.fn((error) => {
+  console.error = vi.fn((error) => {
     throw new Error(error);
   });
 });

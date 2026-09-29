@@ -10,9 +10,7 @@ delete (Resizable as any).propTypes;
 // eslint-disable-next-line react/forbid-foreign-prop-types
 delete (ResizableBox as any).propTypes;
 
-const VIEWPORT_WIDTH = document.documentElement
-  ? document.documentElement.clientWidth
-  : 1024;
+const VIEWPORT_WIDTH = document.documentElement ? document.documentElement.clientWidth : 1024;
 const IS_BIG = VIEWPORT_WIDTH >= 768;
 const IS_DESKTOP = VIEWPORT_WIDTH >= 1024;
 const MIN_PANEL_WIDTH = IS_BIG ? 400 : "100%";

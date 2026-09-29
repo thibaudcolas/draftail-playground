@@ -42,8 +42,7 @@ class Portal extends Component<Props> {
   }
 
   componentDidMount() {
-    const { node, onClose, closeOnClick, closeOnType, closeOnResize } =
-      this.props;
+    const { node, onClose, closeOnClick, closeOnType, closeOnResize } = this.props;
 
     node.appendChild(this.portal);
 

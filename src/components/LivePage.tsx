@@ -91,25 +91,10 @@ const Footer = styled.footer.attrs({
   border-top: 1px solid #f2f2f2;
 `;
 
-const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const posted = new Date();
-const formattedDate = `${
-  MONTHS[posted.getMonth()]
-} ${posted.getDate()}, ${posted.getFullYear()}`;
+const formattedDate = `${MONTHS[posted.getMonth()]} ${posted.getDate()}, ${posted.getFullYear()}`;
 
 type Props = {
   html: string;
@@ -127,17 +112,13 @@ const LivePage = ({ html }: Props) => (
     <Nav>
       <ul>
         <li>
-          <a href="https://github.com/thibaudcolas/draftail-playground">
-            View it on GitHub
-          </a>
+          <a href="https://github.com/thibaudcolas/draftail-playground">View it on GitHub</a>
         </li>
         <li>
           <a href="https://www.draftail.org/">Draftail</a>
         </li>
         <li>
-          <a href="https://github.com/springload/draftjs_exporter">
-            Draft.js exporter
-          </a>
+          <a href="https://github.com/springload/draftjs_exporter">Draft.js exporter</a>
         </li>
         <li>
           <a href="https://draftjs.org/">Draft.js</a>
@@ -157,16 +138,11 @@ const LivePage = ({ html }: Props) => (
           Thibaud Colas
         </a>{" "}
         - Content available under{" "}
-        <a
-          rel="license"
-          href="https://creativecommons.org/publicdomain/zero/1.0/"
-        >
+        <a rel="license" href="https://creativecommons.org/publicdomain/zero/1.0/">
           CC0
         </a>{" "}
         - Hosted on <a href="https://vercel.com/">Vercel</a> -{" "}
-        <a href="https://github.com/thibaudcolas/draftail-playground">
-          View source
-        </a>
+        <a href="https://github.com/thibaudcolas/draftail-playground">View source</a>
       </p>
     </Footer>
   </Container>

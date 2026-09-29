@@ -1,49 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Draftail Playground</title>
-    <meta
-      name="description"
-      content="Try Draftail in a full-fledged preview environment"
-    />
+    <meta name="description" content="Try Draftail in a full-fledged preview environment" />
 
-    <link rel="shortcut icon" href="%PUBLIC_URL%/static/favicons/favicon.ico" />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="%PUBLIC_URL%/static/favicons/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="%PUBLIC_URL%/static/favicons/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="%PUBLIC_URL%/static/favicons/favicon-16x16.png"
-    />
-    <link rel="manifest" href="%PUBLIC_URL%/static/favicons/manifest.json" />
-    <link
-      rel="mask-icon"
-      href="%PUBLIC_URL%/static/favicons/safari-pinned-tab.svg"
-      color="#43b1b0"
-    />
+    <link rel="shortcut icon" href="/static/favicons/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-16x16.png" />
+    <link rel="manifest" href="/static/favicons/manifest.json" />
+    <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#43b1b0" />
     <meta name="theme-color" content="#263347" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta property="og:url" content="https://playground.draftail.org/" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Draftail Playground" />
-    <meta
-      property="og:title"
-      content="Try Draftail in a full-fledged preview environment"
-    />
+    <meta property="og:title" content="Try Draftail in a full-fledged preview environment" />
     <meta
       property="og:description"
       content="Use this live preview environment to try out the editor’s features and see how the exporter saves content"
@@ -62,9 +38,12 @@
     <meta name="twitter:data2" value="Yep" />
 
     <script>
-      document.documentElement.className =
-        document.documentElement.className.replace("no-js", "js");
+      document.documentElement.className = document.documentElement.className.replace(
+        "no-js",
+        "js",
+      );
     </script>
+    <script type="module" src="/src/index.tsx"></script>
   </head>
 
   <body>
@@ -79,9 +58,7 @@
           <path
             d="M29.996 4c0.001 0.001 0.003 0.002 0.004 0.004v23.993c-0.001 0.001-0.002 0.003-0.004 0.004h-27.993c-0.001-0.001-0.003-0.002-0.004-0.004v-23.993c0.001-0.001 0.002-0.003 0.004-0.004h27.993zM30 2h-28c-1.1 0-2 0.9-2 2v24c0 1.1 0.9 2 2 2h28c1.1 0 2-0.9 2-2v-24c0-1.1-0.9-2-2-2v0z"
           ></path>
-          <path
-            d="M26 9c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"
-          ></path>
+          <path d="M26 9c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"></path>
           <path d="M28 26h-24v-4l7-12 8 10h2l7-6z"></path>
         </symbol>
         <symbol id="icon-mail" viewBox="0 0 32 32">
@@ -137,15 +114,13 @@
         <symbol id="icon-code" viewBox="0 0 40 32">
           <path d="M26 23l3 3 10-10-10-10-3 3 7 7z"></path>
           <path d="M14 9l-3-3-10 10 10 10 3-3-7-7z"></path>
-          <path
-            d="M21.916 4.704l2.171 0.592-6 22.001-2.171-0.592 6-22.001z"
-          ></path>
+          <path d="M21.916 4.704l2.171 0.592-6 22.001-2.171-0.592 6-22.001z"></path>
         </symbol>
       </defs>
     </svg>
 
     <div id="root"></div>
 
-    %REACT_APP_RAVEN%
+    <!-- RAVEN -->
   </body>
 </html>

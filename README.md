@@ -16,7 +16,7 @@ source ./.venv/bin/activate
 pip install -r requirements.txt
 nvm install
 # Then, install all project dependencies.
-npm install
+vp install
 npm run start
 ./.githooks/deploy.sh
 ```

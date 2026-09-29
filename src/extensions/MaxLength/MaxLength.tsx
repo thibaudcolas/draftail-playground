@@ -18,12 +18,10 @@ const CONTENT_LENGTHS = {
 } as const;
 type ContentLength = keyof typeof CONTENT_LENGTHS;
 
-const CONTENT_LENGTH_OPTIONS = Object.entries(CONTENT_LENGTHS).map(
-  ([value, label]) => ({
-    value,
-    label,
-  }),
-);
+const CONTENT_LENGTH_OPTIONS = Object.entries(CONTENT_LENGTHS).map(([value, label]) => ({
+  value,
+  label,
+}));
 
 const getDefaultThreshold = () => {
   let threshold = Number(CONTENT_LENGTH_OPTIONS[0].value);
@@ -49,10 +47,7 @@ const getDefaultThreshold = () => {
  */
 const forceResetEditorState = (editorState: EditorState) => {
   return EditorState.set(
-    EditorState.createWithContent(
-      editorState.getCurrentContent(),
-      editorState.getDecorator(),
-    ),
+    EditorState.createWithContent(editorState.getCurrentContent(), editorState.getDecorator()),
     {
       selection: editorState.getSelection(),
       undoStack: editorState.getUndoStack(),
@@ -159,8 +154,7 @@ class MaxLength extends Component<
     const content = editorState.getCurrentContent();
     const contentLength = content.getBlockMap().reduce(
       // @ts-ignore
-      (length: number, block: { getLength: () => number }): number =>
-        length + block.getLength(),
+      (length: number, block: { getLength: () => number }): number => length + block.getLength(),
       0,
     );
 
@@ -169,12 +163,7 @@ class MaxLength extends Component<
         <ToolbarButton
           name="MAX_LENGTH"
           title={`Length: ${CONTENT_LENGTHS[threshold]}`}
-          icon={
-            <ProgressMeter
-              radius={8}
-              progress={contentLength / Number(threshold)}
-            />
-          }
+          icon={<ProgressMeter radius={8} progress={contentLength / Number(threshold)} />}
           onClick={this.onClickButton}
         />
         <Modal

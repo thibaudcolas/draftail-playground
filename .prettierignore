@@ -1,5 +1,0 @@
-build
-.venv
-package-lock.json
-coverage
-.vercel

@@ -6,11 +6,7 @@ import { EditorState } from "draft-js";
 /**
  * A basic control showing the reading time / content length for the editor’s content.
  */
-const ReadingTime = ({
-  getEditorState,
-}: {
-  getEditorState: () => EditorState;
-}) => {
+const ReadingTime = ({ getEditorState }: { getEditorState: () => EditorState }) => {
   const editorState = getEditorState();
   const content = editorState.getCurrentContent();
   const text = content.getPlainText();

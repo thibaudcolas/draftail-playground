@@ -18,17 +18,11 @@ type Props = {
   markdown: string;
   contentState: RawDraftContentState | null;
   prettified: string;
-  exporterConfig: Object;
+  exporterConfig: object;
   onChangeConfig: (edit: { updated_src: {} }) => any;
 };
 
-const Exports = ({
-  markdown,
-  contentState,
-  prettified,
-  exporterConfig,
-  onChangeConfig,
-}: Props) => {
+const Exports = ({ markdown, contentState, prettified, exporterConfig, onChangeConfig }: Props) => {
   return (
     <Tabs defaultIndex={initTab} onSelect={saveTab}>
       <TabList>
@@ -42,10 +36,7 @@ const Exports = ({
         <Highlight value={markdown} language="markdown" />
       </TabPanel>
       <TabPanel>
-        <Highlight
-          value={JSON.stringify(contentState, null, 2)}
-          language="json"
-        />
+        <Highlight value={JSON.stringify(contentState, null, 2)} language="json" />
       </TabPanel>
       <TabPanel>
         <Highlight value={prettified} language="html" />

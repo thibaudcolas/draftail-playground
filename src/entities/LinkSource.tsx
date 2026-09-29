@@ -33,13 +33,7 @@ class LinkSource extends Component<SourceProps> {
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         nextState = RichUtils.toggleLink(editorState, selection, entityKey);
       } else {
-        nextState = createEntity(
-          editorState,
-          entityType.type,
-          entityData,
-          url,
-          "MUTABLE",
-        );
+        nextState = createEntity(editorState, entityType.type, entityData, url, "MUTABLE");
       }
     }
 
