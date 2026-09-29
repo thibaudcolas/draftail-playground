@@ -24,9 +24,8 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
-      - run: vp install --no-audit --no-fund
-      - run: pip install -r requirements.txt
       - run: vp install
+      - run: pip install -r requirements.txt
       - run: vp check
       - run: vp test run --coverage
       - run: vp build
