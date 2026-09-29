@@ -10,8 +10,8 @@
     "test": "vp test run",
     "test:watch": "vp test watch",
     "lint": "vp check",
-    "format": "vp fmt --write . && black .",
-    "format:check": "vp check"
+    "format": "vp fmt --write . && ruff format .",
+    "format:check": "vp check && ruff format --check . && ruff check ."
   },
   "devDependencies": {
     "@testing-library/react": "12.1.5",

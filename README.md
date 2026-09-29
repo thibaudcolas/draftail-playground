@@ -11,9 +11,10 @@ From the command-line:
 ```sh
 git clone git@github.com:thibaudcolas/draftail-playground.git
 cd draftail-playground
+# The Python version is pinned in .python-version (used by Vercel, CI, and local tooling).
 python -m venv .venv
 source ./.venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 nvm install
 # Then, install all project dependencies.
 vp install
@@ -32,6 +33,10 @@ nvm use
 npm run start
 # Builds frontend assets.
 npm run build
+# Format and lint Python (ruff), plus all other file types.
+npm run format
+# Check formatting and linting without writing changes.
+npm run format:check
 # View other available commands with:
 npm run
 ```

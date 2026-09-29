@@ -78,13 +78,8 @@
       automerge: true,
     },
     {
-      packageNames: ["black"],
-      groupName: "black",
-      automerge: true,
-    },
-    {
-      packageNames: ["flake8"],
-      groupName: "flake8",
+      packageNames: ["ruff"],
+      groupName: "ruff",
       automerge: true,
     },
     {

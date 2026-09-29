@@ -1,16 +1,14 @@
-import re
 import json
+import re
 from http.server import BaseHTTPRequestHandler
 
 from bs4 import BeautifulSoup
-
 from draftjs_exporter import __version__
 from draftjs_exporter.constants import BLOCK_TYPES, ENTITY_TYPES, INLINE_STYLES
 from draftjs_exporter.defaults import BLOCK_MAP, STYLE_MAP
 from draftjs_exporter.html import HTML
 
 from .decorators import import_decorator, missing_block, missing_inline
-
 from .markdown import render_markdown
 
 
@@ -42,9 +40,7 @@ class handler(BaseHTTPRequestHandler):
         block_map[BLOCK_TYPES.FALLBACK] = missing_block
         style_map[INLINE_STYLES.FALLBACK] = missing_inline
 
-        for type_, value in exporter_config.get(
-            "entity_decorators", {}
-        ).items():
+        for type_, value in exporter_config.get("entity_decorators", {}).items():
             entity_decorators[type_] = import_decorator(value)
 
         exporter = HTML(

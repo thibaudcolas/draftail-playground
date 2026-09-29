@@ -22,7 +22,7 @@ def image(props):
 
 
 def icon(props):
-    href = "icon-%s" % props.get("name", "")
+    href = f"icon-{props.get('name', '')}"
     return DOM.create_element(
         "svg",
         {"class": "icon"},
@@ -31,15 +31,11 @@ def icon(props):
 
 
 def missing_block(props):
-    return DOM.create_element(
-        "div", {"class": "missing-block"}, props["children"]
-    )
+    return DOM.create_element("div", {"class": "missing-block"}, props["children"])
 
 
 def missing_inline(props):
-    return DOM.create_element(
-        "span", {"class": "missing-inline"}, props["children"]
-    )
+    return DOM.create_element("span", {"class": "missing-inline"}, props["children"])
 
 
 def import_decorator(name):

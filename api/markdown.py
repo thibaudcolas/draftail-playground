@@ -1,5 +1,5 @@
-from draftjs_exporter.html import HTML
 from draftjs_exporter.dom import DOM
+from draftjs_exporter.html import HTML
 from draftjs_exporter_markdown import (
     BLOCK_MAP,
     ENGINE,

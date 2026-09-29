@@ -1,25 +1,18 @@
-[tool.black]
-line-length = 80
-target-version = ['py37']
-include = '\.pyi?$'
-exclude = '''
+# Python tooling for the Draftail Playground export API (api/).
+#
+# Ruff replaces the previous black + .isort.cfg + flake8 setup:
+#   - formatter: `ruff format` (black-compatible, line-length 88)
+#   - imports:   `ruff check` with the "I" rules (isort-compatible)
+#   - linting:   `ruff check` (flake8 "E"/"W"/"F" plus bugbear "B", pyupgrade "UP")
+#
+# The Python version is pinned in .python-version (also read by Vercel and
+# actions/setup-python); target-version below must match it.
+[tool.ruff]
+line-length = 88
+target-version = "py314"
+# Keep ruff on Python files only: Markdown (README, docs) is formatted by `vp fmt`,
+# and ruff would otherwise rewrite Python snippets inside code fences.
+include = ["*.py", "*.pyi"]
 
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | \.vercel
-    | _build
-    | buck-out
-    | build
-    | node_modules
-    | dist
-  )/
-  | foo.py           # also separately exclude a file named foo.py in
-                     # the root of the project
-)
-'''
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP"]

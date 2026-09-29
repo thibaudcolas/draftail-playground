@@ -9,23 +9,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - uses: voidzero-dev/setup-vp@v1.21.1
         with:
           node-version-file: .nvmrc
           cache: true
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v7
         with:
-          # 3.7 is no longer available on ubuntu-24.04 runners.
-          python-version: "3.8"
-      - uses: actions/cache@v3
+          # Single source of truth: also read by Vercel at deploy time.
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - uses: actions/cache@v6
         with:
           path: ~/.local/share/pnpm/store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
       - run: vp install
-      - run: pip install -r requirements.txt
+      - run: pip install -r requirements-dev.txt
+      - run: ruff format --check .
+      - run: ruff check .
       - run: vp check
       - run: vp test run --coverage
       - run: vp build
