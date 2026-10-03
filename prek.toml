@@ -1,0 +1,54 @@
+# Configuration for https://prek.j178.dev
+#:schema https://www.schemastore.org/prek.json
+ci = { autofix_prs = false }
+
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "trailing-whitespace", args = [
+    "--markdown-linebreak-ext=md",
+  ] },
+  { id = "end-of-file-fixer" },
+  { id = "check-added-large-files" },
+  { id = "check-case-conflict" },
+  { id = "check-json" },
+  { id = "check-json5" },
+  { id = "check-toml" },
+  { id = "check-yaml", args = [
+    "--allow-multiple-documents",
+  ] },
+  { id = "check-merge-conflict" },
+  { id = "detect-private-key" },
+]
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "ruff-check"
+name = "ruff-check"
+entry = "uv run ruff check --fix"
+language = "system"
+types = ["python"]
+
+[[repos.hooks]]
+id = "ruff-format"
+name = "ruff-format"
+entry = "uv run ruff format"
+language = "system"
+types = ["python"]
+
+[[repos.hooks]]
+id = "vp-format"
+name = "vp-format"
+entry = "npm exec -- vp fmt --write"
+language = "system"
+files = '\.(css|scss|js|jsx|ts|tsx|json|json5|toml|yaml|yml|md|html)$'
+
+[[repos.hooks]]
+id = "frontend-check"
+name = "frontend lint and typecheck"
+entry = "npm run lint"
+language = "system"
+files = '(\.(js|jsx|ts|tsx)$|(^|/)(package\.json|pnpm-lock\.yaml|tsconfig\.json)$)'
+pass_filenames = false

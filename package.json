@@ -9,13 +9,16 @@
     "preview": "vp preview",
     "test": "vp test run",
     "test:watch": "vp test watch",
-    "lint": "vp check",
-    "format": "vp fmt --write . && ruff format .",
-    "format:check": "vp check && ruff format --check . && ruff check ."
+    "lint": "vp check && npm run typecheck",
+    "format": "uv run just format",
+    "format:check": "uv run just lint",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@testing-library/react": "12.1.5",
+    "@types/draft-js": "0.10.44",
     "@types/node": "18.16.18",
+    "@types/prismjs": "1.26.6",
     "@types/react": "16.14.6",
     "@types/react-dom": "16.9.13",
     "@types/react-modal": "3.8.1",

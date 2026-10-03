@@ -20,8 +20,8 @@ const globalPolyfill = () => ({
 });
 
 /**
- * Serves the Flask export API in development, mirroring CRA's "proxy" field.
- * The API runs separately: `python api/...` (see README).
+ * Proxies requests to the Python export API in development.
+ * The API runs separately: `just dev-api` (see README).
  */
 const apiProxy = {
   "/api": {

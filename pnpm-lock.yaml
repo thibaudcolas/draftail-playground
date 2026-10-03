@@ -178,9 +178,15 @@ importers:
       '@testing-library/react':
         specifier: 12.1.5
         version: 12.1.5(react-dom@16.14.0(react@16.14.0))(react@16.14.0)
+      '@types/draft-js':
+        specifier: 0.10.44
+        version: 0.10.44
       '@types/node':
         specifier: 18.16.18
         version: 18.16.18
+      '@types/prismjs':
+        specifier: 1.26.6
+        version: 1.26.6
       '@types/react':
         specifier: 16.14.6
         version: 16.14.6
@@ -1259,6 +1265,9 @@ packages:
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
 
+  '@types/draft-js@0.10.44':
+    resolution: {integrity: sha512-6p3FZED91yPf+KQinlzFz1HuqSQ5zRXqU3RUsaP2oQYZTtrm5HDf2kwYnF5IihsleHR3jlQAwdSZt0zlJw3VGQ==}
+
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
@@ -1269,6 +1278,9 @@ packages:
 
   '@types/node@18.16.18':
     resolution: {integrity: sha512-/aNaQZD0+iSBAGnvvN2Cx92HqE5sZCPZtx2TsK+4nvV23fFe09jVDvpArXr2j9DnYlzuU9WuoykDDc6wqvpNcw==}
+
+  '@types/prismjs@1.26.6':
+    resolution: {integrity: sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==}
 
   '@types/prop-types@15.7.15':
     resolution: {integrity: sha512-F6bEyamV9jKGAFBEmlQnesRPGOQqS2+Uwi0Em15xenOxHaf2hv6L8YCVn3rPdPJOiJfPiCnLIRyvwVaqMY3MIw==}
@@ -3879,6 +3891,11 @@ snapshots:
 
   '@types/deep-eql@4.0.2': {}
 
+  '@types/draft-js@0.10.44':
+    dependencies:
+      '@types/react': 16.14.6
+      immutable: 3.7.6
+
   '@types/estree@1.0.9': {}
 
   '@types/hoist-non-react-statics@3.3.7(@types/react@16.14.6)':
@@ -3887,6 +3904,8 @@ snapshots:
       hoist-non-react-statics: 3.3.2
 
   '@types/node@18.16.18': {}
+
+  '@types/prismjs@1.26.6': {}
 
   '@types/prop-types@15.7.15': {}
 

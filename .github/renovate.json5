@@ -1,101 +1,62 @@
 {
-  extends: ["config:base"],
-  // https://renovatebot.com/docs/configuration-options/#commitbodytable
-  commitBodyTable: true,
-  // https://renovatebot.com/docs/configuration-options/#ignoredeps
-  ignoreDeps: [
-    "draft-js",
-    "draftail",
-    "@types/draft-js",
-    "prismjs",
-    "@types/prismjs",
-    "react-json-view",
-    "react-modal",
-    "@types/react-modal",
-    "react-resizable",
-    "@types/react-resizable",
-    "react-simpler-select",
-    "react-tabs",
-    "@types/react-tabs",
-    "reading-time",
-    "html5lib",
-    "react",
-    "react-dom",
-    "@types/react",
-    "@types/react-dom",
-  ],
-  // https://renovatebot.com/docs/configuration-options/#labels
-  labels: ["enhancement"],
-  // https://renovatebot.com/docs/configuration-options/#prcreation
-  prCreation: "not-pending",
-  // https://renovatebot.com/docs/configuration-options/#semanticcommits
-  semanticCommits: false,
-  // Use shorter commit messages to account for long dependency names.
-  // https://docs.renovatebot.com/configuration-options/#commitmessagetopic
-  commitMessageTopic: "{{depName}}",
-  // https://renovatebot.com/docs/configuration-options/#prbodycolumns
-  prBodyColumns: ["Package", "Update", "Type", "Change"],
-  // https://renovatebot.com/docs/configuration-options/#rebasestaleprs
-  rebaseStalePrs: true,
-  // https://renovatebot.com/docs/configuration-options/#schedule
-  schedule: ["every weekend"],
-  // Silently merge updates without PRs
-  automergeType: "branch",
-  node: {
-    major: {
-      enabled: true,
-    },
-    // https://renovatebot.com/docs/node/#configuring-support-policy
-    supportPolicy: ["current"],
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: ["config:recommended", ":enablePreCommit", "helpers:pinGitHubActionDigests"],
+  // Match wagtail/draftjs_exporter's maintenance cadence.
+  schedule: ["* * 3,22 * *"],
+  timezone: "Etc/UTC",
+  prConcurrentLimit: 10,
+  labels: ["dependencies"],
+  minimumReleaseAge: "7 days",
+  dependencyDashboard: false,
+  lockFileMaintenance: {
+    enabled: true,
+    automerge: true,
+    schedule: ["* * 3,22 * *"],
   },
   packageRules: [
     {
-      packageNames: ["styled-components", "@types/styled-components"],
+      matchCategories: ["ci"],
+      automerge: true,
+      groupName: "CI configuration dependencies",
+    },
+    {
+      matchManagers: ["npm", "pep621"],
+      matchUpdateTypes: ["minor", "patch", "digest", "pin"],
+      automerge: true,
+    },
+    // Preserve the existing editor compatibility pins during the tooling migration.
+    // Review these together when upgrading the React 16 / Draft.js 0.10 stack.
+    {
+      matchPackageNames: [
+        "draft-js",
+        "draftail",
+        "@types/draft-js",
+        "prismjs",
+        "@types/prismjs",
+        "react-json-view",
+        "react-modal",
+        "@types/react-modal",
+        "react-resizable",
+        "@types/react-resizable",
+        "react-simpler-select",
+        "react-tabs",
+        "@types/react-tabs",
+        "reading-time",
+        "html5lib",
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom",
+      ],
+      enabled: false,
+    },
+    {
+      matchPackageNames: ["styled-components", "@types/styled-components"],
       groupName: "styled-components",
-      automerge: true,
     },
     {
-      packageNames: ["typescript", "@types/node"],
-      groupName: "typescript",
-      automerge: true,
-    },
-    // {
-    //   packageNames: [
-    //     "react",
-    //     "react-dom",
-    //     "react-test-renderer",
-    //     "@types/react",
-    //     "@types/react-dom",
-    //   ],
-    //   // Disallow React v17 major updates until Draft.js gains support for it.
-    //   allowedVersions: "<=17",
-    //   groupName: "react",
-    //   automerge: true,
-    // },
-    {
-      packageNames: ["draftjs_exporter", "draftjs_exporter_markdown"],
+      matchPackageNames: ["draftjs_exporter", "draftjs_exporter_markdown"],
       groupName: "draftjs_exporter",
-      automerge: true,
-    },
-    {
-      packageNames: ["ruff"],
-      groupName: "ruff",
-      automerge: true,
-    },
-    {
-      packageNames: ["beautifulsoup4"],
-      groupName: "beautifulsoup4",
-      automerge: true,
-    },
-    {
-      packageNames: ["JamesIves/github-pages-deploy-action"],
-      groupName: "JamesIves/github-pages-deploy-action",
-      automerge: true,
-    },
-    {
-      packagePatterns: ["^actions/"],
-      groupName: "actions",
-      automerge: true,
     },
   ],
 }

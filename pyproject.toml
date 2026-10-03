@@ -1,3 +1,20 @@
+[project]
+name = "draftail-playground"
+version = "0.1.0"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+  "draftjs_exporter==5.1.0",
+  "draftjs_exporter_markdown==0.2.4",
+  "beautifulsoup4==4.12.2",
+  "html5lib==1.1",
+]
+
+[dependency-groups]
+dev = ["ruff==0.16.9", "prek==0.5.4", "rust-just==1.58.0"]
+
+[tool.uv]
+package = false
+
 # Python tooling for the Draftail Playground export API (api/).
 #
 # Ruff replaces the previous black + .isort.cfg + flake8 setup:
@@ -6,7 +23,7 @@
 #   - linting:   `ruff check` (flake8 "E"/"W"/"F" plus bugbear "B", pyupgrade "UP")
 #
 # The Python version is pinned in .python-version (also read by Vercel and
-# actions/setup-python); target-version below must match it.
+# uv); requires-python and target-version below must match it.
 [tool.ruff]
 line-length = 88
 target-version = "py314"
