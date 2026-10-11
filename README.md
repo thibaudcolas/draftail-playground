@@ -57,6 +57,7 @@ Run `just` to list the available commands.
 | `just format`        | Format files and apply available Python lint fixes                                |
 | `just test`          | Run frontend tests                                                                |
 | `just test --watch`  | Run tests in watch mode                                                           |
+| `just test-api`      | Run Python export API regression tests                                            |
 | `just test-coverage` | Run frontend tests with coverage                                                  |
 | `just pre-commit`    | Run all prek hooks against the whole repository                                   |
 | `just build`         | Build production frontend assets into `build/`                                    |

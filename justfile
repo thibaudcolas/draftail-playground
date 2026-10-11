@@ -39,6 +39,10 @@ format:
 test *args:
     npm test -- "$@"
 
+# Run Python export API regression tests.
+test-api:
+    uv run python -m unittest discover -s api -p 'test_*.py'
+
 # Run tests with coverage, as in CI.
 test-coverage:
     npm test -- --coverage
@@ -56,4 +60,4 @@ pre-commit:
     uv run prek run --all-files
 
 # Run the same checks as CI.
-check: lint pre-commit test-coverage build
+check: lint pre-commit test-api test-coverage build

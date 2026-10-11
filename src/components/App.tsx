@@ -67,77 +67,134 @@ type Export = {
 type State = {
   contentState: RawDraftContentState | null;
   exporterConfig: {};
+  exportError: string;
+  storageError: string;
+  exporting: boolean;
+  slowExport: boolean;
 } & Export;
 
 class App extends React.Component<Props, State> {
+  private requestId = 0;
+  private progressTimeout?: number;
+
   constructor(props: Props) {
     super(props);
 
     this.state = {
-      contentState: null,
+      contentState: initialContentState,
       exporterConfig: initialConfig,
       html: "",
       markdown: "",
       prettified: "",
+      exportError: "",
+      storageError: "",
+      exporting: false,
+      slowExport: false,
     };
 
     this.onSave = this.onSave.bind(this);
     this.onChangeConfig = this.onChangeConfig.bind(this);
-
-    this.onSave(initialContentState);
   }
 
-  onSave(contentState: RawDraftContentState | null) {
-    const { exporterConfig } = this.state;
+  componentDidMount() {
+    this.exportContent();
+  }
 
-    postRequest(
-      "/api/export",
-      {
-        contentState,
-        exporterConfig,
-      },
-      ({ html, markdown, prettified }: Export) => {
+  componentWillUnmount() {
+    this.requestId += 1;
+    window.clearTimeout(this.progressTimeout);
+  }
+
+  exportContent = async () => {
+    const requestId = ++this.requestId;
+    const { contentState, exporterConfig } = this.state;
+    window.clearTimeout(this.progressTimeout);
+    this.setState({ exporting: true, slowExport: false, exportError: "" });
+    this.progressTimeout = window.setTimeout(() => {
+      if (requestId === this.requestId) this.setState({ slowExport: true });
+    }, 1000);
+    try {
+      const result = await postRequest("/api/export", { contentState, exporterConfig });
+      if (
+        !result ||
+        typeof result !== "object" ||
+        !("html" in result) ||
+        typeof result.html !== "string" ||
+        !("markdown" in result) ||
+        typeof result.markdown !== "string" ||
+        !("prettified" in result) ||
+        typeof result.prettified !== "string"
+      ) {
+        throw new Error("Invalid export response");
+      }
+      if (requestId === this.requestId) {
         this.setState({
-          contentState,
-          html,
-          markdown,
-          prettified,
+          html: result.html,
+          markdown: result.markdown,
+          prettified: result.prettified,
+          exporting: false,
+          slowExport: false,
         });
+      }
+    } catch {
+      if (requestId === this.requestId) {
+        this.setState({
+          exporting: false,
+          slowExport: false,
+          exportError:
+            "Export failed. The preview and exports may be out of date. Check your connection and configuration, then retry.",
+        });
+      }
+    } finally {
+      if (requestId === this.requestId) window.clearTimeout(this.progressTimeout);
+    }
+  };
 
-        saveContentState(contentState);
-      },
-    );
+  onSave(contentState: RawDraftContentState | null) {
+    let storageError = "";
+    try {
+      saveContentState(contentState);
+    } catch {
+      storageError =
+        "Your changes could not be saved in this browser. Keep this page open to avoid losing them.";
+    }
+    this.setState({ contentState, storageError }, this.exportContent);
   }
 
   onChangeConfig(update: { updated_src: {} }) {
-    const { contentState } = this.state;
-    const exporterConfig = update.updated_src;
-
-    postRequest(
-      "/api/export",
-      {
-        contentState,
-        exporterConfig,
-      },
-      ({ html, markdown, prettified }: Export) => {
-        this.setState({
-          exporterConfig,
-          html,
-          markdown,
-          prettified,
-        });
-      },
-    );
+    this.setState({ exporterConfig: update.updated_src }, this.exportContent);
   }
 
   render() {
-    const { contentState, html, markdown, prettified, exporterConfig } = this.state;
+    const {
+      contentState,
+      html,
+      markdown,
+      prettified,
+      exporterConfig,
+      exportError,
+      storageError,
+      exporting,
+      slowExport,
+    } = this.state;
 
     return (
       <AppContainer>
         <SidePanel>
           <Editor rawContentState={initialContentState} onSave={this.onSave} />
 
+          <p role="status">{storageError}</p>
+          <p role="status">{exportError || (slowExport ? "Export in progress…" : "")}</p>
+
+          <button
+            type="button"
+            onClick={() => {
+              if (!exporting) this.exportContent();
+            }}
+            aria-disabled={exporting}
+          >
+            {exporting ? "Exporting…" : exportError ? "Retry export" : "Update exports"}
+          </button>
           <Exports
             markdown={markdown}
             contentState={contentState}

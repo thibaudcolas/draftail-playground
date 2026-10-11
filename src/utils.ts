@@ -1,15 +1,22 @@
 import { RawDraftContentState } from "draft-js";
 
-export const postRequest = (endpoint: string, data: {}, successCallback: (data: any) => void) => {
-  const request = new XMLHttpRequest();
-  request.open("POST", endpoint, true);
-  request.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-  request.onload = () => {
-    if (request.status >= 200 && request.status < 400) {
-      successCallback(JSON.parse(request.responseText));
+export const postRequest = async (endpoint: string, data: object): Promise<unknown> => {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 15000);
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json; charset=UTF-8" },
+      body: JSON.stringify(data),
+      signal: controller.signal,
+    });
+    if (!response.ok) {
+      throw new Error("Export failed. Check your configuration and retry.");
     }
-  };
-  request.send(JSON.stringify(data));
+    return await response.json();
+  } finally {
+    window.clearTimeout(timeout);
+  }
 };
 
 // eslint-disable-next-line

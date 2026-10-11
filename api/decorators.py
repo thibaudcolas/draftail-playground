@@ -1,15 +1,16 @@
 from draftjs_exporter.dom import DOM
+from draftjs_exporter.types import Component, Element, Props
 
 
-def hr(props):
+def hr(props: Props) -> Element:
     return DOM.create_element("hr")
 
 
-def link(props):
+def link(props: Props) -> Element:
     return DOM.create_element("a", {"href": props["url"]}, props["children"])
 
 
-def image(props):
+def image(props: Props) -> Element:
     return DOM.create_element(
         "img",
         {
@@ -21,7 +22,7 @@ def image(props):
     )
 
 
-def icon(props):
+def icon(props: Props) -> Element:
     href = f"icon-{props.get('name', '')}"
     return DOM.create_element(
         "svg",
@@ -30,15 +31,15 @@ def icon(props):
     )
 
 
-def missing_block(props):
+def missing_block(props: Props) -> Element:
     return DOM.create_element("div", {"class": "missing-block"}, props["children"])
 
 
-def missing_inline(props):
+def missing_inline(props: Props) -> Element:
     return DOM.create_element("span", {"class": "missing-inline"}, props["children"])
 
 
-def import_decorator(name):
+def import_decorator(name: str) -> Component:
     all_decorators = {
         "hr": hr,
         "link": link,
@@ -47,4 +48,6 @@ def import_decorator(name):
         "missing_block": missing_block,
         "missing_inline": missing_inline,
     }
-    return getattr(all_decorators, name, None)
+    if not isinstance(name, str) or name not in all_decorators:
+        raise ValueError(f"Unknown decorator: {name!r}")
+    return all_decorators[name]
