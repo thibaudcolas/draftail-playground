@@ -5,13 +5,21 @@ from http.server import BaseHTTPRequestHandler
 from typing import Any
 
 from bs4 import BeautifulSoup
-from draftjs_exporter import __version__
-from draftjs_exporter.constants import BLOCK_TYPES, ENTITY_TYPES, INLINE_STYLES
-from draftjs_exporter.defaults import BLOCK_MAP, STYLE_MAP
+from draftjs_exporter import (
+    BLOCK_MAP,
+    BLOCK_TYPES,
+    ENTITY_TYPES,
+    INLINE_STYLES,
+    STYLE_MAP,
+    ConfigMap,
+    Exporter,
+    MarkdownParseError,
+    __version__,
+)
 from draftjs_exporter.error import ConfigException
-from draftjs_exporter.html import HTML
 
 from .decorators import import_decorator, missing_block, missing_inline
+from .import_markdown import import_markdown
 from .markdown import render_markdown
 
 logger = logging.getLogger(__name__)
@@ -81,9 +89,10 @@ def validate_content(content: Any) -> None:
         require(isinstance(entity.get("data"), dict), f"{label}.data must be an object")
         field = {"LINK": "url", "IMAGE": "src"}.get(entity["type"])
         if field:
+            destination = entity["data"].get(field)
             require(
-                isinstance(entity["data"].get(field), str),
-                f"{label}.data.{field} must be a string",
+                destination is None or isinstance(destination, str),
+                f"{label}.data.{field} must be a string or null",
             )
     for index, block in enumerate(blocks):
         label = f"blocks[{index}]"
@@ -121,16 +130,24 @@ def validate_content(content: Any) -> None:
                     )
 
 
-def export_document(request: Any) -> dict[str, str]:
+def export_document(request: Any) -> dict[str, Any]:
     require(isinstance(request, dict), "Request must be an object")
     require("exporterConfig" in request, "exporterConfig is required")
-    require("contentState" in request, "contentState is required")
+    is_import = "markdown" in request
+    require(
+        is_import != ("contentState" in request),
+        "Provide exactly one of markdown or contentState",
+    )
     config = request["exporterConfig"]
-    content = request["contentState"]
     validate_config(config)
-    validate_content(content)
+    if is_import:
+        require(isinstance(request["markdown"], str), "markdown must be a string")
+        content = import_markdown(request["markdown"])
+    else:
+        validate_content(request["contentState"])
+        content = request["contentState"]
 
-    entity_decorators = {ENTITY_TYPES.FALLBACK: missing_inline}
+    entity_decorators: ConfigMap = {ENTITY_TYPES.FALLBACK: missing_inline}
     block_map = {**BLOCK_MAP, **config.get("block_map", {})}
     style_map = {**STYLE_MAP, **config.get("style_map", {})}
     block_map[BLOCK_TYPES.FALLBACK] = missing_block
@@ -138,8 +155,7 @@ def export_document(request: Any) -> dict[str, str]:
     for type_, value in config.get("entity_decorators", {}).items():
         entity_decorators[type_] = import_decorator(value)
 
-    # Constructing HTML selects its DOM engine anew after each Markdown export.
-    exporter = HTML(
+    exporter = Exporter(
         {
             "entity_decorators": entity_decorators,
             "block_map": block_map,
@@ -147,12 +163,15 @@ def export_document(request: Any) -> dict[str, str]:
         }
     )
     html = exporter.render(content)
-    return {
+    result: dict[str, Any] = {
         "html": html,
         "markdown": render_markdown(content),
         "prettified": prettify(html),
         "version": __version__,
     }
+    if is_import:
+        result["contentState"] = content
+    return result
 
 
 class handler(BaseHTTPRequestHandler):
@@ -178,7 +197,13 @@ class handler(BaseHTTPRequestHandler):
 
         try:
             result = export_document(request)
-        except (ValueError, TypeError, KeyError, ConfigException) as error:
+        except (
+            ValueError,
+            TypeError,
+            KeyError,
+            ConfigException,
+            MarkdownParseError,
+        ) as error:
             self.send_json(400, {"error": str(error)})
             return
         except Exception:

@@ -1,5 +1,4 @@
-from draftjs_exporter.dom import DOM
-from draftjs_exporter.types import Component, Element, Props
+from draftjs_exporter import DOM, Component, Element, Props
 
 
 def hr(props: Props) -> Element:
@@ -7,7 +6,7 @@ def hr(props: Props) -> Element:
 
 
 def link(props: Props) -> Element:
-    return DOM.create_element("a", {"href": props["url"]}, props["children"])
+    return DOM.create_element("a", {"href": props.get("url")}, props["children"])
 
 
 def image(props: Props) -> Element:

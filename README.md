@@ -46,6 +46,22 @@ just dev-api
 
 Open the URL printed by Vite. Vite proxies `/api` requests to the API at `127.0.0.1:5000`. The frontend alone can render the editor, but server-side HTML and Markdown export needs both processes. The local API command uses Python's HTTP server and is for development only.
 
+## Export engine
+
+HTML and Markdown exports use `draftjs_exporter` 7.2.0. Markdown uses the library's built-in configuration, with an adapter for Draftail's image `altText` field; the standalone `draftjs_exporter_markdown` package is no longer needed.
+
+Markdown export is experimental. Text and link destinations are escaped so literal Markdown punctuation stays literal, and image alternative text is included. The Configuration tab configures HTML output; Markdown uses its own defaults. See the [exporter configuration reference](https://wagtail.github.io/draftjs_exporter/reference/configuration/) and [Markdown documentation](https://wagtail.github.io/draftjs_exporter/markdown/).
+
+### Markdown input
+
+Open **Import Markdown**, enter your text, and choose **Replace editor content**. Importing replaces the editor document and updates the preview and exports; empty input clears the editor. Failed imports leave the current document intact.
+
+The importer supports paragraphs, headings, lists, quotes, fenced code, emphasis, links, images, and horizontal rules. Headings 4–6 become heading 3, and list depth is limited to four. Unsupported Markdown stays as plain text. Image alternative text and formatting around emoji are preserved. Import and export use the same `/api/export` endpoint: send `markdown` instead of `contentState`, together with `exporterConfig`, to receive the imported `contentState` alongside the exports.
+
+### Agent skill
+
+The upstream [Draft.js exporter skill](.agents/skills/draftjs-exporter/SKILL.md) is installed in this project's `.agents/skills/` directory. It covers exporter configuration, Markdown import/export, and custom components.
+
 ## Checks and common commands
 
 Run `just` to list the available commands.

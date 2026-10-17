@@ -1,14 +1,26 @@
 import json
 import unittest
+from concurrent.futures import ThreadPoolExecutor
 from copy import deepcopy
 from io import BytesIO
 from socket import socket
 from socketserver import BaseServer
+from threading import Barrier
 from typing import Any
 from unittest.mock import create_autospec, patch
 
+from draftjs_exporter import (
+    DOM,
+    ContentState,
+    Element,
+    Exporter,
+    MarkdownParseError,
+    Props,
+)
+
 from api.decorators import hr, image, import_decorator, link
 from api.export import handler
+from api.markdown import render_markdown
 
 
 def document() -> dict[str, Any]:
@@ -23,6 +35,7 @@ def document() -> dict[str, Any]:
         "contentState": {
             "blocks": [
                 {
+                    "key": "first",
                     "type": "unstyled",
                     "text": "Hello",
                     "depth": 0,
@@ -66,6 +79,120 @@ class ExportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Unknown decorator"):
             import_decorator("missing")
 
+    def import_source(self, markdown: str) -> dict[str, Any]:
+        status, _, body = self.post(
+            {"markdown": markdown, "exporterConfig": document()["exporterConfig"]}
+        )
+        self.assertEqual(status, 200, body)
+        return body
+
+    def test_markdown_import(self) -> None:
+        body = self.import_source(
+            "# Heading\n\n**Bold** and [link](https://example.com)\n\n"
+            "![A cat](/cat.png)\n\n---\n\n```python\nprint(1)\n```\n\n"
+            "1. Ordered\n   - Nested"
+        )
+        content = body["contentState"]
+        self.assertEqual(
+            [block["type"] for block in content["blocks"]],
+            [
+                "header-one",
+                "unstyled",
+                "atomic",
+                "atomic",
+                "code-block",
+                "ordered-list-item",
+                "unordered-list-item",
+            ],
+        )
+        self.assertEqual(content["blocks"][-1]["depth"], 1)
+        entities = {entity["type"]: entity for entity in content["entityMap"].values()}
+        self.assertEqual(entities["LINK"]["data"]["url"], "https://example.com")
+        self.assertEqual(
+            entities["IMAGE"]["data"],
+            {
+                "src": "/cat.png",
+                "alt": "A cat",
+                "altText": "A cat",
+            },
+        )
+        self.assertIn("HORIZONTAL_RULE", entities)
+        self.assertIn('<a href="https://example.com">link</a>', body["html"])
+        self.assertIn('alt="A cat"', body["html"])
+        self.assertIn("<pre><code>print(1)</code></pre>", body["html"])
+        self.assertIn("![A cat](/cat.png)", body["markdown"])
+
+    def test_markdown_import_heading_and_depth_limits(self) -> None:
+        body = self.import_source("#### Four\n\n##### Five\n\n###### Six")
+        self.assertEqual(
+            [block["type"] for block in body["contentState"]["blocks"]],
+            ["header-three"] * 3,
+        )
+        body = self.import_source(
+            "\n".join("  " * depth + "- Item" for depth in range(7))
+        )
+        self.assertEqual(
+            [block["depth"] for block in body["contentState"]["blocks"]],
+            [0, 1, 2, 3, 4, 4, 4],
+        )
+
+    def test_markdown_import_empty(self) -> None:
+        for source in ("", " \n\n"):
+            body = self.import_source(source)
+            self.assertEqual(body["contentState"], {"blocks": [], "entityMap": {}})
+            self.assertEqual(body["html"], "")
+            self.assertEqual(body["markdown"], "")
+
+    def test_markdown_import_emoji_offsets_round_trip(self) -> None:
+        body = self.import_source("😀 **hi😀** [ok😀](https://example.com)")
+        content = body["contentState"]
+        block = content["blocks"][0]
+        self.assertEqual(
+            block["inlineStyleRanges"],
+            [
+                {"offset": 2, "length": 3, "style": "BOLD"},
+            ],
+        )
+        self.assertEqual(block["entityRanges"], [{"offset": 6, "length": 3, "key": 0}])
+        self.assertEqual(
+            body["html"],
+            '<p>😀 <strong>hi😀</strong> <a href="https://example.com">ok😀</a></p>',
+        )
+        original = deepcopy(content)
+        status, _, exported = self.post(
+            {
+                "contentState": content,
+                "exporterConfig": document()["exporterConfig"],
+            }
+        )
+        self.assertEqual(status, 200, exported)
+        self.assertEqual(exported["html"], body["html"])
+        self.assertEqual(exported["markdown"], body["markdown"])
+        self.assertNotIn("contentState", exported)
+        self.assertEqual(content, original)
+
+    def test_markdown_import_bad_requests_and_parser_errors(self) -> None:
+        for source in (None, 123, [], {}):
+            status, _, body = self.post({"markdown": source, "exporterConfig": {}})
+            self.assertEqual(status, 400, body)
+            self.assertIn("markdown", body["error"])
+        payload = document()
+        payload["markdown"] = "text"
+        status, _, body = self.post(payload)
+        self.assertEqual(status, 400, body)
+        for error, expected_status in (
+            (MarkdownParseError("Invalid source", line=2), 400),
+            (RuntimeError("private"), 500),
+        ):
+            with (
+                patch("api.export.import_markdown", side_effect=error),
+                patch("api.export.logger"),
+            ):
+                status, _, body = self.post({"markdown": "text", "exporterConfig": {}})
+            self.assertEqual(status, expected_status, body)
+            self.assertNotIn("contentState", body)
+            self.assertNotIn("private", body["error"])
+
     def test_success_and_repeated_exports(self) -> None:
         for _ in range(3):
             status, _, body = self.post(document())
@@ -93,10 +220,16 @@ class ExportTests(unittest.TestCase):
                 "[Hello](https://example.com)",
             ),
             (
+                "LINK",
+                {"url": "https://example.com/a b"},
+                '<a href="https://example.com/a b">Hello</a>',
+                "[Hello](https://example.com/a%20b)",
+            ),
+            (
                 "IMAGE",
                 {"src": "/photo.png", "altText": "A cat"},
                 'alt="A cat"',
-                "![](/photo.png)",
+                "![A cat](/photo.png)",
             ),
             ("HORIZONTAL_RULE", {}, "<hr", "---"),
         )
@@ -129,6 +262,142 @@ class ExportTests(unittest.TestCase):
                 status, _, result = self.request(body, length)
                 self.assertEqual(status, 400)
                 self.assertTrue(result["error"])
+
+    def test_markdown_escaping_and_code_delimiters(self) -> None:
+        cases = (
+            (
+                "# Heading *literal* [link] <b>",
+                "unstyled",
+                [],
+                "\\# Heading \\*literal\\* \\[link\\] \\<b>\n\n",
+            ),
+            (
+                "a`b",
+                "unstyled",
+                [{"offset": 0, "length": 3, "style": "CODE"}],
+                "``a`b``\n\n",
+            ),
+            ("```\ncode", "code-block", [], "````\n```\ncode\n````\n\n"),
+            (
+                " bold ",
+                "unstyled",
+                [{"offset": 0, "length": 6, "style": "BOLD"}],
+                " **bold** \n\n",
+            ),
+        )
+        for text, block_type, styles, expected in cases:
+            with self.subTest(text=text):
+                payload = document()
+                payload["contentState"]["blocks"][0].update(
+                    text=text, type=block_type, inlineStyleRanges=styles
+                )
+                status, _, body = self.post(payload)
+                self.assertEqual(status, 200, body)
+                self.assertEqual(body["markdown"], expected)
+
+    def test_nested_inline_styles(self) -> None:
+        payload = document()
+        payload["contentState"]["blocks"][0].update(
+            text="Bold Italic",
+            inlineStyleRanges=[
+                {"offset": 0, "length": 11, "style": "BOLD"},
+                {"offset": 5, "length": 6, "style": "ITALIC"},
+            ],
+        )
+        status, _, body = self.post(payload)
+        self.assertEqual(status, 200, body)
+        self.assertEqual(body["html"], "<p><strong>Bold <em>Italic</em></strong></p>")
+
+    def test_list_starting_at_nonzero_depth(self) -> None:
+        payload = document()
+        payload["contentState"]["blocks"][0].update(type="unordered-list-item", depth=2)
+        status, _, body = self.post(payload)
+        self.assertEqual(status, 200, body)
+        self.assertEqual(
+            body["html"],
+            "<ul><li><ul><li><ul><li>Hello</li></ul></li></ul></li></ul>",
+        )
+        self.assertEqual(body["markdown"], "    - Hello\n\n")
+
+    def test_markdown_mixed_lists_and_consecutive_quotes(self) -> None:
+        cases = (
+            (
+                [
+                    ("ordered-list-item", 0),
+                    ("unordered-list-item", 1),
+                    ("ordered-list-item", 0),
+                ],
+                "1. Hello\n   - Hello\n2. Hello\n\n",
+            ),
+            ([("blockquote", 0), ("blockquote", 0)], "> Hello\n>\n> Hello\n\n"),
+        )
+        for blocks, expected in cases:
+            with self.subTest(blocks=blocks):
+                payload = document()
+                template = payload["contentState"]["blocks"][0]
+                payload["contentState"]["blocks"] = [
+                    {**template, "key": str(index), "type": block_type, "depth": depth}
+                    for index, (block_type, depth) in enumerate(blocks)
+                ]
+                status, _, body = self.post(payload)
+                self.assertEqual(status, 200, body)
+                self.assertEqual(body["markdown"], expected)
+
+    def test_entity_destinations(self) -> None:
+        for entity_type, field, markdown in (
+            ("LINK", "url", "[Hello]()"),
+            ("IMAGE", "src", "![A \\[cat\\]]()"),
+        ):
+            for data in ({"altText": "A [cat]"}, {field: None, "altText": "A [cat]"}):
+                with self.subTest(entity_type=entity_type, data=data):
+                    payload = document()
+                    content = payload["contentState"]
+                    content["entityMap"]["0"] = {
+                        "type": entity_type,
+                        "mutability": "IMMUTABLE",
+                        "data": data,
+                    }
+                    content["blocks"][0]["entityRanges"] = [
+                        {"offset": 0, "length": 5, "key": 0}
+                    ]
+                    status, _, body = self.post(payload)
+                    self.assertEqual(status, 200, body)
+                    self.assertEqual(body["markdown"].strip(), markdown)
+                    for invalid in (123, []):
+                        content["entityMap"]["0"]["data"] = {**data, field: invalid}
+                        status, _, body = self.post(payload)
+                        self.assertEqual(status, 400, body)
+
+    def test_engines_remain_isolated_during_nested_and_concurrent_exports(self) -> None:
+        content: ContentState = {
+            "blocks": [{"type": "unstyled", "text": "*Hello*", "depth": 0}],
+            "entityMap": {},
+        }
+
+        def nested_export(props: Props) -> Element:
+            self.assertEqual(render_markdown(content), "\\*Hello\\*\n\n")
+            return DOM.create_element("p", {}, props["children"])
+
+        html = Exporter({"block_map": {"unstyled": nested_export}})
+        self.assertEqual(html.render(content), "<p>*Hello*</p>")
+
+        barrier = Barrier(2, timeout=5)
+
+        def concurrent_export(props: Props) -> Element:
+            # Keep an HTML render active while the shared Markdown exporter runs.
+            barrier.wait()
+            barrier.wait()
+            return DOM.create_element("p", {}, props["children"])
+
+        html = Exporter({"block_map": {"unstyled": concurrent_export}})
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            pending = pool.submit(html.render, content)
+            barrier.wait()
+            try:
+                self.assertEqual(render_markdown(content), "\\*Hello\\*\n\n")
+            finally:
+                barrier.wait()
+            self.assertEqual(pending.result(timeout=5), "<p>*Hello*</p>")
 
     def test_invalid_payloads(self) -> None:
         cases: list[Any] = [None, [], {}, {"exporterConfig": {}}]

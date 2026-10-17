@@ -44,7 +44,7 @@ const Exports = ({ markdown, contentState, prettified, exporterConfig, onChangeC
       <TabPanel>
         <p>
           Have a look at the{" "}
-          <a href="https://github.com/springload/draftjs_exporter/">
+          <a href="https://wagtail.github.io/draftjs_exporter/reference/configuration/">
             Draft.js exporter configuration.
           </a>
         </p>

@@ -39,19 +39,21 @@ const Title = styled.h2`
 
 type Props = {
   rawContentState: RawDraftContentState | null;
+  readOnly?: boolean;
   onSave: ((content: null | RawDraftContentState) => void) | null;
 };
 
-const Editor = ({ rawContentState, onSave }: Props) => (
+const Editor = ({ rawContentState, onSave, readOnly }: Props) => (
   <Container>
     <Title>Tell your story…</Title>
     <SentryBoundary>
       <DraftailEditor
         rawContentState={rawContentState}
         onSave={onSave}
+        readOnly={readOnly}
         placeholder="Write here…"
         enableHorizontalRule={true}
-        enableLineBreak={false}
+        enableLineBreak={true}
         spellCheck={true}
         stripPastedStyles={false}
         maxListNesting={4}
@@ -87,6 +89,9 @@ const Editor = ({ rawContentState, onSave }: Props) => (
           },
           {
             type: BLOCK_TYPE.HEADER_THREE,
+          },
+          {
+            type: BLOCK_TYPE.ORDERED_LIST_ITEM,
           },
           {
             type: BLOCK_TYPE.UNORDERED_LIST_ITEM,

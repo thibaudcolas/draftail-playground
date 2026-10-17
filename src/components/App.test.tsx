@@ -15,8 +15,15 @@ const editedContent = {
 };
 
 vi.mock("./Editor", () => ({
-  default: ({ onSave }: { onSave: (content: RawDraftContentState | null) => void }) => (
+  default: ({
+    onSave,
+    rawContentState,
+  }: {
+    onSave: (content: RawDraftContentState | null) => void;
+    rawContentState: RawDraftContentState | null;
+  }) => (
     <>
+      <pre data-testid="editor-content">{JSON.stringify(rawContentState)}</pre>
       <button onClick={() => onSave(editedContent)}>Edit story</button>
       <button onClick={() => onSave(null)}>Clear story</button>
     </>
@@ -171,4 +178,103 @@ it("announces slow exports and preserves button focus through completion", async
   } finally {
     vi.useRealTimers();
   }
+});
+
+const importedContent = {
+  ...defaultContentState,
+  blocks: [
+    { ...defaultContentState.blocks[0], text: "Imported story", type: "header-one" as const },
+  ],
+};
+const importResponse = { ...response("Imported preview"), contentState: importedContent };
+const submitMarkdown = (markdown = "# Imported story") => {
+  fireEvent.click(screen.getByText("Import Markdown"));
+  fireEvent.change(screen.getByLabelText("Markdown input"), { target: { value: markdown } });
+  fireEvent.click(screen.getByRole("button", { name: "Replace editor content" }));
+};
+
+it("imports Markdown into the editor, persists it, and refreshes the preview", async () => {
+  vi.mocked(postRequest)
+    .mockResolvedValueOnce(response("Original preview"))
+    .mockResolvedValueOnce(importResponse);
+  render(<App />);
+  await screen.findByText("Original preview");
+  submitMarkdown();
+  await screen.findByText("Imported preview");
+  expect(screen.getByTestId("editor-content").textContent).toContain("Imported story");
+  expect(JSON.parse(window.localStorage.getItem("contentState")!)).toEqual(importedContent);
+  expect(postRequest).toHaveBeenLastCalledWith(
+    "/api/export",
+    expect.objectContaining({ markdown: "# Imported story" }),
+  );
+  expect(screen.getByText(/Markdown imported/).getAttribute("role")).toBe("status");
+});
+
+it("preserves current content and Markdown input when import fails, then allows retry", async () => {
+  vi.mocked(postRequest)
+    .mockResolvedValueOnce(response("Original preview"))
+    .mockRejectedValueOnce(new Error("Offline"))
+    .mockResolvedValueOnce(importResponse);
+  render(<App />);
+  await screen.findByText("Original preview");
+  submitMarkdown();
+  await screen.findByText(/Markdown could not be imported/);
+  expect(screen.getByText("Original preview")).toBeTruthy();
+  expect(screen.getByTestId("editor-content").textContent).not.toContain("Imported story");
+  expect((screen.getByLabelText("Markdown input") as HTMLTextAreaElement).value).toBe(
+    "# Imported story",
+  );
+  fireEvent.click(screen.getByRole("button", { name: "Replace editor content" }));
+  await screen.findByText("Imported preview");
+});
+
+it("ignores old exports after import succeeds", async () => {
+  const initial = pending();
+  vi.mocked(postRequest).mockReturnValueOnce(initial.promise).mockResolvedValueOnce(importResponse);
+  render(<App />);
+  submitMarkdown();
+  await screen.findByText("Imported preview");
+  await act(async () => initial.resolve(response("Stale preview")));
+  expect(screen.getByText("Imported preview")).toBeTruthy();
+  expect(screen.queryByText("Stale preview")).toBeNull();
+});
+
+it("does not overwrite newer content with a pending import", async () => {
+  const request = pending();
+  vi.mocked(postRequest)
+    .mockResolvedValueOnce(response("Original preview"))
+    .mockReturnValueOnce(request.promise)
+    .mockResolvedValueOnce(response("Updated preview"));
+  render(<App />);
+  await screen.findByText("Original preview");
+  submitMarkdown();
+  // Simulate a delayed editor save that arrives while the import is pending.
+  fireEvent.click(screen.getByText("Edit story"));
+  await screen.findByText("Updated preview");
+  await act(async () => request.resolve(importResponse));
+  expect(screen.getByText(/changed during import/)).toBeTruthy();
+  expect(screen.getByTestId("editor-content").textContent).toContain("Updated story");
+});
+
+it("clears the editor when importing empty Markdown", async () => {
+  vi.mocked(postRequest)
+    .mockResolvedValueOnce(response("Original preview"))
+    .mockResolvedValueOnce({ ...response(""), contentState: { blocks: [], entityMap: {} } });
+  render(<App />);
+  await screen.findByText("Original preview");
+  submitMarkdown("");
+  await screen.findByText(/Markdown imported/);
+  expect(screen.getByTestId("editor-content").textContent).toBe("null");
+  expect(window.localStorage.getItem("contentState")).toBe("null");
+});
+
+it("keeps the document when the import response is malformed", async () => {
+  vi.mocked(postRequest)
+    .mockResolvedValueOnce(response("Original preview"))
+    .mockResolvedValueOnce({ ...response("Bad preview"), contentState: {} });
+  render(<App />);
+  await screen.findByText("Original preview");
+  submitMarkdown();
+  await screen.findByText(/import response was invalid/);
+  expect(screen.getByText("Original preview")).toBeTruthy();
 });

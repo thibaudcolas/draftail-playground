@@ -118,7 +118,7 @@ const LivePage = ({ html }: Props) => (
           <a href="https://www.draftail.org/">Draftail</a>
         </li>
         <li>
-          <a href="https://github.com/springload/draftjs_exporter">Draft.js exporter</a>
+          <a href="https://wagtail.github.io/draftjs_exporter/">Draft.js exporter</a>
         </li>
         <li>
           <a href="https://draftjs.org/">Draft.js</a>
