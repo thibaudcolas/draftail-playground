@@ -1,5 +1,6 @@
 from draftjs_exporter.dom import DOM
 from draftjs_exporter.html import HTML
+from draftjs_exporter.types import ContentState
 from draftjs_exporter_markdown import (
     BLOCK_MAP,
     ENGINE,
@@ -17,6 +18,6 @@ exporter = HTML(
 )
 
 
-def render_markdown(content_state):
+def render_markdown(content_state: ContentState | None) -> str:
     DOM.use(ENGINE)
     return exporter.render(content_state)

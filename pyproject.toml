@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["ruff==0.16.9", "prek==0.5.4", "rust-just==1.58.0"]
+dev = ["ruff==0.16.9", "prek==0.5.4", "rust-just==1.58.0", "ty==0.0.80"]
 
 [tool.uv]
 package = false
@@ -33,3 +33,11 @@ include = ["*.py", "*.pyi"]
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "B", "UP"]
+
+[tool.ty.rules]
+# Match draftjs_exporter's opt-in soundness checks.
+# https://docs.astral.sh/ty/reference/rules/
+disjoint-cast = "error"
+unsound-assignment = "error"
+unsound-return-statement = "error"
+unsound-yield = "error"

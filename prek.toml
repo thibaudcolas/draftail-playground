@@ -52,3 +52,11 @@ entry = "npm run lint"
 language = "system"
 files = '(\.(js|jsx|ts|tsx)$|(^|/)(package\.json|pnpm-lock\.yaml|tsconfig\.json)$)'
 pass_filenames = false
+
+[[repos.hooks]]
+id = "ty-check"
+name = "Python typecheck"
+entry = "uv run ty check"
+language = "system"
+files = '(\.pyi?$|(^|/)(pyproject\.toml|uv\.lock)$)'
+pass_filenames = false

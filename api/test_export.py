@@ -2,23 +2,13 @@ import json
 import unittest
 from copy import deepcopy
 from io import BytesIO
+from socket import socket
+from socketserver import BaseServer
 from typing import Any
-from unittest.mock import patch
+from unittest.mock import create_autospec, patch
 
 from api.decorators import hr, image, import_decorator, link
 from api.export import handler
-
-
-class RequestSocket:
-    def __init__(self, request: bytes) -> None:
-        self.request = BytesIO(request)
-        self.response = BytesIO()
-
-    def makefile(self, mode: str, *args: Any) -> BytesIO:
-        return self.request
-
-    def sendall(self, data: bytes) -> None:
-        self.response.write(data)
 
 
 def document() -> dict[str, Any]:
@@ -52,12 +42,15 @@ class ExportTests(unittest.TestCase):
         if length == "auto":
             length = str(len(body))
         header = f"Content-Length: {length}\r\n" if length is not None else ""
-        sock = RequestSocket(
-            f"POST /api/export HTTP/1.0\r\n{header}\r\n".encode() + body
-        )
+        request = BytesIO(f"POST /api/export HTTP/1.0\r\n{header}\r\n".encode() + body)
+        response_buffer = BytesIO()
+        sock = create_autospec(socket, instance=True)
+        sock.makefile.return_value = request
+        sock.sendall.side_effect = response_buffer.write
+        server = create_autospec(BaseServer, instance=True)
         with patch.object(handler, "log_message"):
-            handler(sock, ("127.0.0.1", 1), None)
-        head, response = sock.response.getvalue().split(b"\r\n\r\n", 1)
+            handler(sock, ("127.0.0.1", 1), server)
+        head, response = response_buffer.getvalue().split(b"\r\n\r\n", 1)
         lines = head.decode().split("\r\n")
         headers = dict(line.split(": ", 1) for line in lines[1:])
         self.assertEqual(headers["Content-Type"], "application/json; charset=utf-8")

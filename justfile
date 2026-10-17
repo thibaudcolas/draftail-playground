@@ -19,15 +19,21 @@ dev:
 dev-api:
     uv run python -c 'from http.server import HTTPServer; from api.export import handler; HTTPServer(("127.0.0.1", 5000), handler).serve_forever()'
 
-# Check frontend types, including tests.
+# Check frontend and Python types, including tests.
 typecheck:
     npm run typecheck
+    uv run ty check
+
+# Check Python types only.
+typecheck-api:
+    uv run ty check
 
 # Check formatting, lint, and types for the whole project.
 lint:
     npm run lint
     uv run ruff format --check .
     uv run ruff check .
+    uv run ty check
 
 # Format project files and fix Python lint violations where possible.
 format:

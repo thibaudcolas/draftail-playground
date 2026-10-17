@@ -50,21 +50,24 @@ Open the URL printed by Vite. Vite proxies `/api` requests to the API at `127.0.
 
 Run `just` to list the available commands.
 
-| Command              | Purpose                                                                           |
-| -------------------- | --------------------------------------------------------------------------------- |
-| `just lint`          | Check frontend formatting, lint, and TypeScript; check Python formatting and lint |
-| `just typecheck`     | Check TypeScript source and test types                                            |
-| `just format`        | Format files and apply available Python lint fixes                                |
-| `just test`          | Run frontend tests                                                                |
-| `just test --watch`  | Run tests in watch mode                                                           |
-| `just test-api`      | Run Python export API regression tests                                            |
-| `just test-coverage` | Run frontend tests with coverage                                                  |
-| `just pre-commit`    | Run all prek hooks against the whole repository                                   |
-| `just build`         | Build production frontend assets into `build/`                                    |
-| `just preview`       | Preview the production frontend; does not run the API                             |
-| `just check`         | Run the checks, hooks, coverage, and build used in CI                             |
+| Command              | Purpose                                                                                   |
+| -------------------- | ----------------------------------------------------------------------------------------- |
+| `just lint`          | Check frontend formatting, lint, and TypeScript; check Python formatting, lint, and types |
+| `just typecheck`     | Check TypeScript and Python source and test types                                         |
+| `just typecheck-api` | Check Python types with ty                                                                |
+| `just format`        | Format files and apply available Python lint fixes                                        |
+| `just test`          | Run frontend tests                                                                        |
+| `just test --watch`  | Run tests in watch mode                                                                   |
+| `just test-api`      | Run Python export API regression tests                                                    |
+| `just test-coverage` | Run frontend tests with coverage                                                          |
+| `just pre-commit`    | Run all prek hooks against the whole repository                                           |
+| `just build`         | Build production frontend assets into `build/`                                            |
+| `just preview`       | Preview the production frontend; does not run the API                                     |
+| `just check`         | Run the checks, hooks, coverage, and build used in CI                                     |
 
-Pre-commit hooks format changed files and run applicable checks, including mandatory frontend type checking. If a hook reformats a file, review and stage the changes before committing again. CI also runs type checking and catches changes that bypass local hooks.
+Pre-commit hooks format changed files and run applicable checks, including mandatory frontend and Python type checking. If a hook reformats a file, review and stage the changes before committing again. CI also runs type checking and catches changes that bypass local hooks.
+
+Python type checking uses `ty`, with the same opt-in soundness rules as `draftjs_exporter`. It checks the API and its tests, runs in `just lint` and CI, and runs as a pre-commit hook when Python files or their dependency configuration change.
 
 ## Dependency updates
 
